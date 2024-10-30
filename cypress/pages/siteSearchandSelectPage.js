@@ -15,11 +15,11 @@ clickDropDown ()
 }
 typeSite(site)
 {
-    cy.get(this.weblocators.dd_search).type(site)
+    cy.get(this.weblocators.dd_search).type(site);
 }
 selectSitefromSearch()
 {
-    cy.get(this.weblocators.selectSite).click()
+    cy.get(this.weblocators.selectSite).first().click()
 }
 
 

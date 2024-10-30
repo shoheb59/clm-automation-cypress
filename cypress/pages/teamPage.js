@@ -6,6 +6,7 @@ export class team {
         btn_navigation: '[fusenavbarvertical= "toggleBar"]', 
         btn_teamsNav: '.nav-link-title.ng-star-inserted', 
         btn_team: 'a[data-lang-key="APP_TEAMS.TEAM"]',
+        btn_request: '[data-lang-key="APP_TEAMS.REQUEST"]',
         btn_createTeam: '[data-lang-key="APP_TEAMS.CREATE_TEAM"]',
         txt_teamName: '[formcontrolname="TeamName"]',
         dd_discipline: '[formcontrolname="Discipline"]',
@@ -34,6 +35,17 @@ export class team {
         //loader
         loader: '.mat-progress-bar-buffer.mat-progress-bar-element',
 
+        //Request Table
+        label_NoDataFound: 'tbody[role="rowgroup"]',
+        btn_requestApprove: '[data-lang-key="APP_USER_REQUEST.APPROVE"]',
+        btn_requestCancel: '[data-lang-key="APP_USER_REQUEST.CANCEL"]',
+        btn_requestReject: ''
+
+
+    }
+    constructor()
+    {
+        this.saveTeam = '';
     }
 
     clickNavigationButton()
@@ -48,6 +60,12 @@ export class team {
     {
         cy.get(this.weblocators.btn_team).click();
     }
+    //USER TO REQUEST TAB
+    switchUsertoRequest()
+    {
+        cy.wait(2000);
+        cy.get(this.weblocators.btn_request).click();
+    }
     clickCreateTeamButton()
     {
         cy.get(this.weblocators.btn_createTeam).click();
@@ -55,8 +73,9 @@ export class team {
 
     enterTeamName()
     {
-        const randomTeamName = Math.floor(Math.random() *100);
-        cy.get(this.weblocators.txt_teamName).type(`Team - ${randomTeamName}`)
+        const randomTeamName = `Team - ${Math.floor(Math.random() *1000)}`;
+        cy.get(this.weblocators.txt_teamName).type(randomTeamName);
+        this.saveTeam = randomTeamName;
     }
 
     selectDisciplinefromDropDown()
@@ -74,21 +93,24 @@ export class team {
     }
     clickSave()
     {
-        cy.get(this.weblocators.btn_saveTeam).click();
+        cy.get(this.weblocators.btn_saveTeam).should('be.visible')
+        cy.get(this.weblocators.btn_saveTeam).click({timeout:30000});
     }
 
     clickSearchButtonOnTable()
     {
-        cy.get(this.weblocators.waitForTableData).should('be.visible');
-        cy.get(this.weblocators.btn_searchTeam).should('be.visible').click({timeout:4000, force: true});
+        cy.get(this.weblocators.waitForTableData).should('be.visible',{timeout: 60000});
+        cy.wait(3000);
+        cy.get(this.weblocators.loader).should('not.exist',{timeout: 40000});
+        cy.get(this.weblocators.btn_searchTeam).should('be.visible').click({timeout:40000, force: true});
         cy.wait(3000);
     }
     enterTeamNameforSearch()
     {
         cy.get(this.weblocators.waitForTableData).should('be.visible');
         cy.get(this.weblocators.loader).should('not.exist');
-        cy.get(this.weblocators.txt_searchField).eq(0).should('be.visible', {timeout:5000}).type('team + 4{enter}');
-        cy.get(this.weblocators.loader).should('not.be.visible');
+        cy.get(this.weblocators.txt_searchField).eq(0).should('be.visible', {timeout:30000}).type(this.saveTeam);
+        
 
         
     }
@@ -112,7 +134,7 @@ export class team {
     }
     selectInvieRole()
     {
-        cy.get(this.weblocators.dd_inviteRoles).click();
+        cy.get(this.weblocators.dd_inviteRoles).click({force: true});
         cy.get(this.weblocators.dd_chooseRole).eq(1).click();
     }
     selectInviteTeam()
@@ -125,6 +147,30 @@ export class team {
         cy.get(this.weblocators.btn_sendInvites).click();
 
     }
+
+
+    //Request Table 
+    checkDataExistRequestTable() {
+        cy.get(this.weblocators.label_NoDataFound).then(($element) => {
+            if ($element.length < 0) {
+                // Block of code to be executed if the element is found
+                print('not found')
+            } else {
+                cy.get(this.weblocators.waitForTableData).should('be.visible');
+                cy.get(this.weblocators.loader).should('not.exist');
+                //Row_teamforteamdetails Weblocator can find any row in the table
+                cy.get(this.weblocators.row_TeamForTeamDetails).should('be.visible').eq(0).click(); 
+
+                
+            }
+        });
+    }
+
+    clickCancel()
+    {
+        cy.get(this.weblocators.btn_requestCancel).click();
+    }
+    
 
 
 

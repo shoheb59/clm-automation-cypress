@@ -1,6 +1,9 @@
 import { sitePage } from "../../pages/sitePage";
 import { loginPage } from '../../pages/loginPage';
-import loginData from '../../fixtures/loginData.json';
+//import loginData from '../../fixtures/loginData.json';
+import loginData from '../../fixtures/loginDataStage.json';
+import FilePaths from '../../support/imgUpload';
+
 
 const siteOBJ = new sitePage();
 const loginObj = new loginPage();
@@ -33,7 +36,12 @@ describe('Dashboard Page Test', () => {
         siteOBJ.enterContactPersonPhone();
         siteOBJ.selectGenerateCode();
         siteOBJ.selectLeanCardGeneration();
-        siteOBJ.typeSiteNotice('Notice Added')
+        siteOBJ.typeSiteNotice('Notice Added');
+        siteOBJ.clickUploadPhotoButton();
+        const filePath = FilePaths.IMAGE_PATH;
+        siteOBJ.uploadFile(filePath);
+        siteOBJ.clickSaveUploadPhotobtn();
+        //siteOBJ.clickProjectCreateEditSave();
       
     });
   });

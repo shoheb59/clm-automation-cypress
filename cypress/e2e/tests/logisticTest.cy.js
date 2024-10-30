@@ -23,7 +23,7 @@ describe('Equipment Page Test', () => {
       //site selection
 
     siteSelectionOBJ.clickDropDown();
-    siteSelectionOBJ.typeSite('Test the Zone Pre-requisite date creation');
+    siteSelectionOBJ.typeSite('Home Basics');
     siteSelectionOBJ.selectSitefromSearch();
 
     });

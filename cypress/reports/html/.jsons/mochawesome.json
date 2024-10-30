@@ -1,0 +1,181 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 5,
+    "passes": 5,
+    "pending": 0,
+    "failures": 0,
+    "start": "2024-10-30T19:58:54.049Z",
+    "end": "2024-10-30T20:03:42.317Z",
+    "duration": 288268,
+    "testsRegistered": 5,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "9eb059cb-9bdf-4473-994f-064db15474cd",
+      "title": "",
+      "fullFile": "cypress\\e2e\\tests\\teamTest.cy.js",
+      "file": "cypress\\e2e\\tests\\teamTest.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "938877a7-49dd-4196-b0d1-d6f7a779ca37",
+          "title": "Team Test Case",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "TC 1: Verify that User Can Create A TEAM",
+              "fullTitle": "Team Test Case TC 1: Verify that User Can Create A TEAM",
+              "timedOut": null,
+              "duration": 51769,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "teamOBJ.clickNavigationButton();\nteamOBJ.navigateTeam();\nteamOBJ.switchUsertoTeam();\nteamOBJ.clickCreateTeamButton();\nteamOBJ.enterTeamName();\nteamOBJ.selectDisciplinefromDropDown();\nteamOBJ.enterDomain();\nteamOBJ.clickSave();",
+              "err": {},
+              "uuid": "4539c1b7-d402-4e15-abff-8149a179918f",
+              "parentUUID": "938877a7-49dd-4196-b0d1-d6f7a779ca37",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "TC 2: Verify That User Can Search A team On Team Table",
+              "fullTitle": "Team Test Case TC 2: Verify That User Can Search A team On Team Table",
+              "timedOut": null,
+              "duration": 48933,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "teamOBJ.clickNavigationButton();\nteamOBJ.navigateTeam();\nteamOBJ.switchUsertoTeam();\nteamOBJ.clickSearchButtonOnTable();\nteamOBJ.enterTeamNameforSearch();\nteamOBJ.selectTeamForTeamdetails();\nteamOBJ.clickInviteUser();",
+              "err": {},
+              "uuid": "d9eb695d-7112-4b80-9b53-3ebea94d5280",
+              "parentUUID": "938877a7-49dd-4196-b0d1-d6f7a779ca37",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "TC 3: Verify that User Can invite a USER from Team Details",
+              "fullTitle": "Team Test Case TC 3: Verify that User Can invite a USER from Team Details",
+              "timedOut": null,
+              "duration": 65937,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "teamOBJ.clickNavigationButton();\nteamOBJ.navigateTeam();\nteamOBJ.switchUsertoTeam();\nteamOBJ.clickSearchButtonOnTable();\nteamOBJ.enterTeamNameforSearch();\nteamOBJ.selectTeamForTeamdetails();\nteamOBJ.clickInviteUser();\nteamOBJ.enterInviteEmail();\nteamOBJ.selectInviteTeam();\nteamOBJ.selectInvieRole();",
+              "err": {},
+              "uuid": "f4c6c237-3da4-494a-a7be-13fe11a10282",
+              "parentUUID": "938877a7-49dd-4196-b0d1-d6f7a779ca37",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "TC 4: Verify that User Can Send Invites from USER table",
+              "fullTitle": "Team Test Case TC 4: Verify that User Can Send Invites from USER table",
+              "timedOut": null,
+              "duration": 54570,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "teamOBJ.clickNavigationButton();\nteamOBJ.navigateTeam();\nteamOBJ.clickInviteUser();\nteamOBJ.enterInviteEmail();\nteamOBJ.selectInviteTeam();\nteamOBJ.selectInvieRole();",
+              "err": {},
+              "uuid": "25bce0d6-ba03-487b-96aa-644abb6c7f6c",
+              "parentUUID": "938877a7-49dd-4196-b0d1-d6f7a779ca37",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "TC 5: Verfy that user Can Accept/Cancel Request from Request Tab",
+              "fullTitle": "Team Test Case TC 5: Verfy that user Can Accept/Cancel Request from Request Tab",
+              "timedOut": null,
+              "duration": 62031,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "teamOBJ.clickNavigationButton();\nteamOBJ.navigateTeam();\nteamOBJ.switchUsertoRequest();\nteamOBJ.checkDataExistRequestTable();\nteamOBJ.clickCancel();",
+              "err": {},
+              "uuid": "a4caa4d3-4c52-4e27-b308-c84540c155f0",
+              "parentUUID": "938877a7-49dd-4196-b0d1-d6f7a779ca37",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "4539c1b7-d402-4e15-abff-8149a179918f",
+            "d9eb695d-7112-4b80-9b53-3ebea94d5280",
+            "f4c6c237-3da4-494a-a7be-13fe11a10282",
+            "25bce0d6-ba03-487b-96aa-644abb6c7f6c",
+            "a4caa4d3-4c52-4e27-b308-c84540c155f0"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 283240,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "reportDir": "cypress\\reports\\html\\.jsons"
+      },
+      "version": "6.2.0"
+    }
+  }
+}

@@ -1,33 +1,38 @@
 import { team } from "../../pages/teamPage";
 import { loginPage } from "../../pages/loginPage";
 import { siteSearchandSelect } from "../../pages/siteSearchandSelectPage";
-import loginData from '../../fixtures/loginData.json';
+//import loginData from '../../fixtures/loginData.json';
+import loginData from '../../fixtures/loginDataStage.json';
 
 const loginObj  = new loginPage();
 const siteSelectionOBJ =  new siteSearchandSelect();
 const teamOBJ = new team();
 
-describe('Team test', () => {
+describe('Team Test Case', () => {
 
 
-    before(() => {
+    beforeEach(() => {
       loginObj.openURL();
       loginObj.enterEmail(loginData.email);
       loginObj.enterPassword(loginData.password);
       loginObj.selectEnglishButton();
       loginObj.btnsubmit();
       loginObj.verifyUrls();
-      loginObj.handleModal();
+      cy.wait(10000);
+      loginObj.handleModal()
+        // Continue with site selection only after modal handling is complete
+      
+   
 
       //site selection
 
     siteSelectionOBJ.clickDropDown();
-    siteSelectionOBJ.typeSite('Z- Site');
+    siteSelectionOBJ.typeSite('Testfeld 2+');
     siteSelectionOBJ.selectSitefromSearch();
 
     });
 
-    it('Create A TEAM', () =>{
+    it('TC 1: Verify that User Can Create A TEAM', () =>{
         teamOBJ.clickNavigationButton();
         teamOBJ.navigateTeam();
         teamOBJ.switchUsertoTeam();
@@ -41,7 +46,7 @@ describe('Team test', () => {
 
     })
 
-    it('Search A team On Team Table', ()=>{
+    it('TC 2: Verify That User Can Search A team On Team Table', ()=>{
       teamOBJ.clickNavigationButton();
       teamOBJ.navigateTeam();
       teamOBJ.switchUsertoTeam();
@@ -52,7 +57,7 @@ describe('Team test', () => {
 
     })
 
-    it('invite a USER from Team Details', ()=>{
+    it('TC 3: Verify that User Can invite a USER from Team Details', ()=>{
       teamOBJ.clickNavigationButton();
       teamOBJ.navigateTeam();
       teamOBJ.switchUsertoTeam();
@@ -61,16 +66,25 @@ describe('Team test', () => {
       teamOBJ.selectTeamForTeamdetails();
       teamOBJ.clickInviteUser();
       teamOBJ.enterInviteEmail();
+      teamOBJ.selectInviteTeam();
       teamOBJ.selectInvieRole();
     })
 
-    it.only('Send Invites from USER table', ()=> {
+    it('TC 4: Verify that User Can Send Invites from USER table', ()=> {
       teamOBJ.clickNavigationButton();
       teamOBJ.navigateTeam();
       teamOBJ.clickInviteUser();
       teamOBJ.enterInviteEmail();
       teamOBJ.selectInviteTeam();
       teamOBJ.selectInvieRole();
+
+    })
+    it('TC 5: Verfy that user Can Accept/Cancel Request from Request Tab', ()=>{
+      teamOBJ.clickNavigationButton();
+      teamOBJ.navigateTeam();
+      teamOBJ.switchUsertoRequest();
+      teamOBJ.checkDataExistRequestTable();
+      teamOBJ.clickCancel();
 
     })
 });

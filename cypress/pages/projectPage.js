@@ -15,8 +15,8 @@ export class projectPage {
       cb_hasWarhouse: '.mat-checkbox-inner-container',
       mat_checkbox_input: '#mat-checkbox-1-input',
       upload_photo_button: '[type="button"]',
-      file_input: '.row.image-coropper',
-      image_cropper_save: '#image-coropper-save > .mat-button-wrapper',
+      file_input: 'input[type="file"][class="file"]',
+      btn_uploadPhotoSave: '[id="image-coropper-save"]',
       project_create_edit_save: '[data-lang-key = "APP_PROJECTS.SAVE"]',
     }
 
@@ -71,17 +71,18 @@ export class projectPage {
       cy.get(this.weblocators.upload_photo_button).contains('UPLOAD PHOTO').click();
     }
   
-  
     uploadFile(filePath) {
 
-        cy.get(this.weblocators.file_input).eq(0).selectFile('test.img.jpg',{action: 'drag-drop', force: 'true'})
-        }
-       
+        cy.get(this.weblocators.file_input).first().attachFile(filePath);
+
+      }
+
     
-  
-    // clickImageCropperSave() {
-    //   cy.get(this.weblocators.image_cropper_save).click();
-    // }
+    clickSaveUploadPhotobtn()
+    {
+       cy.get(this.weblocators.btn_uploadPhotoSave).click();
+    }
+       
   
     clickProjectCreateEditSave() {
       cy.get(this.weblocators.project_create_edit_save).click();

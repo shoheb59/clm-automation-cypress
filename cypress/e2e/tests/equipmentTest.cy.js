@@ -22,7 +22,7 @@ describe('Equipment Page Test', () => {
       //site selection
 
     siteSelectionOBJ.clickDropDown();
-    siteSelectionOBJ.typeSite('Z- Site');
+    siteSelectionOBJ.typeSite('Home Basics');
     siteSelectionOBJ.selectSitefromSearch();
 
     });

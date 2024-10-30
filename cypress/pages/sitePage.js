@@ -14,9 +14,12 @@ export class sitePage {
     cb_generateCodeFortheStie: '[data-lang-key="APP_PROJECTS_SITES.SITE_CODE_ENABLE_TEXT"]',
     cb_leandCardPermission: '[data-lang-key="APP_PROJECTS_SITES.LEAN_CARD_CREATION_PERMISSION_TEXT"]',
     txt_siteNotice: '[formcontrolname="Notice"]',
-
-      notice_input: '#Notice',
-      submit_button: '.submit-button > .mat-button-wrapper',
+    notice_input: '#Notice',
+    submit_button: '.submit-button > .mat-button-wrapper',
+    //upload photo
+    upload_photo_button: '[type="button"]',
+    file_input: 'input[type="file"][class="file"]',
+    btn_uploadPhotoSave: '[id="image-coropper-save"]',
     }
   
     clickNavButton()
@@ -78,54 +81,32 @@ export class sitePage {
         cy.get(this.weblocators.txt_siteNotice).type(notice);
     }
 
+    clickUploadPhotoButton() {
+        cy.get(this.weblocators.upload_photo_button).contains('UPLOAD PHOTO').click();
+      }
+    
+    uploadFile(filePath) {
+  
+          cy.get(this.weblocators.file_input).first().attachFile(filePath);
+  
+        }
+  
+      
+    clickSaveUploadPhotobtn()
+      {
+         cy.get(this.weblocators.btn_uploadPhotoSave).click();
+      }
+         
+    
+    clickProjectCreateEditSave() {
+        cy.get(this.weblocators.project_create_edit_save).click();
+      }
+    
+  
+
 
 
     
 
-    // clickFirstSubtitle() {
-    //   cy.get(this.weblocators.first_subtitle).click();
-    // }
-  
-    // clickAddButton() {
-    //   cy.get(this.weblocators.add_button).click();
-    // }
-  
-    // enterSiteName(siteName) {
-    //   cy.get(this.weblocators.site_name_input).click().type(siteName);
-    // }
-  
-    // enterGoogleAutoCompleteAddress(address) {
-    //   cy.get(this.weblocators.google_auto_complete_input).click().type(address);
-    // }
-  
-    // enterContactPersonName(name) {
-    //   cy.get(this.weblocators.contact_person_name_input).click().type(name);
-    // }
-  
-    // enterContactPersonEmail(email) {
-    //   cy.get(this.weblocators.contact_person_email_input).click().clear().type(email);
-    // }
-  
-    // enterContactPersonPhone(phone) {
-    //   cy.get(this.weblocators.contact_person_phone_input).click().type(phone);
-    // }
-  
-    // toggleCheckbox6() {
-    //   cy.get(this.weblocators.mat_checkbox_6).click();
-    //   cy.get(this.weblocators.mat_checkbox_6_input).click();
-    // }
-  
-    // toggleCheckbox7() {
-    //   cy.get(this.weblocators.mat_checkbox_7).click();
-    //   cy.get(this.weblocators.mat_checkbox_7_input).click();
-    // }
-  
-    // enterNotice(notice) {
-    //   cy.get(this.weblocators.notice_input).click().type(notice);
-    // }
-  
-    // clickSubmitButton() {
-    //   cy.get(this.weblocators.submit_button).click();
-    // }
   }
   

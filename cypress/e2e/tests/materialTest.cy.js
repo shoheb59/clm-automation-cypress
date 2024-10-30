@@ -22,12 +22,12 @@ describe('Dashboard Page Test', () => {
       //site selection
 
     siteSelectionOBJ.clickDropDown();
-    siteSelectionOBJ.typeSite('Z- Site');
+    siteSelectionOBJ.typeSite('Home Basics');
     siteSelectionOBJ.selectSitefromSearch();
 
     });
 
-    it('Create Material', () =>{
+    it.only('Create Material', () =>{
         materialOBJ.clickNavigationButton();
         materialOBJ.navigateMaterial();
         materialOBJ.clickCreateMaterial();
@@ -42,7 +42,7 @@ describe('Dashboard Page Test', () => {
 
     })
 
-    it.only('should delete the first material name and search for it', () => {
+    it('should delete the first material name and search for it', () => {
       // Visit the page
       // Check if there is any row with role="row"
       materialOBJ.clickNavigationButton();

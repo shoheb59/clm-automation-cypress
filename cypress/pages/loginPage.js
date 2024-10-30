@@ -28,14 +28,15 @@ export class loginPage {
     }
   
     btnsubmit() {
-      cy.get(this.weblocators.submit_button).click({timeout: 7000});
+      cy.get(this.weblocators.submit_button).click({timeout: 30000});
     }
   
      verifyUrls() {
 
       
-      //cy.url({timeout: 90000}).should('include', 'http://clmtest.seliselocal.com/dashboard/daily');
-      cy.url({timeout: 90000}).should('include', 'http://clm.seliselocal.com/dashboard/daily');
+       //cy.url({timeout: 90000}).should('include', 'http://clmtest.seliselocal.com/dashboard/daily');
+       cy.url({timeout: 90000}).should('include', 'https://clm.selisestage.com/dashboard/daily');
+      //cy.url({timeout: 90000}).should('include', 'http://clm.seliselocal.com/dashboard/daily');
     }
 
     // selectEnglish()
@@ -48,10 +49,14 @@ export class loginPage {
 
       
       
-      handleModal()
-      {
-         cy.contains('button', 'Cancel', { timeout: 10000 }).as('cancelButton');
-            cy.get('@cancelButton').click();
-          }
+    handleModal() {
+      cy.get(this.weblocators.modal)
+        .if('visible')
+        .then(() => {
+          cy.contains('button', 'Cancel', { timeout: 30000 }).click();
+        });
+    }
         
+    
+          
     }

@@ -17,7 +17,7 @@ export class logisticZone {
 
     zoneSchedualeLocators = 
     {
-      slotDuration10min: '.mat-chip-list-wrapper > :nth-child(1)',
+      slotDuration10min: '.mat-chip-list-wrapper > :nth-child(2)',
       endDateFieldClear: '#mat-input-8',
       endDateFiled: '[data-lang-key="APP_EQUIPMENTS.END_DATE"]',
       btn_smallCalenderIconButton: '.mat-datepicker-toggle-default-icon.ng-star-inserted',
@@ -110,7 +110,7 @@ export class logisticZone {
 
 
          //Year Selection
-         cy.get(this.zoneSchedualeLocators.calenderContentForYearandMonth).contains('2028').click();
+         cy.get(this.zoneSchedualeLocators.calenderContentForYearandMonth).contains('2026').click();
          cy.get(this.zoneSchedualeLocators.calenderContentForYearandMonth).contains('JAN').click();
          cy.get(this.zoneSchedualeLocators.calenderContentForDaySelection).contains('17').click();
 
@@ -124,7 +124,7 @@ export class logisticZone {
         cy.get(this.zoneSchedualeLocators.txt_FROM).then(($fromValue) =>{
           if ($fromValue.val() === '') {  // Checking if the field is empty
             cy.wrap($fromValue).click({force: true});  // Wrap it back to make Cypress commands chainable
-            cy.get(this.zoneSchedualeLocators.dd_HoursList).contains('00:10').click();
+            cy.get(this.zoneSchedualeLocators.hourOptionList).contains("06:00").click();
           }
         });
       }
@@ -132,7 +132,7 @@ export class logisticZone {
       {
               cy.get(this.zoneSchedualeLocators.txt_TO).should('be.visible').then(() => {
 
-                for (let i = 0; i < 72; i++) {
+                for (let i = 0; i < 25; i++) {
                   cy.get(this.zoneSchedualeLocators.txt_TO).eq(i).click({force: true});
                   cy.get(this.zoneSchedualeLocators.hourOptionList).eq(0).click({ force: true });
                   cy.wait(2000);

@@ -27,7 +27,7 @@ export class equipMent {
     }
     clickAddEquipment()
     {
-        cy.get(this.weblocators.btn_addEquipment).click({timeout: 3000});
+        cy.get(this.weblocators.btn_addEquipment).click({timeout: 3000},{force: true});
     }
 
     chooseEquimentIconRandomly()
@@ -40,12 +40,12 @@ export class equipMent {
     }
     typeEquipmentId()
     {
-        const randomId = Math.floor(Math.random() *10);
-        cy.get(this.weblocators.txt_eqID).type('ma' + `${randomId}`)
+        const randomId = Math.floor(Math.random() *100);
+        cy.get(this.weblocators.txt_eqID).type('m' + `${randomId}`)
     }
     typeEquipmentName()
     {
-        const randomName = Math.floor(Math.random() *10);
+        const randomName = Math.floor(Math.random() *1000);
         cy.get(this.weblocators.txt_name).type(`equipment${randomName}`);
     }
 

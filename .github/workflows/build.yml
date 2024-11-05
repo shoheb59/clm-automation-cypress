@@ -17,8 +17,13 @@ jobs:
         with:
           command: npm run teamTest
 
-      - name: Team test Report
+      - name: Generate Allure Report
+        run: |
+            npx allure generate allure-results --clean -o allure-report
+        
+      - name: Upload Allure Report
         uses: actions/upload-artifact@v4
         with:
-          name: MochaAwesome HTML Report
-          path: cypress-clm/cypress/reports/html
+            name: Allure Report
+            path: allure-report
+        

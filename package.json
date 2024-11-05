@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "teamTest": "npx cypress run --spec cypress/e2e/tests/teamTest.cy.js",
-    "allure": "allure serve allure-results"
+     "teamTest": "npx cypress run --spec cypress/e2e/tests/teamTest.cy.js --reporter cypress-allure-plugin",
+     "allure": "allure serve allure-results"
+
 
   },
   "author": "shoheb",

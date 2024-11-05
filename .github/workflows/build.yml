@@ -6,10 +6,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       # Install npm dependencies, cache them correctly
       # and run all Cypress tests
+      - name: Install Dependencies
+        run: npm install
+
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-            command: npm run teamTest
-            
+          command: npm run teamTest
+
+      - name: Team test Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: MochaAwesome HTML Report
+          path: cypress/reports/html

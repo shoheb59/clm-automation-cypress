@@ -153,7 +153,6 @@ export class team {
     checkDataExistRequestTable() {
         cy.get(this.weblocators.label_NoDataFound).then(($element) => {
             if ($element.length < 0) {
-                // Block of code to be executed if the element is found
                 print('not found')
             } else {
                 cy.get(this.weblocators.waitForTableData).should('be.visible');

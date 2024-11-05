@@ -7,10 +7,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
       - name: Install Dependencies
         run: npm install
+
+      - name: Verify Allure Plugin Installation
+        run: npm list @shelex/cypress-allure-plugin
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
@@ -18,12 +19,10 @@ jobs:
           command: npm run teamTest
 
       - name: Generate Allure Report
-        run: |
-            npx allure generate allure-results --clean -o allure-report
-        
+        run: npx allure generate allure-results --clean -o allure-report
+
       - name: Upload Allure Report
         uses: actions/upload-artifact@v4
         with:
-            name: Allure Report
-            path: allure-report
-        
+          name: Allure Report
+          path: allure-report

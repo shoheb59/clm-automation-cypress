@@ -3,7 +3,7 @@ const { allureCypress } = require ("allure-cypress/reporter");
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
-  reporter: '@shelex/allure-mocha',
+  reporter: 'mochawesome',
   watchForFileChanges: false, 
 
   

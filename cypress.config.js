@@ -1,4 +1,4 @@
-
+const allureWriter = require('@shelex/cypress-allure-plugin/writer');
 const { allureCypress } = require ("allure-cypress/reporter");
 const { defineConfig } = require("cypress");
 
@@ -12,9 +12,7 @@ module.exports = defineConfig({
     pageLoadTimeout: 30000,
     setupNodeEvents(on, config) {
       require('cypress-mochawesome-reporter/plugin')(on);
-      allureCypress(on, config, {
-        resultsDir: "allure-results",
-      });
+      allureWriter(on, config);
       return config;
       // implement node event listeners here
     },

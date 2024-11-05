@@ -5,14 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-     "teamTest": "npx cypress run --spec cypress/e2e/tests/teamTest.cy.js --reporter cypress-allure-plugin",
-     "allure": "allure serve allure-results"
-
-
+    "teamTest": "npx cypress run --spec cypress/e2e/tests/teamTest.cy.js --reporter @shelex/allure-mocha",
+    "allure": "allure serve allure-results"
   },
   "author": "shoheb",
   "license": "ISC",
   "devDependencies": {
+    "@shelex/cypress-allure-plugin": "^2.40.2",
     "allure-cypress": "^3.0.5",
     "cypress": "^13.12.0",
     "cypress-file-upload": "^5.0.8",

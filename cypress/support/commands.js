@@ -28,4 +28,5 @@
 import 'cypress-file-upload';
 import 'cypress-if'
 import "allure-cypress";
+import '@shelex/cypress-allure-plugin';
 

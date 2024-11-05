@@ -21,4 +21,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: MochaAwesome HTML Report
-          path: cypress/reports/html
+          path: cypress-clm/cypress/reports/html

@@ -3,7 +3,7 @@ const { allureCypress } = require ("allure-cypress/reporter");
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
-  reporter: 'cypress-mochawesome-reporter',
+  reporter: '@shelex/allure-mocha',
   watchForFileChanges: false, 
 
   
@@ -11,16 +11,11 @@ module.exports = defineConfig({
     defaultCommandTimeout: 10000, 
     pageLoadTimeout: 30000,
     setupNodeEvents(on, config) {
-      require('cypress-mochawesome-reporter/plugin')(on);
       allureWriter(on, config);
       return config;
-      // implement node event listeners here
     },
   },
-  env:
-  {
+  env: {
     URL: 'https://clm.selisestage.com/login'
-      
   }
-  
 });

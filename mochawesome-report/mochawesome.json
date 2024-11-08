@@ -1,0 +1,185 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 0,
+    "pending": 0,
+    "failures": 1,
+    "start": "2024-11-08T12:15:17.697Z",
+    "end": "2024-11-08T12:16:17.096Z",
+    "duration": 59399,
+    "testsRegistered": 5,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 1,
+    "hasOther": true,
+    "skipped": 3,
+    "hasSkipped": true
+  },
+  "results": [
+    {
+      "uuid": "23165582-91ca-433e-92df-ffd4bf63ada0",
+      "title": "",
+      "fullFile": "cypress\\e2e\\tests\\teamTest.cy.js",
+      "file": "cypress\\e2e\\tests\\teamTest.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "2792693e-7b58-4ff9-9b25-4c45df7c5860",
+          "title": "Team Test Case",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "TC 1: Verify that User Can Create A TEAM",
+              "fullTitle": "Team Test Case TC 1: Verify that User Can Create A TEAM",
+              "timedOut": null,
+              "duration": 402,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "teamOBJ.clickNavigationButton();\nteamOBJ.navigateTeam();\nteamOBJ.switchUsertoTeam();\nteamOBJ.clickCreateTeamButton();\nteamOBJ.enterTeamName();\nteamOBJ.selectDisciplinefromDropDown();\nteamOBJ.enterDomain();\nteamOBJ.clickSave();",
+              "err": {
+                "message": "CypressError: `cy.task('reportAllureCypressSpecMessages')` failed with the following error:\n\nThe task 'reportAllureCypressSpecMessages' was not handled in the setupNodeEvents method. The following tasks are registered: writeAllureResults, reportAllureCypressSpecMessages\n\nFix this in your setupNodeEvents method here:\nD:\\Cypress\\cypress-clm\\cypress.config.js\n\nhttps://on.cypress.io/api/task\n\nBecause this error occurred during a `after each` hook we are skipping all of the remaining tests.",
+                "estack": "CypressError: `cy.task('reportAllureCypressSpecMessages')` failed with the following error:\n\nThe task 'reportAllureCypressSpecMessages' was not handled in the setupNodeEvents method. The following tasks are registered: writeAllureResults, reportAllureCypressSpecMessages\n\nFix this in your setupNodeEvents method here:\nD:\\Cypress\\cypress-clm\\cypress.config.js\n\nhttps://on.cypress.io/api/task\n\nBecause this error occurred during a `after each` hook we are skipping all of the remaining tests.\n    at <unknown> (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:135017:72)\n    at tryCatcher (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:1807:23)\n    at Promise._settlePromiseFromHandler (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:1519:31)\n    at Promise._settlePromise (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:1576:18)\n    at Promise._settlePromise0 (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:1621:10)\n    at Promise._settlePromises (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:1697:18)\n    at _drainQueueStep (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:2407:12)\n    at _drainQueue (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:2400:9)\n    at Async._drainQueues (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:2416:5)\n    at Async.drainQueues (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:2286:14)\nFrom Your Spec Code:\n    at Y.flushAllureMessagesToTask (webpack://cypress-clm/./node_modules/allure-cypress/dist/cjs/index.js:1:13099)\n    at Context.te (webpack://cypress-clm/./node_modules/allure-cypress/dist/cjs/index.js:1:15309)",
+                "diff": null
+              },
+              "uuid": "500c912a-309e-4f72-86d2-11656028684e",
+              "parentUUID": "2792693e-7b58-4ff9-9b25-4c45df7c5860",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "TC 2: Verify That User Can Search A team On Team Table",
+              "fullTitle": "Team Test Case TC 2: Verify That User Can Search A team On Team Table",
+              "timedOut": null,
+              "duration": 0,
+              "state": "skipped",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "teamOBJ.clickNavigationButton();\nteamOBJ.navigateTeam();\nteamOBJ.switchUsertoTeam();\nteamOBJ.clickSearchButtonOnTable();\nteamOBJ.enterTeamNameforSearch();\nteamOBJ.selectTeamForTeamdetails();\nteamOBJ.clickInviteUser();",
+              "err": {},
+              "uuid": "96b08d6c-101b-4116-bb9e-2b7e11bd8c69",
+              "parentUUID": "2792693e-7b58-4ff9-9b25-4c45df7c5860",
+              "isHook": false,
+              "skipped": true
+            },
+            {
+              "title": "TC 3: Verify that User Can invite a USER from Team Details",
+              "fullTitle": "Team Test Case TC 3: Verify that User Can invite a USER from Team Details",
+              "timedOut": null,
+              "duration": 0,
+              "state": "skipped",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "teamOBJ.clickNavigationButton();\nteamOBJ.navigateTeam();\nteamOBJ.switchUsertoTeam();\nteamOBJ.clickSearchButtonOnTable();\nteamOBJ.enterTeamNameforSearch();\nteamOBJ.selectTeamForTeamdetails();\nteamOBJ.clickInviteUser();\nteamOBJ.enterInviteEmail();\nteamOBJ.selectInviteTeam();\nteamOBJ.selectInvieRole();",
+              "err": {},
+              "uuid": "7f1b0121-97fc-4af3-bb32-730579c9f1cc",
+              "parentUUID": "2792693e-7b58-4ff9-9b25-4c45df7c5860",
+              "isHook": false,
+              "skipped": true
+            },
+            {
+              "title": "TC 4: Verify that User Can Send Invites from USER table",
+              "fullTitle": "Team Test Case TC 4: Verify that User Can Send Invites from USER table",
+              "timedOut": null,
+              "duration": 0,
+              "state": "skipped",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "teamOBJ.clickNavigationButton();\nteamOBJ.navigateTeam();\nteamOBJ.clickInviteUser();\nteamOBJ.enterInviteEmail();\nteamOBJ.selectInviteTeam();\nteamOBJ.selectInvieRole();",
+              "err": {},
+              "uuid": "ecdb5b80-0e81-47d5-ab4b-3adac9901784",
+              "parentUUID": "2792693e-7b58-4ff9-9b25-4c45df7c5860",
+              "isHook": false,
+              "skipped": true
+            },
+            {
+              "title": "TC 5: Verfy that user Can Accept/Cancel Request from Request Tab",
+              "fullTitle": "Team Test Case TC 5: Verfy that user Can Accept/Cancel Request from Request Tab",
+              "timedOut": null,
+              "duration": 0,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "teamOBJ.clickNavigationButton();\nteamOBJ.navigateTeam();\nteamOBJ.switchUsertoRequest();\nteamOBJ.checkDataExistRequestTable();\nteamOBJ.clickCancel();",
+              "err": {
+                "message": "CypressError: `cy.task('reportAllureCypressSpecMessages')` failed with the following error:\n\nThe task 'reportAllureCypressSpecMessages' was not handled in the setupNodeEvents method. The following tasks are registered: writeAllureResults, reportAllureCypressSpecMessages\n\nFix this in your setupNodeEvents method here:\nD:\\Cypress\\cypress-clm\\cypress.config.js\n\nhttps://on.cypress.io/api/task\n\nBecause this error occurred during a `after all` hook we are skipping all of the remaining tests.",
+                "estack": "CypressError: `cy.task('reportAllureCypressSpecMessages')` failed with the following error:\n\nThe task 'reportAllureCypressSpecMessages' was not handled in the setupNodeEvents method. The following tasks are registered: writeAllureResults, reportAllureCypressSpecMessages\n\nFix this in your setupNodeEvents method here:\nD:\\Cypress\\cypress-clm\\cypress.config.js\n\nhttps://on.cypress.io/api/task\n\nBecause this error occurred during a `after all` hook we are skipping all of the remaining tests.\n    at <unknown> (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:135017:72)\n    at tryCatcher (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:1807:23)\n    at Promise._settlePromiseFromHandler (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:1519:31)\n    at Promise._settlePromise (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:1576:18)\n    at Promise._settlePromise0 (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:1621:10)\n    at Promise._settlePromises (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:1697:18)\n    at _drainQueueStep (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:2407:12)\n    at _drainQueue (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:2400:9)\n    at Async._drainQueues (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:2416:5)\n    at Async.drainQueues (https://clm.selisestage.com/__cypress/runner/cypress_runner.js:2286:14)\nFrom Your Spec Code:\n    at Y.flushAllureMessagesToTask (webpack://cypress-clm/./node_modules/allure-cypress/dist/cjs/index.js:1:13099)\n    at te (webpack://cypress-clm/./node_modules/allure-cypress/dist/cjs/index.js:1:15309)\n    at Context.eval (webpack://cypress-clm/./node_modules/allure-cypress/dist/cjs/index.js:1:18000)",
+                "diff": null
+              },
+              "uuid": "b5b811b1-6c24-4315-afe8-736df47eb7f4",
+              "parentUUID": "2792693e-7b58-4ff9-9b25-4c45df7c5860",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "500c912a-309e-4f72-86d2-11656028684e",
+            "b5b811b1-6c24-4315-afe8-736df47eb7f4"
+          ],
+          "pending": [],
+          "skipped": [
+            "96b08d6c-101b-4116-bb9e-2b7e11bd8c69",
+            "7f1b0121-97fc-4af3-bb32-730579c9f1cc",
+            "ecdb5b80-0e81-47d5-ab4b-3adac9901784"
+          ],
+          "duration": 402,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": null,
+      "version": "6.2.0"
+    }
+  }
+}

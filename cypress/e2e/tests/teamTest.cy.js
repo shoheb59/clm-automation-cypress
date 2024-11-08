@@ -87,4 +87,10 @@ describe('Team Test Case', () => {
       teamOBJ.clickCancel();
 
     })
+    after(() => {
+      // Ensure all Allure messages are handled and flushed to the allure-results directory
+      cy.task('reportAllureCypressSpecMessages').then(() => {
+        cy.log('Allure messages flushed successfully');
+      });
+    });
 });

@@ -102,8 +102,8 @@ export class team {
         cy.get(this.weblocators.waitForTableData).should('be.visible',{timeout: 60000});
         cy.wait(3000);
         cy.get(this.weblocators.loader).should('not.exist',{timeout: 40000});
-        cy.get(this.weblocators.btn_searchTeam).should('be.visible').click({timeout:40000, force: true});
-        cy.wait(3000);
+        // cy.get(this.weblocators.btn_searchTeam).should('be.visible').click({timeout:40000, force: true});
+        // cy.wait(3000);
     }
     enterTeamNameforSearch()
     {

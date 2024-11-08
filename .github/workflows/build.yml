@@ -13,6 +13,11 @@ jobs:
       - name: Verify Allure Plugin Installation
         run: npm list @shelex/cypress-allure-plugin
 
+      - name: Install Allure CLI
+        run: |
+          npm install -g allure-commandline --save-dev
+          allure --version  # Verify that Allure CLI is installed
+
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:

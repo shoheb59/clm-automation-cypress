@@ -1,6 +1,6 @@
-import { team } from "../../pages/teamPage";
+import { team } from "../../pages/CLM/teamPage";
 import { loginPage } from "../../pages/loginPage";
-import { siteSearchandSelect } from "../../pages/siteSearchandSelectPage";
+import { siteSearchandSelect } from "../../pages/CLM/siteSearchandSelectPage";
 //import loginData from '../../fixtures/loginData.json';
 import loginData from '../../fixtures/loginDataStage.json';
 
@@ -13,19 +13,16 @@ describe('Team Test Case', () => {
 
     beforeEach(() => {
       loginObj.openURL();
-      loginObj.enterEmail(loginData.email);
-      loginObj.enterPassword(loginData.password);
+      loginObj.enterEmail(loginData.SuperAdmin.email);
+      loginObj.enterPassword(loginData.SuperAdmin.password);
       loginObj.selectEnglishButton();
       loginObj.btnsubmit();
       loginObj.verifyUrls();
-      cy.wait(10000);
-      loginObj.handleModal()
-        // Continue with site selection only after modal handling is complete
+      loginObj.verifyWeatherInfoLoad();
+      loginObj.verifySttisticsLoad();
+      loginObj.handleModal(); 
       
-   
-
       //site selection
-
     siteSelectionOBJ.clickDropDown();
     siteSelectionOBJ.typeSite('Testfeld 2+');
     siteSelectionOBJ.selectSitefromSearch();
@@ -39,14 +36,16 @@ describe('Team Test Case', () => {
         teamOBJ.clickCreateTeamButton();
         teamOBJ.enterTeamName();
         teamOBJ.selectDisciplinefromDropDown();
+        teamOBJ.enterAddress();
         teamOBJ.enterDomain();
         teamOBJ.clickSave();
+        teamOBJ.verifyTeamCreationToast();
         
       
 
     })
 
-    it('TC 2: Verify That User Can Search A team On Team Table', ()=>{
+    it('TC 2: Verify That User Can Search the newly created team On Team Table', ()=>{
       teamOBJ.clickNavigationButton();
       teamOBJ.navigateTeam();
       teamOBJ.switchUsertoTeam();
@@ -57,7 +56,7 @@ describe('Team Test Case', () => {
 
     })
 
-    it('TC 3: Verify that User Can invite a USER from Team Details', ()=>{
+    it('TC 3: Verify that User Can invite a USER from Team Details of New Contractor Team', ()=>{
       teamOBJ.clickNavigationButton();
       teamOBJ.navigateTeam();
       teamOBJ.switchUsertoTeam();
@@ -66,20 +65,66 @@ describe('Team Test Case', () => {
       teamOBJ.selectTeamForTeamdetails();
       teamOBJ.clickInviteUser();
       teamOBJ.enterInviteEmail();
-      teamOBJ.selectInviteTeam();
       teamOBJ.selectInvieRole();
+      teamOBJ.clickSendInvites();
     })
+    it('TC 4: Verify that user can send invities from Project Manager Team',()=>{
 
-    it('TC 4: Verify that User Can Send Invites from USER table', ()=> {
       teamOBJ.clickNavigationButton();
       teamOBJ.navigateTeam();
+      teamOBJ.switchUsertoTeam();
+      teamOBJ.clickSearchButtonOnTable();
+      teamOBJ.enterSpecificTeamNameforSearch('Project Manager');
+      teamOBJ.selectTeamForTeamdetails();
       teamOBJ.clickInviteUser();
       teamOBJ.enterInviteEmail();
-      teamOBJ.selectInviteTeam();
       teamOBJ.selectInvieRole();
+      teamOBJ.clickSendInvites();
+
 
     })
-    it('TC 5: Verfy that user Can Accept/Cancel Request from Request Tab', ()=>{
+    it('TC 5: Verify that user can send invities from Project Planner Team',()=>{
+      teamOBJ.clickNavigationButton();
+      teamOBJ.navigateTeam();
+      teamOBJ.switchUsertoTeam();
+      teamOBJ.clickSearchButtonOnTable();
+      teamOBJ.enterSpecificTeamNameforSearch('Project Planner');
+      teamOBJ.selectTeamForTeamdetails();
+      teamOBJ.clickInviteUser();
+      teamOBJ.enterInviteEmail();
+      teamOBJ.selectInvieRole();
+      teamOBJ.clickSendInvites();
+
+    })
+
+    it('TC 6: Verify that user can send invities from Site Manager Team',()=>{
+      teamOBJ.clickNavigationButton();
+      teamOBJ.navigateTeam();
+      teamOBJ.switchUsertoTeam();
+      teamOBJ.clickSearchButtonOnTable();
+      teamOBJ.enterSpecificTeamNameforSearch('Logistic Manager Team');
+      teamOBJ.selectTeamForTeamdetails();
+      teamOBJ.clickInviteUser();
+      teamOBJ.enterInviteEmail();
+      teamOBJ.selectInvieRole();
+      teamOBJ.clickSendInvites();
+
+    })
+
+    
+    it('TC 7: Verify that User Can Send Invites from USER table', ()=> {
+      
+        teamOBJ.clickNavigationButton();
+        teamOBJ.navigateTeam();
+        teamOBJ.clickInviteUser();
+        teamOBJ.enterInviteEmail();
+        teamOBJ.selectInviteTeam();
+        teamOBJ.selectInvieRole();
+        teamOBJ.clickSendInvites();
+    
+
+    })
+    it('TC 8: Verfy that user Can Accept/Cancel Request from Request Tab', ()=>{
       teamOBJ.clickNavigationButton();
       teamOBJ.navigateTeam();
       teamOBJ.switchUsertoRequest();
@@ -87,10 +132,21 @@ describe('Team Test Case', () => {
       teamOBJ.clickCancel();
 
     })
-    after(() => {
-      // Ensure all Allure messages are handled and flushed to the allure-results directory
-      cy.task('reportAllureCypressSpecMessages').then(() => {
-        cy.log('Allure messages flushed successfully');
-      });
-    });
+
+    it.only('TC 9: Verfy that user Can Unassing a Inactive User', ()=>{
+      teamOBJ.clickNavigationButton();
+      teamOBJ.navigateTeam();
+      teamOBJ.switchUsertoTeam();
+      teamOBJ.clickSearchButtonOnTable();
+      teamOBJ.enterSpecificTeamNameforSearch('Logistic Manager Team');
+      teamOBJ.selectTeamForTeamdetails();
+      teamOBJ.clickInviteUser();
+      teamOBJ.enterInviteEmail();
+      teamOBJ.selectInvieRole();
+      teamOBJ.clickSendInvites();
+      teamOBJ.clickUnassignBtn();
+
+
+    })
+
 });

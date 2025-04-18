@@ -1,4 +1,4 @@
-import { siteSearchandSelect } from "../../pages/siteSearchandSelectPage";
+import { siteSearchandSelect } from "../../pages/CLM/siteSearchandSelectPage";
 import { loginPage } from "../../pages/loginPage";
 import loginData from '../../fixtures/loginData.json';
 
@@ -11,13 +11,15 @@ const siteSelectionOBJ =  new siteSearchandSelect();
 describe('Dashboard Page Test', () => {
 
 
-    before(() => {
+    beforeEach(() => {
       loginObj.openURL();
-      loginObj.enterEmail(loginData.email);
-      loginObj.enterPassword(loginData.password);
+      loginObj.enterEmail(loginData.SuperAdmin.email);
+      loginObj.enterPassword(loginData.SuperAdmin.password);
       loginObj.selectEnglishButton();
       loginObj.btnsubmit();
       loginObj.verifyUrls();
+      loginObj.verifyWeatherInfoLoad();
+      loginObj.verifySttisticsLoad();
       loginObj.handleModal();
     });
 

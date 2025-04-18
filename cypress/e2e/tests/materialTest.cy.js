@@ -1,33 +1,36 @@
-import { material } from "../../pages/materialPage";
+import { material } from "../../pages/CLM/materialPage";
 import { loginPage } from "../../pages/loginPage";
-import { siteSearchandSelect } from "../../pages/siteSearchandSelectPage";
-import loginData from '../../fixtures/loginData.json';
+import { siteSearchandSelect } from "../../pages/CLM/siteSearchandSelectPage";
+//import loginData from '../../fixtures/loginData.json';
+import loginData from '../../fixtures/loginDataStage.json';
 
 const loginObj  = new loginPage();
 const siteSelectionOBJ =  new siteSearchandSelect();
 const materialOBJ = new material();
 
 
-describe('Dashboard Page Test', () => {
+describe('Material Page Test', () => {
 
 
-    before(() => {
+    beforeEach(() => {
       loginObj.openURL();
-      loginObj.enterEmail(loginData.email);
-      loginObj.enterPassword(loginData.password);
+      loginObj.enterEmail(loginData.SuperAdmin.email);
+      loginObj.enterPassword(loginData.SuperAdmin.password);
       loginObj.selectEnglishButton();
       loginObj.btnsubmit();
       loginObj.verifyUrls();
+      loginObj.verifyWeatherInfoLoad();
+      loginObj.verifySttisticsLoad();
       loginObj.handleModal();
       //site selection
 
     siteSelectionOBJ.clickDropDown();
-    siteSelectionOBJ.typeSite('Home Basics');
+    siteSelectionOBJ.typeSite('Testfeld 2+');
     siteSelectionOBJ.selectSitefromSearch();
 
     });
 
-    it.only('Create Material', () =>{
+    it.only('MC 1: Create Material', () =>{
         materialOBJ.clickNavigationButton();
         materialOBJ.navigateMaterial();
         materialOBJ.clickCreateMaterial();
@@ -42,7 +45,7 @@ describe('Dashboard Page Test', () => {
 
     })
 
-    it('should delete the first material name and search for it', () => {
+    it('MC 2: Verify that User can Delete or Keep the Material', () => {
       // Visit the page
       // Check if there is any row with role="row"
       materialOBJ.clickNavigationButton();
@@ -50,7 +53,7 @@ describe('Dashboard Page Test', () => {
       materialOBJ.collectMaterialName((materialName) =>{
       materialOBJ.hoeverRow();
       materialOBJ.deleteorKeepRow();
-      materialOBJ.clickSearchIcon();
+      //materialOBJ.clickSearchIcon();
       materialOBJ.typeValue(materialName);
 
       });

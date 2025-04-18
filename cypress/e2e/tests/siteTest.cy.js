@@ -1,4 +1,4 @@
-import { sitePage } from "../../pages/sitePage";
+import { sitePage } from "../../pages/CLM/sitePage";
 import { loginPage } from '../../pages/loginPage';
 //import loginData from '../../fixtures/loginData.json';
 import loginData from '../../fixtures/loginDataStage.json';
@@ -12,14 +12,18 @@ const loginObj = new loginPage();
 describe('Dashboard Page Test', () => {
 
 
-    before(() => {
+    beforeEach(() => {
+
       loginObj.openURL();
-      loginObj.enterEmail(loginData.email);
-      loginObj.enterPassword(loginData.password);
+      loginObj.enterEmail(loginData.SuperAdmin.email);
+      loginObj.enterPassword(loginData.SuperAdmin.password);
       loginObj.selectEnglishButton();
       loginObj.btnsubmit();
       loginObj.verifyUrls();
+      loginObj.verifyWeatherInfoLoad();
+      loginObj.verifySttisticsLoad();
       loginObj.handleModal();
+      
     });
   
     it('should perform actions on the site creation page', () => {

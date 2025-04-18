@@ -1,33 +1,22 @@
-const allureWriter = require('@shelex/cypress-allure-plugin/writer');
+const { allureCypress } = require("allure-cypress/reporter");
 
 module.exports = {
+  retries: 10,
   watchForFileChanges: false,
   e2e: {
-    defaultCommandTimeout: 10000,
-    pageLoadTimeout: 30000,
+    defaultCommandTimeout: 60000,
+    pageLoadTimeout: 50000,
     env: {
-      URL: 'https://clm.selisestage.com',
-      ALLURE_RESULTS_PATH: 'allure-results', // Optional: configure as needed
+      //URL: 'https://clm.selisestage.com',
+      URL: 'http://clm.seliselocal.com',
     },
     setupNodeEvents(on, config) {
       // Set up Allure plugin
-      allureWriter(on, config);
-
-      // Ensure task setup for Allure to handle messages
-      on('task', {
-        writeAllureResults: () => {
-          return null; // Placeholder for writing Allure results, provided by the plugin
-        },
-        reportAllureCypressSpecMessages: () => {
-          return null; // Placeholder for report handling, if needed
-        },
-        reportFinalAllureCypressSpecMessages: () => {
-          return null; // Ensuring the final report task is registered to avoid errors
-        },
+      allureCypress(on, config, {
+        resultsDir: "allure-results",
       });
-
       return config;
-    },
+    }, 
     baseUrl: 'http://clm.selisestage.com',
   },
 };

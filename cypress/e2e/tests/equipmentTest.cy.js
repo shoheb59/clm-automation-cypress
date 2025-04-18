@@ -1,7 +1,8 @@
-import { equipMent, equipment } from "../../pages/equipmentPage";
+import { equipMent, equipment } from "../../pages/CLM/equipmentPage";
 import { loginPage } from "../../pages/loginPage";
-import { siteSearchandSelect } from "../../pages/siteSearchandSelectPage";
-import loginData from '../../fixtures/loginData.json';
+import { siteSearchandSelect } from "../../pages/CLM/siteSearchandSelectPage";
+//import loginData from '../../fixtures/loginData.json';
+import loginData from '../../fixtures/loginDataStage.json';
 
 const loginObj  = new loginPage();
 const siteSelectionOBJ =  new siteSearchandSelect();
@@ -10,24 +11,27 @@ const eqOBJ = new equipMent();
 describe('Equipment Page Test', () => {
 
 
-    before(() => {
+    beforeEach(() => {
       loginObj.openURL();
-      loginObj.enterEmail(loginData.email);
-      loginObj.enterPassword(loginData.password);
+      loginObj.enterEmail(loginData.SuperAdmin.email);
+      loginObj.enterPassword(loginData.SuperAdmin.password);
       loginObj.selectEnglishButton();
       loginObj.btnsubmit();
       loginObj.verifyUrls();
+      loginObj.verifyWeatherInfoLoad();
+      loginObj.verifySttisticsLoad();
       loginObj.handleModal();
+     
 
       //site selection
 
     siteSelectionOBJ.clickDropDown();
-    siteSelectionOBJ.typeSite('Home Basics');
+    siteSelectionOBJ.typeSite('Testfeld 2+');
     siteSelectionOBJ.selectSitefromSearch();
 
     });
 
-    it('Create non bookable Equipment', () =>{
+    it('Eq 1: Verify that User can Create non bookable Equipment', () =>{
         eqOBJ.clickNavigationButton();
         eqOBJ.navigateMaterial();
         eqOBJ.clickAddEquipment();
@@ -36,9 +40,25 @@ describe('Equipment Page Test', () => {
         eqOBJ.typeEquipmentName();
         eqOBJ.selectDropdownType();
         eqOBJ.enterMaxLoad('500');
-        eqOBJ.enterShortDescription('Short Description for the Equipment Hasnat Test');
+        eqOBJ.enterShortDescription('Equipment Non-Bookable');
         eqOBJ.enterAdditionalComment('Our Equipment is non boookable');
         eqOBJ.clickSaveButton();
+
+    })
+    it.only('Eq 2: Verify that User can Create Bookable Equipment',()=>{
+      eqOBJ.clickNavigationButton();
+      eqOBJ.navigateMaterial();
+      eqOBJ.clickAddEquipment();
+      eqOBJ.typeEquipmentId();
+      eqOBJ.chooseEquimentIconRandomly();
+      eqOBJ.typeEquipmentName();
+      eqOBJ.selectDropdownType();
+      eqOBJ.enterMaxLoad('500');
+      eqOBJ.enterShortDescription('Equipment Bookable');
+      eqOBJ.enterAdditionalComment('Our Equipment is boookable');
+      eqOBJ.clickRadioButton();
+      eqOBJ.selectPricingModule();
+      eqOBJ.clickNextButton();
 
     })
 });

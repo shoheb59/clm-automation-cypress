@@ -11,15 +11,15 @@ weblocators = {
 
 clickDropDown ()
 {
-    cy.get(this.weblocators.dd_siteOpen).click();
+    cy.get(this.weblocators.dd_siteOpen).click({force: true});
 }
 typeSite(site)
 {
-    cy.get(this.weblocators.dd_search).type(site);
+    cy.get(this.weblocators.dd_search).eq(1).type(site, {force: true});
 }
 selectSitefromSearch()
 {
-    cy.get(this.weblocators.selectSite).first().click()
+    cy.get(this.weblocators.selectSite).first().click({force: true})
 }
 
 

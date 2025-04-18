@@ -1,5 +1,19 @@
 {
-    "name": "Using fixtures to represent data",
+  "SuperAdmin":
+  {
+    "name": "Using Super Admin data",
     "email": "ibrahim.khalil@selise.ch",
     "password": "Selise@2023"
+  },
+
+  "PM":
+  {
+    "name": "Project manager",
+    "emailPM": "pm-stage@yopmail.com",
+    "passPM": "Selise@2023"
+
   }
+
+
+}
+

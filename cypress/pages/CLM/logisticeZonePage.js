@@ -10,7 +10,11 @@ export class logisticZone {
         txt_description: '[formcontrolname="ShortDescription"]',
         txt_address: '#mat-input-4',
         map: '.gm-style > div > div:nth-child(2)',
-        btn_saveZonePage1: '.mat-raised-button'
+        btn_saveZonePage1: '.mat-raised-button',
+        btn_addorRemoveVehicle: '[data-lang-key="APP_ZONES.ADD_OR_REMOVE"]',
+        btn_entryPoint: '[data-lang-key="APP_ZONES.ENTRY_POINTS"]',
+        btn_WaitingArea: '[data-lang-key="APP_ZONES.WAITING_AREAS"]',
+        btn_btnSaveEP: '[data-lang-key="APP_ZONES.SAVE"]'
 
 
     }
@@ -18,6 +22,7 @@ export class logisticZone {
     zoneSchedualeLocators = 
     {
       slotDuration10min: '.mat-chip-list-wrapper > :nth-child(2)',
+      slotDuration60min: '.mat-chip-list-wrapper > :nth-child(5)',
       endDateFieldClear: '#mat-input-8',
       endDateFiled: '[data-lang-key="APP_EQUIPMENTS.END_DATE"]',
       btn_smallCalenderIconButton: '.mat-datepicker-toggle-default-icon.ng-star-inserted',
@@ -46,9 +51,6 @@ export class logisticZone {
       btn_saveZonePageLast: '[data-lang-key="APP_EQUIPMENTS.SAVE"]'
 
       
-
-
-
     }
 
       clickNavigationButton()
@@ -76,7 +78,24 @@ export class logisticZone {
       //map 
        enterMapLocation()
        {
+        cy.wait(4000);
         cy.get(this.weblocators.map).dblclick({force: true});
+       }
+
+       enterMap2()
+       {
+        cy.get(this.weblocators.txt_address).click();
+        cy.get('[aria-label="Map"]').then(($map) => {
+          // Get the bounding box of the map element
+          const rect = $map[0].getBoundingClientRect();
+    
+          // Calculate the coordinates to click (example: center of the map)
+          const x = rect.width / 2; // Adjust as needed for a specific point
+          const y = rect.height / 2; // Adjust as needed for a specific point
+    
+          // Click at the calculated coordinates
+          cy.get('[aria-label="Map"]').dblclick(x, y, {force: true});
+        });
        }
 
        clickSaveForSaveZoneFirstPage()
@@ -95,6 +114,11 @@ export class logisticZone {
        selectSlotDuration10min()
        {
          cy.get(this.zoneSchedualeLocators.slotDuration10min).should('be.visible').click();
+       }
+
+       selectSlotDuraiton60min()
+       {
+         cy.get(this.zoneSchedualeLocators.slotDuration60min).should('be.visible').click();
        }
 
        selectEndDateCalender()
@@ -128,11 +152,34 @@ export class logisticZone {
           }
         });
       }
+
+      
       selectAvailablilityMondayTOValue()
       {
               cy.get(this.zoneSchedualeLocators.txt_TO).should('be.visible').then(() => {
 
                 for (let i = 0; i < 25; i++) {
+                  cy.get(this.zoneSchedualeLocators.txt_TO).eq(i).click({force: true});
+                  cy.get(this.zoneSchedualeLocators.hourOptionList).eq(0).click({ force: true });
+                  cy.wait(2000);
+                  // Click the add button after selecting the values
+                  cy.get(this.zoneSchedualeLocators.btn_addIconHourList)
+                  .eq(1)
+                  .should('be.enabled')
+                  .click({ force: true});  
+                  
+                
+                }
+              });
+      }
+
+      //60 min Time Value section
+
+      selectAvailablilityMondayTOValuefor60min()
+      {
+              cy.get(this.zoneSchedualeLocators.txt_TO).should('be.visible').then(() => {
+
+                for (let i = 0; i < 1; i++) {
                   cy.get(this.zoneSchedualeLocators.txt_TO).eq(i).click({force: true});
                   cy.get(this.zoneSchedualeLocators.hourOptionList).eq(0).click({ force: true });
                   cy.wait(2000);
@@ -173,8 +220,61 @@ export class logisticZone {
       }
       saveTheZoneFrom2ndPage()
       {
-        cy.get(this.zoneSchedualeLocators.btn_saveZonePageLast).should('be.enabled').click();
+        cy.get(this.zoneSchedualeLocators.slotDuration10min).scrollTo('top', {ensureScrollable: false}) 
+        cy.get(this.zoneSchedualeLocators.btn_saveZonePageLast).scrollTo('bottom',{ensureScrollable: false})
+       
+       for (let i = 0; i < 3; i++) {  // You can increase or decrease the number of attempts
+        cy.wait(30000);  // Optional wait time between checks (can be adjusted)
+        cy.get(this.zoneSchedualeLocators.btn_saveZonePageLast).then(($btn) => {
+          if ($btn.is(':enabled')) {
+            cy.wrap($btn).click({ force: true });
+            cy.log(`Button clicked again on attempt ${i + 1}`);
+          } else {
+            cy.log(`Button not enabled on attempt ${i + 1}, skipping click.`);
+          }
+        });
       }
+    }
+
+      clickAddorRemoveVehicle()
+      {
+        cy.get(this.weblocators.btn_addorRemoveVehicle).scrollIntoView();
+        cy.get(this.weblocators.btn_addorRemoveVehicle).should('be.visible').click();
+      }
+
+
+      //Cretate Entry Point
+
+      clickEntryPoint()
+      {
+        cy.get(this.weblocators.btn_entryPoint).eq(0).click();
+      }
+
+      enterEntryPointName()
+      {
+        const random = Math.floor(Math.random()*10000)
+        cy.get(this.weblocators.txt_name).type(`EntryPoint: ${random}`);
+      }
+
+      clickSaveEntryPoint()
+      {
+        cy.get(this.weblocators.btn_btnSaveEP).click();
+      }
+
+
+    //Create Waiting Area
+    
+    clickWaitingArea()
+    {
+      cy.get(this.weblocators.btn_WaitingArea).eq(0).click();
+
+    }
+    enterWaitingAreaName()
+    {
+      const random = Math.floor(Math.random()*10000);
+      cy.get(this.weblocators.txt_name).type(`Waiting Area: ${random}`);
+
+    }
   
 }
 

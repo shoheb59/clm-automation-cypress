@@ -6,7 +6,7 @@ export class material {
         btn_addMaterial: '[data-lang-key="APP_MATERIALS.ADD_MATERIAL"]',
         txtlvl_Present: '[data-lang-key="APP_MATERIALS.MATERIAL_INFORMATION"]',
         txt_materialName: '[formcontrolname="MaterialName"]',
-        dd_unit: '#mat-select-value-23',
+        dd_unit: '.mat-mdc-select-arrow-wrapper',
         dd_unitBundleOfPipes: '[role="option"]',
         txt_length: '[name="length"]',
         txt_width: '[formcontrolname="Width"]',
@@ -20,7 +20,7 @@ export class material {
         row: '[role="row"]',
         first_column: 'td.cdk-column-MaterialName',
         btn_delete: '[data-lang-key="APP_MATERIALS.DELETE"]',
-        btn_keepIt: '.border-radius-2 > .mat-button-wrapper',
+        btn_keepIt: '[data-lang-key="APP_MATERIALS.CANCEL"]',
         searchIcon: '.mat-sort-header-content > .mat-icon',
         filterValue: '.cdk-column-MaterialName_filter'
 
@@ -55,7 +55,8 @@ export class material {
         
         //cy.get(this.weblocators.dd_unit).click();
         cy.get(this.weblocators.dd_unit).click({setTimeout: 3000}, {force: true});
-        cy.get(this.weblocators.dd_unitBundleOfPipes).eq(3).click({force: true});
+        cy.get(this.weblocators.dd_unit).should('be.visible');
+        cy.get(this.weblocators.dd_unitBundleOfPipes).eq(5).click({force: true});
         
 
     }
@@ -106,7 +107,10 @@ deleteorKeepRow()
     cy.get(this.weblocators.row).eq(2).find(this.weblocators.btn_delete).click({force: true});
     //Keep it
     cy.get(this.weblocators.btn_keepIt).click();
+
+
 }
+//Search icon remain open as deafult 
 clickSearchIcon()
 {
     cy.get(this.weblocators.searchIcon).click();

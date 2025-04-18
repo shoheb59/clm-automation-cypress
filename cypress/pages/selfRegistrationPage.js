@@ -8,7 +8,7 @@ export class selfregistration {
         txt_email:'[formcontrolname="email"]',
         txt_phoneNumber: '[formcontrolname="phoneNumber"]',
         cb_consents: '.mat-checkbox-inner-container input',
-        cb_Concents: '[id = "mat-checkbox-1-input"]',
+        cb_Concents: '.mat-checkbox-input.cdk-visually-hidden',
         btn_agreed: '[aria-label="Save"]',
         btn_signUP: '[aria-label="LOGIN"]',
 
@@ -41,7 +41,7 @@ export class selfregistration {
     }
     enterEmail()
     {
-        const randomNumber =  Math.floor(Math.random()*1000)
+        const randomNumber =  Math.floor(Math.random()*10000)
         const email = `hasnat ${randomNumber}@maildrop.cc`;
         cy.get(this.weblocators.txt_email).type(email);
     }
@@ -53,27 +53,21 @@ export class selfregistration {
     clickConsets()
     {
         cy.get(this.weblocators.cb_Concents).click({force: true});
-        cy.get(this.weblocators.btn_agreed).should('not.be.disabled').click();
+        cy.get(this.weblocators.btn_agreed).should('not.be.disabled').click({force: true});
 
     }
 
     clickSignUpButton()
     {
-        cy.get(this.weblocators.btn_signUP).should('not.be.disabled').click();
+        cy.get(this.weblocators.btn_signUP).contains('Sign Up').should('not.be.disabled').click({force: true});
     }
 
-    // visitMaildropEmail() {
-    //     cy.origin('https://maildrop.cc', () => {
-    //         cy.on('uncaught:exception', (err) => {
-    //             // Suppress the error and let the test continue
-    //             return false;
-    //         });
-    //         cy.visit('https://maildrop.cc');
-    //     });
-    // }
-    enterMailinMaildrop()
+    clickLoginBtn()
     {
-
+        cy.wait(3000)
+        cy.get(this.weblocators.btn_signUP).contains('Login').should('not.be.disabled').click({force: true});
     }
+
+  
 
 }

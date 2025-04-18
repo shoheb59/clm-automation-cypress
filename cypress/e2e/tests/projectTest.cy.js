@@ -1,4 +1,4 @@
-import { projectPage } from "../../pages/projectPage";
+import { projectPage } from "../../pages/CLM/projectPage";
 import { loginPage } from '../../pages/loginPage';
 //import loginData from '../../fixtures/loginData.json';
 import loginData from '../../fixtures/loginDataStage.json'
@@ -11,14 +11,16 @@ const loginObj = new loginPage();
 describe('Dashboard Page Test', () => {
 
 
-  before(() => {
+  beforeEach(() => {
     loginObj.openURL();
-    loginObj.enterEmail(loginData.email);
-    loginObj.enterPassword(loginData.password);
-    loginObj.selectEnglishButton();
-    loginObj.btnsubmit();
-    loginObj.verifyUrls();
-    loginObj.handleModal();
+      loginObj.enterEmail(loginData.SuperAdmin.email);
+      loginObj.enterPassword(loginData.SuperAdmin.password);
+      loginObj.selectEnglishButton();
+      loginObj.btnsubmit();
+      loginObj.verifyUrls();
+      loginObj.verifyWeatherInfoLoad();
+      loginObj.verifySttisticsLoad();
+      loginObj.handleModal();
   });
 
   it('should perform actions on the dashboard page', () => {

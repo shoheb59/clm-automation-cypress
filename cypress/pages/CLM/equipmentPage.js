@@ -6,14 +6,21 @@ export class equipMent {
         btn_equipment: '.nav-link-title.ng-star-inserted', 
         btn_addEquipment: '[data-lang-key="APP_EQUIPMENTS.ADD_EQUIPMENTS"]',
         choose_iconRandomly: '.inactive-img',
-        txt_eqID: '[formcontrolname="EquipmentId"]',
+        txt_eqID: '[data-lang-key="APP_EQUIPMENTS.EQUIPMENT_ID"]',
         txt_name: '[formcontrolname="EquipmentName"]',
         dd_type: '[formcontrolname="EquipmentType"]',
         dd_typeSelect: '.mat-ripple.mat-option-ripple',
         txt_maxLoad: '[formcontrolname="MaxLoad"]',
         txt_shortDescription: '[formcontrolname="EquipmentDescription"]',
         txt_additionalcomment: '[formcontrolname="EquipmentComment"]',
-        btn_equipmentSave: '[type="submit"]'
+        btn_equipmentSave: '[type="submit"]',
+
+        //Bookable
+        toggle_Bookable: '[role="switch"]',//first
+        rd_FreeOfcost: '[type="radio"]', //4th option
+        btn_next: '[data-lang-key="NEXT"]',
+
+
 
     }
 
@@ -41,7 +48,7 @@ export class equipMent {
     typeEquipmentId()
     {
         const randomId = Math.floor(Math.random() *100);
-        cy.get(this.weblocators.txt_eqID).type('m' + `${randomId}`)
+        cy.get(this.weblocators.txt_eqID).type('1.' + `${randomId}`)
     }
     typeEquipmentName()
     {
@@ -70,6 +77,20 @@ export class equipMent {
     clickSaveButton()
     {
         cy.get(this.weblocators.btn_equipmentSave).click();
+    }
+
+    //Bookable
+    clickRadioButton()
+    {
+        cy.get(this.weblocators.toggle_Bookable).first().click({force: true});
+    }
+    selectPricingModule()
+    {
+        cy.get(this.weblocators.rd_FreeOfcost).eq(3).click({force: true});
+    }
+    clickNextButton()
+    {
+        cy.get(this.weblocators.btn_next).click();
     }
 
 

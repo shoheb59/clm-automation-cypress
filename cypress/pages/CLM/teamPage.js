@@ -13,7 +13,7 @@ export class team {
         dd_selectDiscipline: 'mat-option[role="option"]',
         txt_teamAlias: '[data-lang-key="APP_TEAMS.TEAM_ALIAS"]',
         txt_address: '[id="google-autoComplete"]',
-        txt_address_first: '.pac-container.pac-logo.hdpi',
+        txt_address_first: '.pac-item',
         txt_domains: '[data-lang-key="APP_ORGANIZATIONS_MANIPULATION.DOMAIN"]',
         btn_saveTeam: '[data-lang-key="APP_ORGANIZATIONS_MANIPULATION.SAVE"]',
 
@@ -38,13 +38,25 @@ export class team {
         loader: '.mat-progress-bar-buffer.mat-progress-bar-element',
 
         //Request Table
-        label_NoDataFound: 'tbody[role="rowgroup"]',
+        label_NoDataFound: '[data-lang-key="APP_TEAMS.NO_REQUEST_FOUND"]',
+        //label_NoDataFound: 'tbody[role="rowgroup"]',
         btn_requestApprove: '[data-lang-key="APP_USER_REQUEST.APPROVE"]',
         btn_requestCancel: '[data-lang-key="APP_USER_REQUEST.CANCEL"]',
         btn_requestReject: '',
 
         //hover
         row: 'tbody tr[role="row"] [alt="image"]',
+        all_row: '[role="row"]',
+
+        //Unassing Confirm
+        btn_UnassignConfirm: '[data-lang-key="CONFIRM"]',
+
+        //Toast
+        toast_message: '.mdc-snackbar',
+        //Hover
+        hover_mouseover: 'mouseover',
+        //Unassign Button
+        btn_Unassign: '[data-lang-key="APP_TEAMS.UNASSIGN"]',
 
 
     }
@@ -93,7 +105,7 @@ export class team {
     enterAddress()
     {
         cy.get(this.weblocators.txt_address).type('230');
-        cy.get(this.weblocators.txt_address_first).first().click();
+        cy.get(this.weblocators.txt_address_first).first().click({force: true});
     }
 
     enterDomain()
@@ -110,7 +122,7 @@ export class team {
 
     verifyTeamCreationToast()
     {
-        cy.get('.m-0.pt-8').should('be.visible').contains('Team creation successful');
+        cy.get(this.weblocators.toast_message).should('be.visible').contains('Team creation successful');
     }
 
     clickSearchButtonOnTable()
@@ -156,8 +168,12 @@ export class team {
     }
     enterInviteEmail()
     {
-        const randomNumberEmail = Math.floor(Math.random() *10000);
-        cy.get(this.weblocators.txt_inviteEmail).type(`hasnat+${randomNumberEmail}@maildrop.cc{enter}`)
+        const randomNumberEmail = Math.floor(Math.random() * 10000);
+        const generatedEmail = `hasnat+${randomNumberEmail}@maildrop.cc`;
+        cy.get(this.weblocators.txt_inviteEmail).type(`${generatedEmail}{enter}`);
+        // Save to alias for later use in this test
+        cy.wrap(generatedEmail).as('inviteEmail');
+        
     }
     selectInvieRole()
     {
@@ -178,20 +194,23 @@ export class team {
 
 
     //Request Table 
-    checkDataExistRequestTable() {
-        cy.get(this.weblocators.label_NoDataFound).then(($element) => {
-            if ($element.length < 0) {
-                print('not found')
-            } else {
-                cy.get(this.weblocators.waitForTableData).should('be.visible');
-                cy.get(this.weblocators.loader).should('not.exist');
-                //Row_teamforteamdetails Weblocator can find any row in the table
-                cy.get(this.weblocators.row_TeamForTeamDetails).should('be.visible').eq(1).click(); 
-
-                
-            }
+    checkDataExistRequestTable(callbackIfDataExists) {
+        cy.get(this.weblocators.label_NoDataFound).then(($noData) => {
+          if ($noData.length > 0 && $noData.is(':visible')) {
+            cy.log('No data found.');
+          } else {
+            cy.get(this.weblocators.waitForTableData).should('be.visible');
+            cy.get(this.weblocators.loader).should('not.exist');
+            cy.get(this.weblocators.row_TeamForTeamDetails).should('be.visible').eq(1).click()
+              .then(() => {
+                callbackIfDataExists();
+              });
+          }
         });
-    }
+      }
+      
+    
+      
 
     clickCancel()
     {
@@ -201,46 +220,45 @@ export class team {
 
     //Unassign a User
 
+    enterSpecificUserNameforSearchtoUnasssign()
+    {
+        cy.get(this.weblocators.waitForTableData).should('be.visible');
+        cy.get(this.weblocators.loader).should('not.exist');
+        cy.get('@inviteEmail').then((email) => {
+            cy.get(this.weblocators.txt_searchField).eq(1).should('be.visible',{timeout: 30000})
+            .clear().type(email);
+            cy.wait(3000);
+        
+        
+        })
 
-    clickUnassignBtn() {
-
-        c
-        cy.get('table')
-          .find('[data-lang-key="APP_TEAMS.INACTIVE"]')
-          .then(($elements) => {
-            const inactiveElements = $elements.filter((index, el) =>
-              Cypress.$(el).text().trim().toLowerCase() === 'inactive'
-            );
-      
-            if (inactiveElements.length > 0) {
-              const targetElement = cy.wrap(inactiveElements.first());
-      
-              // Scroll horizontally to ensure it's in view
-             // targetElement.parents('table').scrollTo('right', { duration: 500 });
-      
-              // Ensure row is visible before interacting
-              cy.wait(3000)
-              cy.get(this.weblocators.row).eq(1).scrollIntoView().trigger('mouseover');
-      
-              // Wait for Unassign button to appear after hover
-              cy.get('[data-lang-key="APP_TEAMS.UNASSIGN"]', { timeout: 5000 })
-                .should('exist')
-                .should('be.visible')
-                .click({ force: true });
-      
-            } else {
-              // Handle pagination if no "Inactive" rows found
-              cy.get('[aria-label="Next page"]').then(($nextBtn) => {
-                if (!$nextBtn.is('[disabled="true"]')) {
-                  cy.wrap($nextBtn).click();
-                  cy.wait(1000);
-                  //this.clickUnassignBtn(); // Retry after going to the next page
-                }
-              });
-            }
-          });
-      }
+        
+        
+        
     }
+
+      clickUnassignBtn() {
+        //locator teamForTeamDetails locate the Cell on the table - Choosing 6 for unassign 
+
+            cy.get(this.weblocators.row_TeamForTeamDetails).eq(6).trigger(this.weblocators.hover_mouseover);
+            cy.get(this.weblocators.row_TeamForTeamDetails).eq(6).find(this.weblocators.btn_Unassign).click({force: true});
+            cy.get(this.weblocators.btn_UnassignConfirm).click({force: true});
+            
+
+      }
+
+
+      verifyUnassignmentToast() {
+        cy.get(this.weblocators.toast_message)
+          .should('contain.text', 'has been unassigned from Testfeld 2+ successfully.');
+      }
+      
+      
+    
+
+
+    }
+      
     
       
    

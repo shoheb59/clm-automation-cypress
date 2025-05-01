@@ -129,11 +129,14 @@ describe('Team Test Case', () => {
       teamOBJ.navigateTeam();
       teamOBJ.switchUsertoRequest();
       teamOBJ.checkDataExistRequestTable();
-      teamOBJ.clickCancel();
+      teamOBJ.checkDataExistRequestTable(() => {
+        teamOBJ.clickCancel();
+      });
+      
 
     })
 
-    it.only('TC 9: Verfy that user Can Unassing a Inactive User', ()=>{
+    it('TC 9: Verfy that user Can Unassing a Inactive User', ()=>{
       teamOBJ.clickNavigationButton();
       teamOBJ.navigateTeam();
       teamOBJ.switchUsertoTeam();
@@ -144,7 +147,34 @@ describe('Team Test Case', () => {
       teamOBJ.enterInviteEmail();
       teamOBJ.selectInvieRole();
       teamOBJ.clickSendInvites();
+      teamOBJ.enterSpecificUserNameforSearchtoUnasssign();
+
       teamOBJ.clickUnassignBtn();
+      teamOBJ.verifyUnassignmentToast();
+
+
+    })
+
+
+    it('TC 10: Verfy that user Can not able to send duplicate invitation', ()=>{
+      teamOBJ.clickNavigationButton();
+      teamOBJ.navigateTeam();
+      teamOBJ.switchUsertoTeam();
+      teamOBJ.clickSearchButtonOnTable();
+      teamOBJ.enterSpecificTeamNameforSearch('Logistic Manager Team');
+      teamOBJ.selectTeamForTeamdetails();
+      teamOBJ.clickInviteUser();
+      teamOBJ.enterInviteEmail();
+      teamOBJ.selectInvieRole();
+      teamOBJ.clickSendInvites();
+      //teamOBJ.enterSpecificUserNameforSearchtoUnasssign();
+
+      //teamOBJ.clickUnassignBtn()
+      
+      //need to fix  the invite user, should have to create another function for the invite same user again
+      teamOBJ.clickInviteUser();
+      teamOBJ.enterInviteEmail();
+      teamOBJ.verifyUnassignmentToast();
 
 
     })

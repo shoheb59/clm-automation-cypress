@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "teamTest": "npx cypress run --spec cypress/e2e/tests/teamTest.cy.js",
+    "shipmentTest": "npx cypress run --spec cypress/e2e/tests/shipmentTest.cy.js",
     "allure": "allure serve allure-results",
     "runTest": "npx cypress run --spec 'cypress/e2e/tests/equipmentTest.cy.js,cypress/e2e/tests/teamTest.cy.js,cypress/e2e/tests/shipmentTest.cy.js,cypress/e2e/tests/selfRegistrationTest.cy.js,cypress/e2e/tests/materialTest.cy.js,cypress/e2e/tests/logisticTest.cy.js' --reporter mocha-allure-reporter",
     "report:allure": "allure generate allure-results --clean -o allure-report && allure open  allure-report"

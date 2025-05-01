@@ -6,13 +6,14 @@ export class shipmentPage {
     btn_addShipment: '[id="add_shipment"]',
     btn_calenderOpenSmallicon: ".mat-datepicker-toggle-default-icon.ng-star-inserted",
     btn_calenderNextMonth: '[aria-label="Next month"]',
+    allAvailable_CalederDate: '[role="gridcell"] button:not(.mat-calendar-body-disabled)',//Select Enable Calender Date
     btn_selectCalederdate: '[aria-label="29 April 2025"]',
     dateInfo_load: '.date-text',
     btn_next: '[data-lang-key="WORKFLOW.NEXT"]', //need to use first()
     btn_discard: '[data-lang-key="APP_SHIPMENTS.DISCARD"]',
 
     //step 2
-    btn_materialOptionSelct: ".mat-mdc-tooltip-trigger", //need to use contain
+    btn_materialOptionSelct: ".mtrl-section-title", //need to use contain
     txt_materialInputField: '[formcontrolname="MaterialQuantity"]',
     btn_addMaterial: '[data-lang-key="APP_SHIPMENTS.ADD"]',
     btn_AddNewMat: '[data-lang-key="APP_SHIPMENTS.ADD_NEW"]',
@@ -50,7 +51,7 @@ export class shipmentPage {
     txt_WriteAnnotation: '[data-lang-key="APP_SHIPMENTS.WRITE_HERE"]',
     btn_SaveAnnotation: '[data-lang-key="APP_SHIPMENTS.SAVE"]',
     weatherInfo_load: '.caption-2.date-text',
-    txt_ShipmentComment: 'shipments_overviewPanel_comments_text',
+    txt_ShipmentComment: '[data-lang-key="APP_SHIPMENTS.WRITE_HERE"]',
     save_shipmentComment: '[id="shipments_overviewPanel_comments_save"]',
 
 
@@ -67,12 +68,15 @@ export class shipmentPage {
     label_OpenHeading: ".shipment-headline",
 
     //Modal/Dialog locator after shipment creation
-    modal_dialog: '#mat-mdc-dialog-2',
+    modal_dialog: '.mat-mdc-dialog-inner-container',
     modal_dialog_text: '[data-lang-key="APP_SHIPMENTS.SHIPMENT_UPDATED_MODAL_ONE,APP_SHIPMENTS.SHIPMENT_CREATED_MODAL_TWO"]',
     modal_openOrapprove_shipmentName: '[data-lang-key="APP_SHIPMENTS.SHIPMENT_NO"]',
 
     //Approve Shipment
     btn_approveShipment: '[data-lang-key="APP_SHIPMENTS.APPROVE"]',
+    btn_CompleteShipment: '[data-lang-key="APP_SHIPMENTS.MARK_AS_COMPLETED"]',
+    btn_YesAllCompleteShipment: '[data-lang-key="APP_SHIPMENTS.YES_ALL"]',
+    btn_WaitingStatusShipment: '[data-lang-key="APP_SHIPMENTS.WAITING"]',
     //All the step of the Top (date/materials/transportation/timeslots/otherinfo/Overview
     nav_Tab_step: '[role="tab"]',
   };
@@ -94,6 +98,11 @@ export class shipmentPage {
   selectFirstLeanCard() {
     cy.get(this.weblocators.first_row).first().click({force: true});
   }
+  //Select First Lean Card with Name - Use Contains
+
+  selectCustomLeanCard() {
+    cy.get(this.weblocators.first_row).contains('1st Automation Lean Card').click({force: true});
+  }
   clickAddshipment() {
     cy.get(this.weblocators.btn_addShipment).click({force: true});
   }
@@ -101,14 +110,16 @@ export class shipmentPage {
   //Date Related function
   
   selectDateFromCalenderSaveIt(isDuplicateTest = false) {
-    
+    const randomIndex = Math.floor(Math.random() * 8) + 3;
+
     cy.get(this.weblocators.btn_calenderOpenSmallicon).click({ force: true });
+    cy.get(this.weblocators.btn_calenderNextMonth).should("be.visible").click({force: true});
     cy.get(this.weblocators.btn_calenderNextMonth).should("be.visible").click({force: true});
     
     if(!isDuplicateTest)
     {
-      cy.get('[role="gridcell"] button:not(.mat-calendar-body-disabled)')
-    .eq(2)
+      cy.get(this.weblocators.allAvailable_CalederDate)
+    .eq(randomIndex)
     .then(($el) => {
       const selectedDate = $el.text().trim(); // Extract the text
       cy.wrap(selectedDate).as('savedDate'); // Save the date as an alias
@@ -117,8 +128,8 @@ export class shipmentPage {
 
     }
     else{
-      cy.get('[role="gridcell"] button:not(.mat-calendar-body-disabled)')
-      .eq(4)
+      cy.get(this.weblocators.allAvailable_CalederDate)
+      .eq(randomIndex)
       .then(($el) => {
         const selectedDate = $el.text().trim(); // Extract the text
         cy.wrap(selectedDate).as('savedDate'); // Save the date as an alias
@@ -150,9 +161,11 @@ export class shipmentPage {
   //Select Random Available Date From Caleder
 
   selectRandomDate() {
-    const randomIndex = Math.floor(Math.random() * 5) + 2; // gives 2, 3, or 4
     cy.get(this.weblocators.btn_calenderOpenSmallicon).click({ force: true });
-    cy.get('[role="gridcell"] button:not(.mat-calendar-body-disabled)')
+    cy.get(this.weblocators.btn_calenderNextMonth).should("be.visible").click({force: true});
+    const randomIndex = Math.floor(Math.random() * 10) + 3; // gives 2, 3, or 4
+    cy.get(this.weblocators.btn_calenderOpenSmallicon).click({ force: true });
+    cy.get(this.weblocators.allAvailable_CalederDate)
     .eq(randomIndex)
     .scrollIntoView()
     .should('be.visible')
@@ -163,16 +176,64 @@ export class shipmentPage {
   cy.get('body').then($body => {
     if ($body.find('#mat-datepicker-3').length > 0) {
       cy.log('Retrying date click...');
-      cy.get('[role="gridcell"] button:not(.mat-calendar-body-disabled)')
+      cy.get(this.weblocators.allAvailable_CalederDate)
         .eq(randomIndex)
         .click({ force: true });
     }
   });
 
+}
 
-    
 
-  }
+  
+selectAndProcessMondays(startDateStr, monthLimit, callbackForEachDate) {
+  const startDate = new Date(startDateStr);
+  const cutoffDate = new Date(startDate);
+  cutoffDate.setMonth(cutoffDate.getMonth() + monthLimit); // ⛔ Limit from param
+
+  const processNext = (index) => {
+    const targetDate = new Date(startDate);
+    targetDate.setDate(startDate.getDate() + index * 7); // Every 7 days
+
+    // ✅ Stop if target date exceeds cutoff
+    if (targetDate > cutoffDate) {
+      cy.log(`🛑 Reached month limit (${monthLimit}). Stopping at index ${index}.`);
+      return;
+    }
+
+    const day = targetDate.getDate();
+    const month = targetDate.getMonth();
+    const year = targetDate.getFullYear();
+
+    this.clickAddshipment();
+
+    cy.get(this.weblocators.btn_calenderOpenSmallicon).click({ force: true });
+
+    // Determine how many times to click "Next Month"
+    const today = new Date();
+    const currentCalendarMonth = today.getMonth();
+    const currentCalendarYear = today.getFullYear();
+    const monthDiff = (year - currentCalendarYear) * 12 + (month - currentCalendarMonth);
+
+    for (let i = 0; i < monthDiff; i++) {
+      cy.get(this.weblocators.btn_calenderNextMonth)
+        .should('be.visible')
+        .click({ force: true });
+    }
+
+    cy.get('button.mat-calendar-body-cell')
+      .contains(day)
+      .scrollIntoView()
+      .should('be.visible')
+      .click({ force: true })
+      .then(() => {
+        cy.log(`✅ Selected Monday: ${targetDate.toDateString()}`);
+        callbackForEachDate(index, () => processNext(index + 1));
+      });
+  };
+
+  processNext(0);
+}
 
 
 
@@ -217,6 +278,19 @@ export class shipmentPage {
       .type("50");
     cy.get(this.weblocators.btn_addMaterial).dblclick({force: true});
   }
+
+  //Select Material with name - Use Contains
+
+
+  selectMaterialByName() {
+    cy.get(this.weblocators.btn_materialOptionSelct).contains('Kohler / Transstahl').click({ force: true });
+    cy.get(this.weblocators.txt_materialInputField)
+      .should("be.visible")
+      .type("100");
+    cy.get(this.weblocators.btn_addMaterial).dblclick({force: true});
+  }
+
+
 //Multiple Material Selection By Loop  
 
  selectMultipleMaterial() {
@@ -255,6 +329,10 @@ export class shipmentPage {
     cy.get(this.weblocators.btn_nonBookableEquip).click({ timeout: 20000 });
   }
 
+  selectNonBookableEquipByName() {
+    cy.get(this.weblocators.btn_allNonBookableEquip).contains("Forklift 01").click({ force: true });
+  }
+
   //Multiple Non bookable Element
   selectMultipleNonbBookableEquip()
   {
@@ -269,6 +347,17 @@ export class shipmentPage {
     cy.get(this.weblocators.btn_selectBookableEquipment)
       .contains("Automation 1") // Change 'Automation' to the text you want to match
       .click({ force: true });
+  }
+
+  selectBookableEquipmentCrane()
+  {
+    cy.get(this.weblocators.btn_selectBookableEquipment)
+      .contains("Automation - Crane") // Change 'Automation' to the text you want to match
+      .click({ force: true });
+
+    cy.get('[data-lang-key="APP_SHIPMENTS.AMOUNT"]').should('be.visible').type('30');
+    cy.get('[data-lang-key="APP_SHIPMENTS.OK"]').should('be.visible').click({force:true})
+
   }
   //Bookable Equipment 1
 
@@ -291,15 +380,87 @@ export class shipmentPage {
       .first()
       .then(($slot) => {
         if ($slot.hasClass("inactive")) {
-          cy.log("Slot is inactive, skipping shipment creation");
+          cy.log("Slot is inactive, duplication test pass - skipping shipment creation");
+          return false;
         } else {
           cy.get(this.weblocators.data_slot_value)
             .first()
             .click({ force: true });
+            return true;
         }
       });
   }
+  //select 2nd up slot for rejection 
 
+  selectSecondSlotFromUPforRejectShipment() {
+    cy.get(this.weblocators.data_slot_value)
+      .eq(1).click({force: true});
+  }
+
+
+  //Select UP slot for same time and slot
+  selectUPSlotSpecificTimeAndSlot(timeSlots = ["10:10 - 10:20", "11:20 - 11:30"]) 
+  {
+    
+    timeSlots.forEach(slot => {
+      cy.get(`[data-slot-value="${slot}"]`)
+        .click()
+        .should('not.have.class', 'inactive');
+    });
+  }
+
+  //Select first Equipment slot for same time and slot
+  selectfirstEquipmentSlotSpecificTimeAndSlot() {
+    const timeSlots = [
+      "10:10 - 10:20",
+      "11:20 - 11:30"
+    ];
+  
+    cy.get(this.weblocators.schedule_data_equipment).eq(0).scrollIntoView().within(() => {
+      timeSlots.forEach(slot => {
+        cy.get(`[data-slot-value="${slot}"]`)
+          .not('.inactive')
+          .first() // Optional: handles any duplicates within the section
+          .click({ force: true })
+          .should('have.class', 'active');
+      });
+    });
+  }
+  
+  //Select second Equipment slot for same time and slot
+  selectSecondEquipmentSlotSpecificTimeAndSlot() {
+    const timeSlots = [
+      "10:10 - 10:20",
+      "11:20 - 11:30"
+    ];
+  
+    cy.get(this.weblocators.schedule_data_equipment).eq(1).scrollIntoView().within(() => {
+      timeSlots.forEach(slot => {
+        cy.get(`[data-slot-value="${slot}"]`)
+          .not('.inactive')
+          .first() // Optional: handles any duplicates within the section
+          .click({ force: true })
+          .should('have.class', 'active');
+      });
+    });
+  }
+
+  //Combine Select first and 2nd Equipment slot - this is for same time and slot selection - more reuseable
+  //you can customize the equipmentIndex and timeSlots from the Test File
+
+  select1stand2ndEquipmentSlotSpecificTimeAndSlot(equipmentIndex = 0, timeSlots = ["10:10 - 10:20", "11:20 - 11:30"]) {
+    cy.get(this.weblocators.schedule_data_equipment).eq(equipmentIndex).scrollIntoView().within(() => {
+      timeSlots.forEach((slot) => {
+        cy.get(`[data-slot-value="${slot}"]`)
+          .not('.inactive')
+          .first()
+          .click({ force: true })
+          .should('have.class', 'active');
+      });
+    });
+  }
+  
+  
   //Upslot has issue, this caldender can select Equipment slot ! common for both. 
 
   selectUPslot() {
@@ -376,6 +537,15 @@ export class shipmentPage {
   }
 
   //step 5
+  navigateStep5()
+  {
+    cy.get(this.weblocators.dateInfo_load).each(($el)=>{
+      cy.wrap($el).should('be.visible'); //load step 1  - all the date //if date not loaded, all other steps faces issues
+    })
+    cy.get(this.weblocators.nav_Tab_step).eq(4).click({force: true});
+
+  }
+  
 
   clickOnSitePerson() {
     cy.get(this.weblocators.btn_addOnSitePerson).first().click({ force: true });
@@ -386,19 +556,75 @@ export class shipmentPage {
   // }
 
   selectRadioButtonWithExistingResponsiableperson() {
+    cy.wait(2000)
     cy.get(this.weblocators.radiobtn_selectperson)
       .should("be.visible")
-      .eq(1)
+      .first()
       .click({ force: true });
     cy.get(this.weblocators.btn_OkonsiteSave).click();
+  }
+
+  //Add Order Responsible Person
+  clickAddOrderResponsiablebtn() {
+    cy.get(this.weblocators.btn_addOnSitePerson).eq(0).click({ force: true });
+
+  }
+
+  //Add Delivery Reponsible person
+  clickAddDeliveryResponsiablebtn() {
+    cy.get(this.weblocators.btn_addOnSitePerson).eq(1).click({ force: true });
+
   }
 
   clickShipmentCreateBtn() {
     cy.wait(2000);
     cy.get(this.weblocators.btn_createShipment)
-      .scrollIntoView({ block: "end" })
+      .scrollIntoView()
       .dblclick({ force: true });
   }
+
+  //YOUNUS: CHECK create button not clicked, try again and later click open shipment button
+  clickOpenShipmentWithCreateBtn(retries = 2, waitTime = 4000) {
+    const attemptClick = (remainingTries) => {
+      cy.wait(waitTime);
+  
+      cy.get('body').then($body => {
+        // Step 1: Click 'Create Shipment' if visible
+        if ($body.find(this.weblocators.btn_createShipment).length > 0) {
+          cy.get(this.weblocators.btn_createShipment)
+            .click({ force: true });
+          cy.log("Clicked 'Create Shipment' button.");
+        }
+  
+        // Step 2: Wait and click 'Open Shipment'
+        cy.get(this.weblocators.btn_openShipment, { timeout: 15000 })
+          .should('be.visible')
+          .click({ timeout: 8000 })
+          .then(() => {
+            cy.log("Clicked 'Open Shipment' button.");
+  
+            // Step 3: Check if 'Create Shipment' still exists (i.e., failed to proceed)
+            cy.get('body').then($newBody => {
+              if ($newBody.find(this.weblocators.btn_createShipment).length > 0) {
+                if (remainingTries > 0) {
+                  cy.log(`Retrying... Remaining tries: ${remainingTries}`);
+                  attemptClick(remainingTries - 1);
+                } else {
+                  throw new Error("Still seeing 'Create Shipment' after retries — action did not complete.");
+                }
+              }
+            });
+          });
+      });
+    };
+  
+    attemptClick(retries);
+  }
+  
+
+
+  //Shipment Create Modal 
+
   clickOpenShipment() {
     cy.wait(4000);
     cy.get(this.weblocators.btn_openShipment)
@@ -443,28 +669,72 @@ export class shipmentPage {
       .then((fullText) => {
         shipmentText = fullText.match(/:\s*(.*?)\s*has/)[1]; // Extract text between ":" and "has"
         cy.wrap(shipmentText).as("shipmentText"); // Save it as an alias
+        cy.log(shipmentText);
         
       });
   }
-  clickExactExtractedShipment()
-  {
-    cy.get('@shipmentText').then((savedText) => {
-        cy.get(this.weblocators.modal_openOrapprove_shipmentName) // Locate all shipment number elements
-          .each(($el) => {
-              const elementText = $el.text().trim();
-              if (elementText === savedText.trim()) {
-                  cy.wrap($el).click(); // Click on the matched element
-                  cy.get('.date-text').should('be.visible');
-              }
-          });
-    });
 
+  
+  clickExactExtractedShipment() {
+    cy.get('@shipmentText').then((savedText) => {
+      const searchForText = savedText.trim();
+  
+      const scrollAndSearch = () => {
+        let found = false;
+
+        cy.wait(3000);
+        cy.get(this.weblocators.modal_openOrapprove_shipmentName, { timeout: 10000 }).then(($items) => {
+          Cypress._.some($items, (el) => {
+            const text = el.innerText.trim();
+            if (text === searchForText) {
+              cy.wrap(el).scrollIntoView({ duration: 500, easing: 'linear' });
+              cy.wait(500);
+              cy.wrap(el).click({ force: true });
+              cy.get(this.weblocators.dateInfo_load).should('be.visible');
+              found = true;
+              return true; // Break the loop
+            }
+          });
+  
+          // If not found and potentially more items to load
+          if (!found) {
+            // Scroll to the last item to trigger loading more
+            cy.wrap($items.last()).scrollIntoView({ duration: 700, easing: 'linear' });
+            cy.wait(2000); // wait for new items to load
+  
+            // Recurse to try again after loading more
+            scrollAndSearch();
+          }
+        });
+      };
+  
+      scrollAndSearch();
+    });
   }
+  
 
   clickApproveShipmentbutton()
   {
     cy.get(this.weblocators.btn_approveShipment).click();
     cy.get(this.shipmentRejectLocator.rejectorApprove_Confirm).click()
+  }
+
+  //Complete Shipment
+
+  clickCompleteShipmentButton()
+  {
+    cy.get(this.weblocators.btn_CompleteShipment).should('be.visible').click({force: true});
+    cy.get(this.shipmentRejectLocator.rejectorApprove_Confirm).should('be.visible').click();
+    
+
+  }
+  //complete shipment For Crane
+  clickCompleteShipmentCraneButton()
+  {
+    cy.get(this.weblocators.btn_WaitingStatusShipment).should('be.visible');
+    cy.get(this.weblocators.btn_CompleteShipment).should('be.visible').click({force: true});
+    cy.get(this.weblocators.btn_YesAllCompleteShipment).should('be.visible').click({force: true});
+
   }
   //reject Shipment
   rejectShipment()
@@ -483,10 +753,11 @@ export class shipmentPage {
 
   verifySelectionFirstSlotagainForRejectShipment()
   {
-    cy.get(this.weblocators.data_slot_value).first().click({force: true}).then(() => {
+    cy.get(this.weblocators.data_slot_value).eq(1).click({force: true}).then(() => {
         cy.log('Test Passed: Slot is active on second attempt');
       });
   }
+
 
   clickOverviewStep6()
   {
@@ -521,4 +792,36 @@ export class shipmentPage {
   }
 
 
+
+//making a generic retryableClick utility
+//Use it later like:  shipmentOBJ.retryableClick(shipmentOBJ.weblocators.btn_openShipment);
+
+
+retryableClick(locator, retries = 2, waitTime = 4000) {
+  const attempt = (remainingTries) => {
+    cy.wait(waitTime);
+    cy.get(locator, { timeout: 15000 })
+      .should("be.visible")
+      .click({ timeout: 8000 })
+      .then(
+        () => cy.log(`Clicked element [${locator}] successfully.`),
+        (err) => {
+          if (remainingTries > 0) {
+            cy.log(`Retrying click on [${locator}]... Remaining: ${remainingTries}`);
+            attempt(remainingTries - 1);
+          } else {
+            cy.log(`Failed to click on [${locator}] after retries.`);
+            throw err;
+          }
+        }
+      );
+  };
+
+  attempt(retries);
 }
+
+
+
+
+}
+

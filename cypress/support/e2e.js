@@ -18,3 +18,16 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+
+Cypress.on('window:before:load', (win) => {
+    win.addEventListener = new Proxy(win.addEventListener, {
+      apply(target, thisArg, argumentsList) {
+        if (argumentsList[0] === 'beforeunload') {
+          return; // block setting beforeunload
+        }
+        return Reflect.apply(target, thisArg, argumentsList);
+      }
+    });
+  });
+  

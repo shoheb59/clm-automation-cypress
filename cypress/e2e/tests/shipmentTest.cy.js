@@ -81,29 +81,32 @@ describe("Shipment Test Case", () => {
   });
 
 
-  it.only("SC Younas: Verify that User Can Create Multiple Shipments for Mondays", () => {
+  it.only("SC Client: Verify that User Can Create Multiple Shipments for Mondays", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
     shipmentOBJ.selectCustomLeanCard();
-   
+
+    const materialValues = [100, 200, 300, 400, 500, 600, 700, 800];  
   
-    shipmentOBJ.selectAndProcessMondays("2025-06-03", 2, (index, done) => {
+    shipmentOBJ.selectAndProcessMondays("2025-06-05", 2, (index, done) => {
       // Your steps after selecting each date:
       shipmentOBJ.clickNextStep1();
-      shipmentOBJ.selectMaterialByName();
+
+      const materialValue = materialValues[index] || 100;
+      shipmentOBJ.selectMaterialByName(materialValue);
       shipmentOBJ.clickNextStep2();
       shipmentOBJ.selectVehicle();
       shipmentOBJ.clickNextStep3();
       shipmentOBJ.selectNonBookableEquipByName();
 
       shipmentOBJ.selectUp();
-      shipmentOBJ.selectUPSlotSpecificTimeAndSlot(["13:00 - 13:10","13:20 - 13:30"]);
+      shipmentOBJ.selectUPSlotSpecificTimeAndSlot(["10:00 - 10:10","11:20 - 11:30"]);
 
       shipmentOBJ.selectBookableEquipmentFirst();
-      shipmentOBJ.select1stand2ndEquipmentSlotSpecificTimeAndSlot(0,["13:00 - 13:10","13:20 - 13:30"]);
+      shipmentOBJ.select1stand2ndEquipmentSlotSpecificTimeAndSlot(0,["10:00 - 10:10","11:20 - 11:30"]);
 
       shipmentOBJ.selectBookableEquipmentSecond();
-      shipmentOBJ.select1stand2ndEquipmentSlotSpecificTimeAndSlot(1,["13:00 - 13:10","13:20 - 13:30"]);
+      shipmentOBJ.select1stand2ndEquipmentSlotSpecificTimeAndSlot(1,["10:00 - 10:10","11:20 - 11:30"]);
 
       shipmentOBJ.clickNextStep4();
       shipmentOBJ.clickOnSitePerson();

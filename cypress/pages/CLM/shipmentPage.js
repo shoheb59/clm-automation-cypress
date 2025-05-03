@@ -282,13 +282,31 @@ selectAndProcessMondays(startDateStr, monthLimit, callbackForEachDate) {
   //Select Material with name - Use Contains
 
 
-  selectMaterialByName() {
-    cy.get(this.weblocators.btn_materialOptionSelct).contains('Kohler / Transstahl').click({ force: true });
+  // selectMaterialByName() {
+  //   cy.get(this.weblocators.btn_materialOptionSelct).contains('Kohler / Transstahl').click({ force: true });
+  //   cy.get(this.weblocators.txt_materialInputField)
+  //     .should("be.visible")
+  //     .type("100");
+  //   cy.get(this.weblocators.btn_addMaterial).dblclick({force: true});
+  // }
+
+  
+
+  selectMaterialByName(materialValue) {
+    cy.get(this.weblocators.btn_materialOptionSelct)
+      .contains('Kohler / Transstahl')
+      .click({ force: true });
+  
     cy.get(this.weblocators.txt_materialInputField)
       .should("be.visible")
-      .type("100");
-    cy.get(this.weblocators.btn_addMaterial).dblclick({force: true});
+      .clear()
+      .type(materialValue.toString());
+  
+    cy.get(this.weblocators.btn_addMaterial)
+      .dblclick({ force: true });
   }
+  
+
 
 
 //Multiple Material Selection By Loop  
@@ -583,7 +601,7 @@ selectAndProcessMondays(startDateStr, monthLimit, callbackForEachDate) {
       .dblclick({ force: true });
   }
 
-  //YOUNUS: CHECK create button not clicked, try again and later click open shipment button
+  //Client: CHECK create button not clicked, try again and later click open shipment button
   clickOpenShipmentWithCreateBtn(retries = 2, waitTime = 4000) {
     const attemptClick = (remainingTries) => {
       cy.wait(waitTime);

@@ -6,7 +6,9 @@ export class sitePage {
     btn_SelectProject: '.w-100-p.item-card',
     btn_SiteAdd: '[data-lang-key="APP_PROJECTS.ADD"]',
     txt_siteName: '[formcontrolname="SiteName"]',
-    txt_siteAddress: '[data-placeholder ="Address"]',
+    txt_siteAddress: '[id="google-autoComplete"]',
+    txt_address_first: '.pac-item',
+
     selectFirstAddess: '.pac-item:first-of-type',
     txt_contactName: '[formcontrolname="ContactPersonName"]',
     txt_contactEmail: '[formcontrolname="ContactPersonEmail"]',
@@ -32,7 +34,7 @@ export class sitePage {
 
     typeSearchBtn()
     {
-        cy.get(this.weblocators.btn_searchBar).type('z-1')
+        cy.get(this.weblocators.btn_searchBar).type('Comilla Airport')
         
     }
     selectProject()
@@ -44,19 +46,20 @@ export class sitePage {
     }
     enterSiteName()
     {
-        cy.get(this.weblocators.txt_siteName).type("Site 6")
+        const randomNum = Math.floor(Math.random() * 1000); // Generate a random number between 0 and 999
+        cy.get(this.weblocators.txt_siteName).type(`Site ${randomNum}`);
     }
     enterSiteAddresss(address)
     {
         cy.get(this.weblocators.txt_siteAddress).type(address);
-        cy.get(this.weblocators.selectFirstAddess).click();
+        cy.get(this.weblocators.txt_address_first).first().click({force: true});
     }
     enterContactPersonName()
     {
         cy.get(this.weblocators.txt_contactName)
         .should('be.visible')
         .scrollIntoView()
-        .type('HAsnat');
+        .type('Hasnat');
     }
     
     enterContactPersonEmail()
@@ -87,7 +90,7 @@ export class sitePage {
     
     uploadFile(filePath) {
   
-          cy.get(this.weblocators.file_input).first().attachFile(filePath);
+          cy.get(this.weblocators.file_input).eq(1).attachFile(filePath);
   
         }
   

@@ -8,7 +8,7 @@ export class selfregistration {
         txt_email:'[formcontrolname="email"]',
         txt_phoneNumber: '[formcontrolname="phoneNumber"]',
         cb_consents: '.mat-checkbox-inner-container input',
-        cb_Concents: '.mat-checkbox-input.cdk-visually-hidden',
+        cb_Concents: '[type="checkbox"]',
         btn_agreed: '[aria-label="Save"]',
         btn_signUP: '[aria-label="LOGIN"]',
 
@@ -52,7 +52,8 @@ export class selfregistration {
     }
     clickConsets()
     {
-        cy.get(this.weblocators.cb_Concents).click({force: true});
+        //cy.get('[type="checkbox"]').check({force: true});
+        cy.get(this.weblocators.cb_Concents).check({force: true});
         cy.get(this.weblocators.btn_agreed).should('not.be.disabled').click({force: true});
 
     }

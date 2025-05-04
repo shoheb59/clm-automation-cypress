@@ -9,7 +9,7 @@ const siteOBJ = new sitePage();
 const loginObj = new loginPage();
 
 
-describe('Dashboard Page Test', () => {
+describe('Site Creation Page Test', () => {
 
 
     beforeEach(() => {
@@ -34,7 +34,7 @@ describe('Dashboard Page Test', () => {
         siteOBJ.selectProject();
         siteOBJ.clickAddButton();
         siteOBJ.enterSiteName();
-        siteOBJ.enterSiteAddresss('8767 Wilshire Boulevard, Beverly Hills, CA, USA');
+        siteOBJ.enterSiteAddresss('230');
         siteOBJ.enterContactPersonName();
         siteOBJ.enterContactPersonEmail();
         siteOBJ.enterContactPersonPhone();

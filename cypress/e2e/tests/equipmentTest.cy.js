@@ -31,7 +31,7 @@ describe('Equipment Page Test', () => {
 
     });
 
-    it('Eq 1: Verify that User can Create non bookable Equipment', () =>{
+    it.only('Eq 1: Verify that User can Create non bookable Equipment', () =>{
         eqOBJ.clickNavigationButton();
         eqOBJ.navigateMaterial();
         eqOBJ.clickAddEquipment();
@@ -45,7 +45,7 @@ describe('Equipment Page Test', () => {
         eqOBJ.clickSaveButton();
 
     })
-    it.only('Eq 2: Verify that User can Create Bookable Equipment',()=>{
+    it('Eq 2: Verify that User can Create Bookable Equipment',()=>{
       eqOBJ.clickNavigationButton();
       eqOBJ.navigateMaterial();
       eqOBJ.clickAddEquipment();

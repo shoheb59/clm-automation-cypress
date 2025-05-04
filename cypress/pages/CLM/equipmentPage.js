@@ -9,7 +9,7 @@ export class equipMent {
         txt_eqID: '[data-lang-key="APP_EQUIPMENTS.EQUIPMENT_ID"]',
         txt_name: '[formcontrolname="EquipmentName"]',
         dd_type: '[formcontrolname="EquipmentType"]',
-        dd_typeSelect: '.mat-ripple.mat-option-ripple',
+        dd_typeSelect: '[role="option"]', //all the Category options
         txt_maxLoad: '[formcontrolname="MaxLoad"]',
         txt_shortDescription: '[formcontrolname="EquipmentDescription"]',
         txt_additionalcomment: '[formcontrolname="EquipmentComment"]',
@@ -53,30 +53,30 @@ export class equipMent {
     typeEquipmentName()
     {
         const randomName = Math.floor(Math.random() *1000);
-        cy.get(this.weblocators.txt_name).type(`equipment${randomName}`);
+        cy.get(this.weblocators.txt_name).type(`equipment${randomName}`, {force: true});
     }
 
     selectDropdownType()
     {
         cy.get(this.weblocators.dd_type).click();
-        cy.get(this.weblocators.dd_typeSelect).eq(2).click({force: true});
+        cy.get(this.weblocators.dd_typeSelect).contains('Forklift').click({force: true});
     }
     enterMaxLoad(maxload)
     {
-        cy.get(this.weblocators.txt_maxLoad).type(maxload)
+        cy.get(this.weblocators.txt_maxLoad).type(maxload, {force: true});
     }
     enterShortDescription(shortDescription)
     {
-        cy.get(this.weblocators.txt_shortDescription).type(shortDescription);
+        cy.get(this.weblocators.txt_shortDescription).type(shortDescription, {force: true});
     }
 
     enterAdditionalComment(additionalComment)
     {
-        cy.get(this.weblocators.txt_additionalcomment).type(additionalComment)
+        cy.get(this.weblocators.txt_additionalcomment).type(additionalComment, {force: true});
     }
     clickSaveButton()
     {
-        cy.get(this.weblocators.btn_equipmentSave).click();
+        cy.get(this.weblocators.btn_equipmentSave).click({force: true});
     }
 
     //Bookable
@@ -90,7 +90,7 @@ export class equipMent {
     }
     clickNextButton()
     {
-        cy.get(this.weblocators.btn_next).click();
+        cy.get(this.weblocators.btn_next).click({force: true});
     }
 
 

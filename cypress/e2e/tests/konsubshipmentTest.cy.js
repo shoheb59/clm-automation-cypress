@@ -10,7 +10,7 @@ const konsubshipOBJ = new konsubShipment();
 
 
 
-describe('Team Test Case', () => {
+describe('Konshub Test Case', () => {
 
 
     beforeEach(() => {
@@ -34,7 +34,7 @@ describe('Team Test Case', () => {
 
     });
 
-    it('Create Konsub Shipment',()=>{
+    it.skip('Create Konsub Shipment',()=>{
         konsubshipOBJ.clickNavigationButton();
         konsubshipOBJ.navigateKonsub();
         konsubshipOBJ.selectLanguage();

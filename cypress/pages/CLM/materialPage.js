@@ -54,7 +54,9 @@ export class material {
     {
         
         //cy.get(this.weblocators.dd_unit).click();
-        cy.get(this.weblocators.dd_unit).click({setTimeout: 3000}, {force: true});
+        
+        cy.get(this.weblocators.dd_unit).should('be.visible').click({setTimeout: 3000}, {force: true});
+        cy.wait(2000);
         cy.get(this.weblocators.dd_unit).should('be.visible');
         cy.get(this.weblocators.dd_unitBundleOfPipes).eq(5).click({force: true});
         

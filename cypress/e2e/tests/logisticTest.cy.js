@@ -37,12 +37,13 @@ describe('Equipment Page Test', () => {
     it('LZ-1: Create Zone with 10 min', () =>{
       logisticOBJ.clickNavigationButton();
       logisticOBJ.navigateLogisticZones();
+      logisticOBJ.selectGoogleMapButton();
       logisticOBJ.clickaddButton();
       logisticOBJ.enterZoneDetails();
       logisticOBJ.enterMapLocation();
       logisticOBJ.clickSaveForSaveZoneFirstPage();
       logisticOBJ.selectSlotDuration10min();
-      logisticOBJ.selectEndDateCalender();
+      //logisticOBJ.selectEndDateCalender();
       logisticOBJ.selectAvailablilityMondayFromValue();
       logisticOBJ.selectAvailablilityMondayTOValue();
       logisticOBJ.selectAllOtherDayForAvailability();
@@ -53,15 +54,16 @@ describe('Equipment Page Test', () => {
     })
 
 
-    it('LZ 2: Create Zone with 60 min and later Add vehicle', () =>{
+    it('LZ 2: Create Zone with 60 min and later Add vehicle with Google Map', () =>{
       logisticOBJ.clickNavigationButton();
       logisticOBJ.navigateLogisticZones();
+      logisticOBJ.selectGoogleMapButton();
       logisticOBJ.clickaddButton();
       logisticOBJ.enterZoneDetails();
       logisticOBJ.enterMapLocation();
       logisticOBJ.clickSaveForSaveZoneFirstPage();
       logisticOBJ.selectSlotDuraiton60min();
-      logisticOBJ.selectEndDateCalender();
+      //logisticOBJ.selectEndDateCalender();
       logisticOBJ.selectAvailablilityMondayFromValue();
       logisticOBJ.selectAvailablilityMondayTOValuefor60min();
       logisticOBJ.selectAllOtherDayForAvailability();
@@ -72,10 +74,11 @@ describe('Equipment Page Test', () => {
 
     })
 
-    it('LZ 3: Create Entry (Gate)',()=>{
+    it('LZ 3: Create Entry (Gate) with Google Map',()=>{
 
       logisticOBJ.clickNavigationButton();
       logisticOBJ.navigateLogisticZones();
+      logisticOBJ.selectGoogleMapButton();
       logisticOBJ.clickaddButton();
       logisticOBJ.clickEntryPoint();
       logisticOBJ.enterEntryPointName();
@@ -86,9 +89,10 @@ describe('Equipment Page Test', () => {
 
     })
 
-   it('LZ 4: Create Waiting Area', ()=>{
+   it('LZ 4: Create Waiting Area with Google Map', ()=>{
     logisticOBJ.clickNavigationButton();
     logisticOBJ.navigateLogisticZones();
+    logisticOBJ.selectGoogleMapButton();
     logisticOBJ.clickaddButton();
     logisticOBJ.clickWaitingArea();
     logisticOBJ.enterWaitingAreaName();

@@ -26,7 +26,7 @@ describe('Dashboard Page Test', () => {
 
 it ('Site Selection from the Dropdown', () =>{
     siteSelectionOBJ.clickDropDown();
-    siteSelectionOBJ.typeSite('Home Basic');
+    siteSelectionOBJ.typeSite('Testfeld 2+');
     siteSelectionOBJ.selectSitefromSearch();
 })
 

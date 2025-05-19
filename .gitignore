@@ -3,6 +3,7 @@ test.img.jpg
 allure-report
 allure-results
 screenshots
+cypress/e2e/test/shipmentClaude.cy.js
 
 
 

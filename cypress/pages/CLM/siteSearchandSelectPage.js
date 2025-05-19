@@ -19,7 +19,9 @@ typeSite(site)
 }
 selectSitefromSearch()
 {
-    cy.get(this.weblocators.selectSite).first().click({force: true})
+    cy.get(this.weblocators.selectSite).eq(0).click({force: true, timeout: 10000});
+    cy.wait(1000);
+    cy.get('body').click(0, 0); 
 }
 
 

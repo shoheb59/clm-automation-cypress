@@ -35,9 +35,9 @@ export class loginPage {
      verifyUrls() {
 
       
-       //cy.url({timeout: 90000}).should('include', 'http://clmtest.seliselocal.com/dashboard/daily');
-       cy.url({timeout: 90000}).should('include', 'https://clm.selisestage.com/dashboard/daily');
-      //cy.url({timeout: 90000}).should('include', 'http://clm.seliselocal.com/dashboard/daily');
+       
+       //cy.url({timeout: 90000}).should('include', 'https://clm.selisestage.com/dashboard/daily');
+      cy.url({timeout: 90000}).should('include', 'http://clm.seliselocal.com/dashboard/daily');
     }
 
     verifyWeatherInfoLoad()

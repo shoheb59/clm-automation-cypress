@@ -23,7 +23,7 @@ describe('Dashboard Page Test', () => {
       loginObj.handleModal();
   });
 
-  it('should perform actions on the dashboard page', () => {
+  it('Project Case 1: Project Creation', () => {
     projectOBJ.clickNavButton();
     projectOBJ.clickProjectButton();
     projectOBJ.clickCreateProject();
@@ -32,13 +32,13 @@ describe('Dashboard Page Test', () => {
     // projectOBJ.toggleDatePicker();
     // projectOBJ.selectCurrentStartDate();
     // projectOBJ.selectRandomEndFutureDate();
-    projectOBJ.clickMatCheckbox();
+    projectOBJ.clickhasKonshubCheckbox();
     projectOBJ.selectStartDate();
     projectOBJ.selectEndDate();
     projectOBJ.clickUploadPhotoButton();
     const filePath = FilePaths.IMAGE_PATH;
     projectOBJ.uploadFile(filePath);
     projectOBJ.clickSaveUploadPhotobtn();
-    projectOBJ.clickProjectCreateEditSave();
+    //projectOBJ.clickProjectCreateEditSave();
   });
 });

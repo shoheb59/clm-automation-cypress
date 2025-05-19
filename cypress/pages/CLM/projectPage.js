@@ -5,14 +5,14 @@ export class projectPage {
       btn_createPoject: '[data-lang-key = "APP_PROJECTS.CREATE_PROJECT"]',
       txt_projectDetails: '[formcontrolname = "ProjectName"]',
       txt_clientName: '[formcontrolname = "ClientName"]',
-      startDate: '[formcontrolname = "StartDate"]',
-      endDate:'[formcontrolname = "EndDate"]',
-      yearOption: 'button[aria-live ="polite"]',
+      startDate: '[aria-label="Open calendar"]',
+      endDate:'[aria-label="Open calendar"]',
+      yearOption: '[aria-label="Choose month and year"]',
       selectYear: '[aria-label ="2035"]',
       selectMonth: '.mat-calendar-body-cell.mat-calendar-body-active',
       selectDay: '.mat-calendar-body-cell',
       todayDate: '.mat-calendar-body-cell-content.mat-focus-indicator.mat-calendar-body-today',
-      cb_hasWarhouse: '.mat-checkbox-inner-container',
+      cb_hasWarhouse: '[type="checkbox"]',
       mat_checkbox_input: '#mat-checkbox-1-input',
       upload_photo_button: '[type="button"]',
       file_input: 'input[type="file"][class="file"]',
@@ -35,7 +35,8 @@ export class projectPage {
     }
   
     enterProjectName(ProjectName) {
-      cy.get(this.weblocators.txt_projectDetails).scrollIntoView().type(ProjectName)
+      const randomIndex = Math.floor(Math.random() * 1000); // Generate a random number between 0 and 999
+      cy.get(this.weblocators.txt_projectDetails).scrollIntoView().type(`ProjectName ${randomIndex}`);
     }
   
     enterClientName(clientName) {
@@ -44,15 +45,15 @@ export class projectPage {
   
    selectStartDate()
    {
-     cy.get(this.weblocators.startDate).click();
-     cy.get(this.weblocators.todayDate).click();
+     cy.get(this.weblocators.startDate).first().click({force: true});
+     cy.get(this.weblocators.todayDate).click({force: true});
 
 
    }
 
    selectEndDate()
    {
-    cy.get(this.weblocators.endDate).click({timeout: 3000});
+    cy.get(this.weblocators.endDate).eq(1).click({timeout: 3000});
     cy.get(this.weblocators.yearOption).click();
     cy.get(this.weblocators.selectYear).click();
     cy.get(this.weblocators.selectMonth).click();
@@ -62,8 +63,8 @@ export class projectPage {
 
    }
 
-    clickMatCheckbox() {
-      cy.get(this.weblocators.cb_hasWarhouse).scrollIntoView().click();
+    clickhasKonshubCheckbox() {
+      cy.get(this.weblocators.cb_hasWarhouse).scrollIntoView().check({force: true});
     }
   
   

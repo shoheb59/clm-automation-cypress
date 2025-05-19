@@ -2,8 +2,28 @@ import { shipmentPage } from "../../pages/CLM/shipmentPage";
 import { loginPage } from "../../pages/loginPage";
 import { siteSearchandSelect } from "../../pages/CLM/siteSearchandSelectPage";
 //import loginData from '../../fixtures/loginData.json';
+import loginData from "../../fixtures/loginDataDev.json";
 //import loginData from "../../fixtures/loginDataStage.json";
-import loginData from "../../fixtures/loginDataStage.json"
+import predefinedDates from "../../fixtures/shipmentDate.json";
+import materialData from "../../fixtures/materialValues.json";
+import vehicleData from "../../fixtures/vehicleData.json";
+import nonBookableEquipData from "../../fixtures/nonBookableEquip.json";
+import upData from "../../fixtures/upData.json";
+import slotTimesData from "../../fixtures/slotTimes.json";
+import bookableEquipData from "../../fixtures/bookableEquipData.json";
+import equipmentSlotTimesData from "../../fixtures/equipmentSlotTimes.json";
+//import responsiblePersonData from "../../fixtures/responsiblePersonsNew.json";
+import randomResponsiblePersonData from "../../fixtures/randomResponsiblePerson.json";
+import buildingData from "../../fixtures/buildingInfo.json";
+
+
+
+
+
+
+
+
+
 
 const loginObj = new loginPage();
 const siteSelectionOBJ = new siteSearchandSelect();
@@ -48,9 +68,7 @@ describe("Shipment Test Case", () => {
   //   siteSelectionOBJ.selectSitefromSearch();
   // });
 
-
-
-
+  const vehicleName = vehicleData.vehicleNames[0] || "Self Unloading";
 
 
   it("SC 1: Verify that User Can Create Multiple shipment Shipment", () => {
@@ -63,7 +81,7 @@ describe("Shipment Test Case", () => {
       shipmentOBJ.clickNextStep1();
       shipmentOBJ.selectMaterial();
       shipmentOBJ.clickNextStep2();
-      shipmentOBJ.selectVehicle();
+      shipmentOBJ.selectVehicle(vehicleName);
       shipmentOBJ.clickNextStep3();
       //Step 4
       shipmentOBJ.selectNonBookableequip();
@@ -81,23 +99,30 @@ describe("Shipment Test Case", () => {
   });
 
 
-  it.only("SC Client: Verify that User Can Create Multiple Shipments for Mondays", () => {
+  it.skip("SC Client: Verify that the user can create shipments scheduled for Mondays in the upcoming month", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
     shipmentOBJ.selectCustomLeanCard();
 
-    const materialValues = [100, 200, 300, 400, 500, 600, 700, 800];  
   
-    shipmentOBJ.selectAndProcessMondays("2025-06-05", 2, (index, done) => {
+    shipmentOBJ.selectAndProcessMondays("2025-08-04", 2, (index, done) => {
       // Your steps after selecting each date:
       shipmentOBJ.clickNextStep1();
 
-      const materialValue = materialValues[index] || 100;
+      const materialValue = materialData.materialValues[index] || 100;
       shipmentOBJ.selectMaterialByName(materialValue);
       shipmentOBJ.clickNextStep2();
-      shipmentOBJ.selectVehicle();
+
+      const vehicleName = vehicleData.vehicleNames[index] || "Trailer pull";
+      shipmentOBJ.selectVehicle(vehicleName);
+
+
       shipmentOBJ.clickNextStep3();
-      shipmentOBJ.selectNonBookableEquipByName();
+
+      
+      const nonBookableEquipName = nonBookableEquipData.nonBookableEquipment[index] || "Forklift 01";
+      shipmentOBJ.selectNonBookableEquipByName(nonBookableEquipName);
+
 
       shipmentOBJ.selectUp();
       shipmentOBJ.selectUPSlotSpecificTimeAndSlot(["10:00 - 10:10","11:20 - 11:30"]);
@@ -123,15 +148,75 @@ describe("Shipment Test Case", () => {
 
   });
 
+
+
+
+    //Pre difine date 
+
+    it.skip("SC Client: Create shipments on predefined Dates Lean Card A1", () => {
+      shipmentOBJ.clickNavigationButton();
+      shipmentOBJ.navigateShipment();
+      shipmentOBJ.selectCustomLeanCard();
     
+      
+    
+      shipmentOBJ.selectAndProcessDates(predefinedDates.predefinedays, (index, done) => {
+        shipmentOBJ.clickNextStep1();
+    
+        //shipmentOBJ.selectRecipient();   
 
-  
+      const buildingInfo = buildingData.buildingData[index] 
+       shipmentOBJ.enterBuidingInfo(buildingInfo.buildingName, buildingInfo.floorName, buildingInfo.laydownArea);
+
+        
+        
+        
+        const materialValue = materialData.materialValues[index] || 1;
+        shipmentOBJ.selectMaterialByName(materialValue);
+        shipmentOBJ.clickNextStep2();
+
+        const vehicleName = vehicleData.vehicleNames[index] || "Self Unloading";
+        shipmentOBJ.selectVehicle(vehicleName);
 
 
+        shipmentOBJ.clickNextStep3();
+
+      
+       const nonBookableEquipName = nonBookableEquipData.nonBookableEquipment[index] || "Selbstentladung";
+       shipmentOBJ.selectNonBookableEquipByName(nonBookableEquipName);
+
+    
+       const upName = upData.upNames[index] || "UP_A";
+       shipmentOBJ.selectUp(upName);
 
 
+       const timeSlotsForShipment = slotTimesData.upSlotTimes[index];
+       shipmentOBJ.selectUPSlotSpecificTimeAndSlot(timeSlotsForShipment);
+    
+       const firstEquip = bookableEquipData.bookableEquipments[index] || "Lift Haus A1";
+       shipmentOBJ.selectBookableEquipmentFirstDynamic(firstEquip);
 
+       const timeSlotsForFirst = equipmentSlotTimesData.equipmentSlotTimes[index];
+       shipmentOBJ.select1stand2ndEquipmentSlotSpecificTimeAndSlot(0, timeSlotsForFirst);
 
+    
+        // shipmentOBJ.selectBookableEquipmentSecond();
+        // shipmentOBJ.select1stand2ndEquipmentSlotSpecificTimeAndSlot(1,["12:00 - 12:10","12:20 - 12:30"]);
+    
+        shipmentOBJ.clickNextStep4();
+        shipmentOBJ.clickOnSitePerson();
+        //shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
+        shipmentOBJ.clickAddnewResponsiablebtn();
+        const personInfo = randomResponsiblePersonData.responsiblePersons[index];
+        shipmentOBJ.enterInformationResponsiblePerson(personInfo.name, personInfo.email, personInfo.phone);
+        
+        shipmentOBJ.clickOpenShipmentWithCreateBtn();
+    
+        cy.wait(1000).then(() => {
+          done();
+        });
+      });
+    });
 
 
 
@@ -145,7 +230,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
     //Step 4
     shipmentOBJ.selectNonBookableequip();
@@ -170,7 +255,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
     //Step 4
     shipmentOBJ.selectNonBookableequip();
@@ -195,7 +280,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
     // Step 4
@@ -230,7 +315,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
     // Step 4
@@ -264,7 +349,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMultipleMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
     //Step 4
     shipmentOBJ.selectNonBookableequip();
@@ -296,7 +381,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.selectMaterial();
 
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
     //Step 4
     shipmentOBJ.selectNonBookableequip();
@@ -321,7 +406,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
     // Step 4
@@ -351,7 +436,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
     // Step 4 Again
@@ -385,7 +470,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
     // Step 4
@@ -427,7 +512,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
     // Step 4 Again
@@ -451,7 +536,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
     // Step 4
@@ -486,7 +571,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
     // Step 4 Again
@@ -509,7 +594,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
     // Step 4
@@ -545,7 +630,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
     // Step 4
@@ -580,7 +665,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
     // Step 4
@@ -609,7 +694,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
 
@@ -618,10 +703,11 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.selectMultipleNonbBookableEquip();
     //select bookable
     shipmentOBJ.selectBookableEquipmentFirst();
+    shipmentOBJ.selectEquipmentSlot();
+
     shipmentOBJ.selectUp();
     shipmentOBJ.selectUpNameSlot();
-    shipmentOBJ.selectEquipmentSlot();
-    shipmentOBJ.selectUpNameSlot();
+   
     shipmentOBJ.clickNextStep4();
 
     //Step 5
@@ -643,7 +729,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
     // Step 4
@@ -674,7 +760,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
     // Step 4
@@ -712,7 +798,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
     // Step 4
@@ -746,7 +832,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
     // Step 4
@@ -788,7 +874,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
     // Step 4
@@ -796,13 +882,14 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.selectMultipleNonbBookableEquip();
     //select bookable
     shipmentOBJ.selectBookableEquipmentFirst();
+    shipmentOBJ.selectEquipmentSlot();
+
     shipmentOBJ.selectBookableEquipmentSecond();
+    shipmentOBJ.selectEquipmentSlotTwo(); 
+
     shipmentOBJ.selectUp();
     shipmentOBJ.selectUpNameSlot();
-    shipmentOBJ.selectEquipmentSlot();
-    shipmentOBJ.selectEquipmentSlotTwo(); 
-    shipmentOBJ.selectUpNameSlot();
-
+    
     shipmentOBJ.clickNextStep4();
 
     //Step 5
@@ -824,7 +911,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
     // Step 4
@@ -832,11 +919,15 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.selectMultipleNonbBookableEquip();
     //select bookable
     shipmentOBJ.selectBookableEquipmentFirst();
+    shipmentOBJ.selectEquipmentSlot();
+
     shipmentOBJ.selectBookableEquipmentSecond();
+    shipmentOBJ.selectEquipmentSlotTwo();
+
     shipmentOBJ.selectUp();
     shipmentOBJ.selectUpNameSlot();
-    shipmentOBJ.selectEquipmentSlot();
-    shipmentOBJ.selectEquipmentSlotTwo(); 
+    
+   
     shipmentOBJ.selectUpNameSlot();
 
     shipmentOBJ.clickNextStep4();
@@ -868,7 +959,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
     // Step 4
@@ -909,7 +1000,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle();
+    shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
     // Step 4

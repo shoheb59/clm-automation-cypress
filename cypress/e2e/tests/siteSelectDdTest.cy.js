@@ -8,7 +8,7 @@ const siteSelectionOBJ =  new siteSearchandSelect();
 
 
 
-describe('Dashboard Page Test', () => {
+describe('Dashboard Page Test - Site Selection', () => {
 
 
     beforeEach(() => {

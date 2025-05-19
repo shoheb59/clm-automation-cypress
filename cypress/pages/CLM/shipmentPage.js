@@ -21,15 +21,22 @@ export class shipmentPage {
     dd_unit: '.mat-mdc-select-arrow-wrapper',
     dd_unitBundleOfPipes: '[role="option"]',
 
+    dd_receipient: '[formcontrolname="RecipientTeam"]',
+    dd_receipientOption: '[role="option"]', //use Contain
+
+    txt_builiding: '[formcontrolname="Building"]',
+    txt_floor: '[formcontrolname="Floor"]',
+    txt_laydownArea: '[formcontrolname="LaydownArea"]',
+
     //step 3
-    btn_vehicleSelection: '[id="shipments_unloading_vehiclesForm__0"]',
+    btn_vehicleSelection: '.name-text',
 
     //step 4 - TimeSlots
     btn_nonBookableEquip: '[id="shipments_timeslots_nonBookableEquipments__0"]',
     btn_allNonBookableEquip: '.name-text',
     title_AllUpName: '.mtrl-section-title',
     btn_selectUp: '[data-lang-key="APP_SHIPMENTS.MINUTES_SENTENCE_CASE"]', //Use contain
-    btn_SelectUpSlot: ".calendar-slot.ng-star-inserted.h-10", //need to select slot according to enalbe
+    btn_SelectUpSlot: ".calendar-slot", //need to select slot according to enble
     data_slot_value: "[data-slot-value]", //data slot value
     
     btn_selectBookableEquipment: '[id^="shipments_timeslots_bookableEquipments__"]', //Select all boookable equipment, use contains to select exact one
@@ -77,6 +84,7 @@ export class shipmentPage {
     btn_CompleteShipment: '[data-lang-key="APP_SHIPMENTS.MARK_AS_COMPLETED"]',
     btn_YesAllCompleteShipment: '[data-lang-key="APP_SHIPMENTS.YES_ALL"]',
     btn_WaitingStatusShipment: '[data-lang-key="APP_SHIPMENTS.WAITING"]',
+    btn_arriveStatusShipment:'[data-lang-key="APP_SHIPMENTS.ARIVED_&_UNLOADING"]',
     //All the step of the Top (date/materials/transportation/timeslots/otherinfo/Overview
     nav_Tab_step: '[role="tab"]',
   };
@@ -101,7 +109,9 @@ export class shipmentPage {
   //Select First Lean Card with Name - Use Contains
 
   selectCustomLeanCard() {
-    cy.get(this.weblocators.first_row).contains('1st Automation Lean Card').click({force: true});
+    cy.get('[data-lang-key="APP_SHIPMENTS.SEARCH"]').should('be.visible').first().type('TGS_TIVOLI_MOVE_HAUS_A1{enter}');
+    cy.wait(1000);
+    cy.get(this.weblocators.first_row).contains('TGS_TIVOLI_MOVE_HAUS_A1').scrollIntoView().click({force: true});
   }
   clickAddshipment() {
     cy.get(this.weblocators.btn_addShipment).click({force: true});
@@ -235,6 +245,51 @@ selectAndProcessMondays(startDateStr, monthLimit, callbackForEachDate) {
   processNext(0);
 }
 
+//Pre define Dates
+
+selectAndProcessDates(datesArray, callbackForEachDate) {
+  const processNext = (index) => {
+    if (index >= datesArray.length) {
+      cy.log("✅ Finished processing all predefined dates.");
+      return;
+    }
+
+    const targetDate = new Date(datesArray[index]);
+    const day = targetDate.getDate();
+    const month = targetDate.getMonth();
+    const year = targetDate.getFullYear();
+
+    this.clickAddshipment();
+
+    cy.get(this.weblocators.btn_calenderOpenSmallicon).click({ force: true });
+
+    // Navigate to correct month
+    const today = new Date();
+    const currentCalendarMonth = today.getMonth();
+    const currentCalendarYear = today.getFullYear();
+    const monthDiff = (year - currentCalendarYear) * 12 + (month - currentCalendarMonth);
+
+    for (let i = 0; i < monthDiff; i++) {
+      cy.get(this.weblocators.btn_calenderNextMonth)
+        .should('be.visible')
+        .click({ force: true });
+    }
+
+    cy.get('button.mat-calendar-body-cell')
+      .contains(day)
+      .scrollIntoView()
+      .should('be.visible')
+      .click({ force: true })
+      .then(() => {
+        cy.log(`✅ Selected Predefined Date: ${targetDate.toDateString()}`);
+        callbackForEachDate(index, () => processNext(index + 1));
+      });
+  };
+
+  processNext(0);
+}
+
+
 
 
   clickNextStep1() {
@@ -245,6 +300,27 @@ selectAndProcessMondays(startDateStr, monthLimit, callbackForEachDate) {
   }
 
   //Step 2
+  // receipient add
+
+  selectRecipient() {
+    cy.get(this.weblocators.dd_receipient).click({ force: true });
+    cy.get(this.weblocators.dd_receipientOption).contains('Projekt Team').click({ force: true });
+  }
+
+  enterBuidingInfo(buildingName,floorName, LaydownArea) 
+  {
+  
+    cy.wait(2000);
+    cy.get(this.weblocators.txt_builiding).clear().type(buildingName, {force: true});
+    cy.get(this.weblocators.txt_floor).clear().type(floorName, {force: true});
+    cy.get(this.weblocators.txt_laydownArea).clear({force: true}).type(LaydownArea, {force: true});
+  }
+  
+
+
+
+
+
   //Add New Material
   clickAddNewMaterial()
   {
@@ -294,7 +370,7 @@ selectAndProcessMondays(startDateStr, monthLimit, callbackForEachDate) {
 
   selectMaterialByName(materialValue) {
     cy.get(this.weblocators.btn_materialOptionSelct)
-      .contains('Kohler / Transstahl')
+      .contains('Möbel Sondergrösse')
       .click({ force: true });
   
     cy.get(this.weblocators.txt_materialInputField)
@@ -334,22 +410,42 @@ selectAndProcessMondays(startDateStr, monthLimit, callbackForEachDate) {
 
   //step 3
 
-  selectVehicle() {
-    cy.get(this.weblocators.btn_vehicleSelection).click({ force: true });
+  selectVehicle(vehicleName) {
+    cy.get(this.weblocators.btn_vehicleSelection)
+      .contains(vehicleName)
+      .click({ force: true });
   }
   clickNextStep3() {
     cy.get(this.weblocators.btn_next).click({ force: true });
+    cy.wait(2000);
   }
 
   //step 4
 
   selectNonBookableequip() {
-    cy.get(this.weblocators.btn_nonBookableEquip).click({ timeout: 20000 });
+    cy.get(this.weblocators.btn_nonBookableEquip).click({force:true, timeout: 20000 });
   }
 
-  selectNonBookableEquipByName() {
-    cy.get(this.weblocators.btn_allNonBookableEquip).contains("Forklift 01").click({ force: true });
+  // selectNonBookableEquipByName() {
+  //   cy.get(this.weblocators.btn_allNonBookableEquip).contains("Forklift 01").click({ force: true });
+  // }
+
+  selectNonBookableEquipByName(equipmentName = "Forklift 01") {
+    cy.get(this.weblocators.btn_allNonBookableEquip)
+      .contains(equipmentName)
+      .click({ force: true });
   }
+
+  saveNonBookableEquipmentNames() {
+    cy.get(this.weblocators.btn_allNonBookableEquip).then($elements => {
+      const names = [...$elements].map(el => el.innerText.trim());
+      cy.writeFile('cypress/fixtures/nonBookableEquipExtracted.json', { nonBookableEquipmentNameSave: names });
+    });
+  }
+
+
+  
+  
 
   //Multiple Non bookable Element
   selectMultipleNonbBookableEquip()
@@ -363,9 +459,17 @@ selectAndProcessMondays(startDateStr, monthLimit, callbackForEachDate) {
   selectBookableEquipmentFirst()
   {
     cy.get(this.weblocators.btn_selectBookableEquipment)
-      .contains("Automation 1") // Change 'Automation' to the text you want to match
+      .contains("Lift Haus A1") // Change 'Automation' to the text you want to match
       .click({ force: true });
   }
+
+
+  selectBookableEquipmentFirstDynamic(equipmentName = "Automation 1") {
+    cy.get(this.weblocators.btn_selectBookableEquipment)
+      .contains(equipmentName)
+      .click({ force: true });
+  }
+  
 
   selectBookableEquipmentCrane()
   {
@@ -382,15 +486,22 @@ selectAndProcessMondays(startDateStr, monthLimit, callbackForEachDate) {
   selectBookableEquipmentSecond()
   {
     cy.get(this.weblocators.btn_selectBookableEquipment)
-      .contains("Automation 2") // Change 'Automation' to the text you want to match
+      .contains("Lift Haus A2") // Change 'Automation' to the text you want to match
       .click({ force: true });
   }
 
-  selectUp() {
+  // selectUp() {
+  //   cy.get(this.weblocators.title_AllUpName)
+  //     .contains("Automation Test Zone")
+  //     .click({ force: true });
+  // }
+
+  selectUp(upName = "UP_A") {
     cy.get(this.weblocators.title_AllUpName)
-      .contains("Automation Test Zone")
+      .contains(upName)
       .click({ force: true });
   }
+  
 
   //Only first slot selection - We will reject/cancel later that y specific slot selection
   selectFirstSlotFromUP() {
@@ -412,17 +523,17 @@ selectAndProcessMondays(startDateStr, monthLimit, callbackForEachDate) {
 
   selectSecondSlotFromUPforRejectShipment() {
     cy.get(this.weblocators.data_slot_value)
-      .eq(1).click({force: true});
+      .eq(5).click({force: true});
   }
 
 
   //Select UP slot for same time and slot
-  selectUPSlotSpecificTimeAndSlot(timeSlots = ["10:10 - 10:20", "11:20 - 11:30"]) 
+  selectUPSlotSpecificTimeAndSlot(timeSlots = []) 
   {
     
     timeSlots.forEach(slot => {
       cy.get(`[data-slot-value="${slot}"]`)
-        .click()
+        .click({force: true})
         .should('not.have.class', 'inactive');
     });
   }
@@ -466,17 +577,37 @@ selectAndProcessMondays(startDateStr, monthLimit, callbackForEachDate) {
   //Combine Select first and 2nd Equipment slot - this is for same time and slot selection - more reuseable
   //you can customize the equipmentIndex and timeSlots from the Test File
 
-  select1stand2ndEquipmentSlotSpecificTimeAndSlot(equipmentIndex = 0, timeSlots = ["10:10 - 10:20", "11:20 - 11:30"]) {
+  select1stand2ndEquipmentSlotSpecificTimeAndSlot(equipmentIndex = 0, timeSlots = []) {
     cy.get(this.weblocators.schedule_data_equipment).eq(equipmentIndex).scrollIntoView().within(() => {
       timeSlots.forEach((slot) => {
         cy.get(`[data-slot-value="${slot}"]`)
-          .not('.inactive')
+        .not('.inactive')
           .first()
           .click({ force: true })
           .should('have.class', 'active');
+        
+          
       });
     });
   }
+
+
+// select1stand2ndEquipmentSlotSpecificTimeAndSlot(equipmentIndex = 0, timeSlots = []) {
+//     cy.get(this.weblocators.schedule_data_equipment).eq(equipmentIndex).scrollIntoView().within(() => {
+//       for (const slot of timeSlots) {
+//         cy.wait(2000)
+//         cy.get(`[data-slot-value="${slot}"]`)
+//           .scrollIntoView() // <--- force scroll of the slot itself
+//           .should('exist')
+//           .should('be.visible')
+//           .dblclick({ force: true });
+  
+//         cy.wait(3000); // optional
+//       }
+//     });
+//   }
+  
+  
   
   
   //Upslot has issue, this caldender can select Equipment slot ! common for both. 
@@ -568,10 +699,19 @@ selectAndProcessMondays(startDateStr, monthLimit, callbackForEachDate) {
   clickOnSitePerson() {
     cy.get(this.weblocators.btn_addOnSitePerson).first().click({ force: true });
   }
-  // clickAddnewResponsiablebtn()
-  // {
-  //     cy.get(this.weblocators.btn_addNewPerson).click();
-  // }
+
+  //ADD NEW RESPONSIBLE PERSON
+  clickAddnewResponsiablebtn()
+  {
+      cy.get(this.weblocators.btn_addNewPerson).click();
+  }
+  enterInformationResponsiblePerson(name,email,phonenumber) {
+    cy.get(this.weblocators.txt_name).type(name, { force: true });
+    cy.get(this.weblocators.txt_email).type(email, { force: true });
+    cy.get(this.weblocators.txt_phone).type(phonenumber, { force: true });
+    cy.get(this.weblocators.btn_saveNewResponsiableperson).click({ force: true }); 
+    cy.wait(1000); 
+  }
 
   selectRadioButtonWithExistingResponsiableperson() {
     cy.wait(2000)
@@ -749,7 +889,7 @@ selectAndProcessMondays(startDateStr, monthLimit, callbackForEachDate) {
   //complete shipment For Crane
   clickCompleteShipmentCraneButton()
   {
-    cy.get(this.weblocators.btn_WaitingStatusShipment).should('be.visible');
+    cy.get(this.weblocators.btn_arriveStatusShipment).should('be.visible');
     cy.get(this.weblocators.btn_CompleteShipment).should('be.visible').click({force: true});
     cy.get(this.weblocators.btn_YesAllCompleteShipment).should('be.visible').click({force: true});
 
@@ -771,7 +911,7 @@ selectAndProcessMondays(startDateStr, monthLimit, callbackForEachDate) {
 
   verifySelectionFirstSlotagainForRejectShipment()
   {
-    cy.get(this.weblocators.data_slot_value).eq(1).click({force: true}).then(() => {
+    cy.get(this.weblocators.data_slot_value).eq(5).click({force: true}).then(() => {
         cy.log('Test Passed: Slot is active on second attempt');
       });
   }

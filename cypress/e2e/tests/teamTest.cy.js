@@ -2,7 +2,8 @@ import { team } from "../../pages/CLM/teamPage";
 import { loginPage } from "../../pages/loginPage";
 import { siteSearchandSelect } from "../../pages/CLM/siteSearchandSelectPage";
 //import loginData from '../../fixtures/loginData.json';
-import loginData from '../../fixtures/loginDataStage.json';
+import loginData from '../../fixtures/loginDataDev.json';
+//import loginData from '../../fixtures/loginDataStage.json';
 
 const loginObj  = new loginPage();
 const siteSelectionOBJ =  new siteSearchandSelect();
@@ -56,7 +57,7 @@ describe('Team Test Case', () => {
 
     })
 
-    it('TC 3: Verify that User Can invite a USER from Team Details of New Contractor Team', ()=>{
+    it('TC 3: Verify that User Can invite a USER from Team Details of New Contractor Team', ()=>{     //need to run frist Case to crate team
       teamOBJ.clickNavigationButton();
       teamOBJ.navigateTeam();
       teamOBJ.switchUsertoTeam();
@@ -141,7 +142,7 @@ describe('Team Test Case', () => {
       teamOBJ.navigateTeam();
       teamOBJ.switchUsertoTeam();
       teamOBJ.clickSearchButtonOnTable();
-      teamOBJ.enterSpecificTeamNameforSearch('Logistic Manager Team');
+      teamOBJ.enterSpecificTeamNameforSearch('Logistik Manager Team');
       teamOBJ.selectTeamForTeamdetails();
       teamOBJ.clickInviteUser();
       teamOBJ.enterInviteEmail();
@@ -156,12 +157,12 @@ describe('Team Test Case', () => {
     })
 
 
-    it('TC 10: Verfy that user Can not able to send duplicate invitation', ()=>{
+    it('TC 10: Verfy that user should not able to send duplicate invitation', ()=>{
       teamOBJ.clickNavigationButton();
       teamOBJ.navigateTeam();
       teamOBJ.switchUsertoTeam();
       teamOBJ.clickSearchButtonOnTable();
-      teamOBJ.enterSpecificTeamNameforSearch('Logistic Manager Team');
+      teamOBJ.enterSpecificTeamNameforSearch('Logistik Manager Team');
       teamOBJ.selectTeamForTeamdetails();
       teamOBJ.clickInviteUser();
       teamOBJ.enterInviteEmail();
@@ -173,7 +174,8 @@ describe('Team Test Case', () => {
       
       //need to fix  the invite user, should have to create another function for the invite same user again
       teamOBJ.clickInviteUser();
-      teamOBJ.enterInviteEmail();
+      teamOBJ.enterAlreadyInvitedEmail();
+
       teamOBJ.verifyUnassignmentToast();
 
 

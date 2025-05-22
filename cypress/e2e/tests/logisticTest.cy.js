@@ -2,14 +2,15 @@ import { logisticZone } from "../../pages/CLM/logisticeZonePage";
 import { loginPage } from "../../pages/loginPage";
 import { siteSearchandSelect } from "../../pages/CLM/siteSearchandSelectPage";
 //import loginData from '../../fixtures/loginData.json';
-import loginData from '../../fixtures/loginDataStage.json';
+//import loginData from '../../fixtures/loginDataStage.json';
+import loginData from '../../fixtures/loginDataDev.json'
 
 const loginObj  = new loginPage();
 const logisticOBJ = new logisticZone();
 const siteSelectionOBJ =  new siteSearchandSelect();
 
 
-describe('Equipment Page Test', () => {
+describe('Logistic Page Test Scenario', () => {
 
 
     beforeEach(() => {
@@ -99,6 +100,21 @@ describe('Equipment Page Test', () => {
     logisticOBJ.enterMapLocation();
     logisticOBJ.clickSaveEntryPoint();
 
+
+   })
+
+
+   it('LZ 5: Edit UP for adding Entry Point & Waiting Area', ()=>{
+    logisticOBJ.clickNavigationButton();
+    logisticOBJ.navigateLogisticZones();
+    logisticOBJ.selectOSMMapButton();
+    logisticOBJ.editButtonZone();
+    logisticOBJ.selectEntryPointForZone();
+    logisticOBJ.selectWaitingAreaForZone();
+    logisticOBJ.clickUpdateZone();
+    logisticOBJ.saveTheZoneFrom2ndPage();
+    logisticOBJ.verifyEntryPointLocation();
+    logisticOBJ.verifyWaitingAreaLocation();
 
    })
 });

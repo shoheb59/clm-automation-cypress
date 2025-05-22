@@ -4,6 +4,9 @@ allure-report
 allure-results
 screenshots
 cypress/e2e/test/shipmentClaude.cy.js
+mochaawesome-report
+allure-report
+
 
 
 

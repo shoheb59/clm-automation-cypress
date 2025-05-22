@@ -53,6 +53,7 @@ export class team {
 
         //Toast
         toast_message: '.mdc-snackbar',
+        text_label: '[data-lang-key="APP_TEAMS_INVITES_USER.DOMAIN_IS_MATCH_WITH_OTHER_ORG"]',
         //Hover
         hover_mouseover: 'mouseover',
         //Unassign Button
@@ -63,6 +64,7 @@ export class team {
     constructor()
     {
         this.saveTeam = '';
+        this.inviteEmail = '';
     }
 
     clickNavigationButton()
@@ -172,7 +174,14 @@ export class team {
         const generatedEmail = `hasnat+${randomNumberEmail}@maildrop.cc`;
         cy.get(this.weblocators.txt_inviteEmail).type(`${generatedEmail}{enter}`);
         // Save to alias for later use in this test
-        cy.wrap(generatedEmail).as('inviteEmail');
+        this.inviteEmail = generatedEmail;
+        
+    }
+
+      enterAlreadyInvitedEmail()
+    {
+        cy.get(this.weblocators.txt_inviteEmail).type(this.inviteEmail);
+        // Save to alias for later use in this test
         
     }
     selectInvieRole()
@@ -249,8 +258,11 @@ export class team {
 
 
       verifyUnassignmentToast() {
-        cy.get(this.weblocators.toast_message)
-          .should('contain.text', 'has been unassigned from Testfeld 2+ successfully.');
+
+        cy.wait(2000);
+        cy.get(this.weblocators.dd_inviteRoles).click({force: true});
+        cy.get(this.weblocators.text_label)
+          .should('contain.text', 'User already assigned');
       }
       
       

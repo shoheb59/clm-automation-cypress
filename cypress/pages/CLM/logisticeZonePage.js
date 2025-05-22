@@ -8,8 +8,9 @@ export class logisticZone {
         txt_id: '[formcontrolname="IdName"]',
         txt_name: '[formcontrolname="ZoneName"]',
         txt_description: '[formcontrolname="ShortDescription"]',
-        txt_address: '#mat-input-4',
+        txt_address: '[formcontrolname="ZoneLocationAddress"]',
         map_googlebtn: '[id="googleBtn"]',
+        map_osmBtn: '[id="osmBtn"]',
         map: '.gm-style > div > div:nth-child(2)',
         btn_saveZonePage1: '.mat-raised-button',
         btn_addorRemoveVehicle: '[data-lang-key="APP_ZONES.ADD_OR_REMOVE"]',
@@ -82,6 +83,13 @@ export class logisticZone {
         cy.wait(1000);
         cy.get(this.weblocators.map_googlebtn).should('be.visible').click({force: true});
   
+      }
+
+      selectOSMMapButton()
+      {
+        cy.wait(1000);
+        cy.get(this.weblocators.map_osmBtn).should('be.visible').click({force: true});
+
       }
 
 
@@ -299,6 +307,40 @@ export class logisticZone {
       const random = Math.floor(Math.random()*10000);
       cy.get(this.weblocators.txt_name).type(`Waiting Area: ${random}`);
 
+    }
+
+    editButtonZone()
+    {
+      cy.wait(4000);
+      cy.get('[role="region"]').eq(0)
+      .find('.zone-items').eq(1)
+      .trigger('mouseover')
+      .find('.mat-icon-font-21').eq(1)
+      .click({force:true});
+    }
+    selectEntryPointForZone()
+    {
+      cy.get('[formcontrolname="EntryPointValue"]').click({force:true});
+      cy.get('[role="option"]').eq(0).click({force:true});
+    }
+
+    selectWaitingAreaForZone()
+    {
+      cy.get('[formcontrolname="WaitingArea"]').click({force:true});
+      cy.get('[role="option"]').eq(0).click({force:true});
+    }
+    clickUpdateZone()
+    {
+      cy.get('[data-lang-key="APP_ZONES.UPDATE"]').click({force:true});
+    }
+
+    verifyEntryPointLocation()
+    {
+      cy.get('.entry-point-location').first().scrollIntoView().should('be.visible');
+    }
+    verifyWaitingAreaLocation()
+    {
+      cy.get('.entry-point-location').eq(1).scrollIntoView().should('be.visible');
     }
   
 }

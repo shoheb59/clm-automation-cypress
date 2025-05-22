@@ -7,7 +7,10 @@ export class loginPage {
       language_dd: '.language-button-wrapp',
       english_button: '[role="menuitem"]:first-of-type',
       //modal: '[role= "dialog"]'
-      modal: '.mat-mdc-dialog-content > :nth-child(1)'
+      modal: '.mat-mdc-dialog-content > :nth-child(1)',
+      wrongPassToastMessage: '.mat-mdc-snack-bar-label',
+      wrongEmailUnauthorizedLabel: '[data-lang-key="APP_LOGIN.LOGIN_CUSTOMIZED_UNAUTHORIZED_EMAIL"]',
+      invalidEmailLabel: '[data-lang-key="APP_LOGIN.LOGIN_CUSTOMIZED_INVALID_EMAIL"]',
     }
   
     openURL() {
@@ -22,6 +25,10 @@ export class loginPage {
   
     enterPassword(password) {
       cy.get(this.weblocators.password_input).type(password);
+    }
+    enterPasswordBlank()
+    {
+      cy.get(this.weblocators.password_input).clear();
     }
     selectEnglishButton()
     {
@@ -83,6 +90,25 @@ export class loginPage {
         }
       });
     }
+
+    verifyWrongPasswordErrorMessage()
+    {
+      cy.get(this.weblocators.wrongPassToastMessage).should('contain','Wrong email or password');
+    }
+
+   verifyWrongEmailTextLabel()
+   {
+    cy.get(this.weblocators.wrongEmailUnauthorizedLabel).should('contain','Unauthorized');
+   }
+
+   verifyInvalidEmailTextLabel()
+   {
+    cy.get(this.weblocators.invalidEmailLabel).should('contain', 'Please enter a valid email address');
+   }
+   verifyPasswordfiledblanklabel()
+   {
+    cy.get('.ng-trigger-transitionMessages').eq(1).should('contain', 'Please enter your password');
+   }
          
     }
 

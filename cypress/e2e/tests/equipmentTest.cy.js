@@ -2,7 +2,8 @@ import { equipMent, equipment } from "../../pages/CLM/equipmentPage";
 import { loginPage } from "../../pages/loginPage";
 import { siteSearchandSelect } from "../../pages/CLM/siteSearchandSelectPage";
 //import loginData from '../../fixtures/loginData.json';
-import loginData from '../../fixtures/loginDataStage.json';
+//import loginData from '../../fixtures/loginDataStage.json';
+import loginData from '../../fixtures/loginDataDev.json'
 
 const loginObj  = new loginPage();
 const siteSelectionOBJ =  new siteSearchandSelect();
@@ -31,7 +32,7 @@ describe('Equipment Page Test', () => {
 
     });
 
-    it.only('Eq 1: Verify that User can Create non bookable Equipment', () =>{
+    it('Eq 1: Verify that User can Create non bookable Equipment', () =>{
         eqOBJ.clickNavigationButton();
         eqOBJ.navigateMaterial();
         eqOBJ.clickAddEquipment();
@@ -59,6 +60,13 @@ describe('Equipment Page Test', () => {
       eqOBJ.clickRadioButton();
       eqOBJ.selectPricingModule();
       eqOBJ.clickNextButton();
+      eqOBJ.selectSlotDuration15min();
+      eqOBJ.selectAvailablilityMondayFromValue();
+      eqOBJ.selectAvailablilityMondayTOValue();
+      eqOBJ.selectAllOtherDayForAvailability();
+      eqOBJ.clickSaveButton();
+
+
 
     })
 });

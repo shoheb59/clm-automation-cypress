@@ -58,6 +58,7 @@ export class team {
         hover_mouseover: 'mouseover',
         //Unassign Button
         btn_Unassign: '[data-lang-key="APP_TEAMS.UNASSIGN"]',
+        lablel_NoUserFound: '[data-lang-key="APP_TEAMS.NO_USER_FOUND"]',
 
 
     }
@@ -69,7 +70,9 @@ export class team {
 
     clickNavigationButton()
     {
-        cy.get(this.weblocators.btn_navigation).click();
+        //cy.get(this.weblocators.btn_navigation).click();
+        cy.visit('/teams')
+
     }
     navigateTeam()
     {
@@ -174,13 +177,19 @@ export class team {
         const generatedEmail = `hasnat+${randomNumberEmail}@maildrop.cc`;
         cy.get(this.weblocators.txt_inviteEmail).type(`${generatedEmail}{enter}`);
         // Save to alias for later use in this test
-        this.inviteEmail = generatedEmail;
+        cy.wrap(generatedEmail).as('inviteEmail');
+        // this.inviteEmail = generatedEmail;
+        // cy.log(this.inviteEmail)
         
     }
 
       enterAlreadyInvitedEmail()
     {
-        cy.get(this.weblocators.txt_inviteEmail).type(this.inviteEmail);
+        cy.get('@inviteEmail').then((inviteUserEmail)=>{
+            cy.get(this.weblocators.txt_inviteEmail).type(inviteUserEmail);
+
+        })
+        
         // Save to alias for later use in this test
         
     }
@@ -259,11 +268,20 @@ export class team {
 
       verifyUnassignmentToast() {
 
-        cy.wait(2000);
-        cy.get(this.weblocators.dd_inviteRoles).click({force: true});
-        cy.get(this.weblocators.text_label)
-          .should('contain.text', 'User already assigned');
-      }
+        // cy.wait(2000);
+        // cy.get(this.weblocators.dd_inviteRoles).click({force: true});
+        // cy.get(this.weblocators.text_label)
+        //   .should('contain.text', 'User already assigned');
+
+          cy.get(this.weblocators.lablel_NoUserFound)
+            .should("be.visible").then(($textlevel)=>{
+                const levelNoUserFound = $textlevel.text().replace(/\u00a0/g, ' ').trim();
+                expect(levelNoUserFound).to.eq('No user found');
+            })
+
+
+    }
+      
       
       
     

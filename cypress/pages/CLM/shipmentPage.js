@@ -120,7 +120,7 @@ export class shipmentPage {
   //Date Related function
   
   selectDateFromCalenderSaveIt(isDuplicateTest = false) {
-    const randomIndex = Math.floor(Math.random() * 8) + 3;
+    const randomIndex = Math.floor(Math.random() * 30) + 1;
 
     cy.get(this.weblocators.btn_calenderOpenSmallicon).click({ force: true });
     cy.get(this.weblocators.btn_calenderNextMonth).should("be.visible").click({force: true});
@@ -157,6 +157,7 @@ export class shipmentPage {
     // cy.get(this.weblocators.btn_selectCalederdate).dblclick({force: true});
 
     cy.get(this.weblocators.btn_calenderOpenSmallicon).click({ force: true });
+    cy.get(this.weblocators.btn_calenderNextMonth).should("be.visible").click();
     cy.get(this.weblocators.btn_calenderNextMonth).should("be.visible").click();
 
     cy.get('@savedDate').then((savedDate) => {
@@ -496,7 +497,7 @@ selectAndProcessDates(datesArray, callbackForEachDate) {
   //     .click({ force: true });
   // }
 
-  selectUp(upName = "UP_A") {
+  selectUp(upName = "Automation Test Zone") {
     cy.get(this.weblocators.title_AllUpName)
       .contains(upName)
       .click({ force: true });
@@ -525,6 +526,14 @@ selectAndProcessDates(datesArray, callbackForEachDate) {
     cy.get(this.weblocators.data_slot_value)
       .eq(5).click({force: true});
   }
+
+    //select 7th up slot for Booking then from step 4 choose another shipment 7th upslot 
+
+    selectUPSlotand7thnumberChangeFromSmallCaledericoninNextShipment() {
+    cy.get(this.weblocators.data_slot_value)
+      .eq(6).click({force: true});
+  }
+
 
 
   //Select UP slot for same time and slot
@@ -738,7 +747,7 @@ selectAndProcessDates(datesArray, callbackForEachDate) {
     cy.wait(2000);
     cy.get(this.weblocators.btn_createShipment)
       .scrollIntoView()
-      .dblclick({ force: true });
+      .click({ force: true });
   }
 
   //Client: CHECK create button not clicked, try again and later click open shipment button

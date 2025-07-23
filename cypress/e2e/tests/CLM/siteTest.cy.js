@@ -1,8 +1,8 @@
-import { sitePage } from "../../pages/CLM/sitePage";
-import { loginPage } from '../../pages/loginPage';
+import { sitePage } from "../../../pages/CLM/sitePage";
+import { loginPage } from '../../../pages/loginPage';
 //import loginData from '../../fixtures/loginData.json';
-import loginData from '../../fixtures/loginDataStage.json';
-import FilePaths from '../../support/imgUpload';
+import loginData from '../../../fixtures/loginDataStage.json';
+import FilePaths from '../../../support/imgUpload';
 
 
 const siteOBJ = new sitePage();

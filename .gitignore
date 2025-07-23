@@ -7,6 +7,21 @@ cypress/e2e/test/shipmentClaude.cy.js
 mochaawesome-report
 allure-report
 
+# Test artifacts
+*.log
+*.tmp
+*.jpg
+*.png
 
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Editor folders
+.vscode/
+.idea/
+
+# Misc
+test.img.jpg
 
 

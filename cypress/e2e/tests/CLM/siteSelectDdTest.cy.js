@@ -1,6 +1,6 @@
-import { siteSearchandSelect } from "../../pages/CLM/siteSearchandSelectPage";
-import { loginPage } from "../../pages/loginPage";
-import loginData from '../../fixtures/loginData.json';
+import { siteSearchandSelect } from "../../../pages/CLM/siteSearchandSelectPage";
+import { loginPage } from "../../../pages/loginPage";
+import loginData from '../../../fixtures/loginData.json';
 
 
 const loginObj  = new loginPage();

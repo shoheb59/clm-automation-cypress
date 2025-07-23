@@ -1,12 +1,12 @@
-import { konsubShipment } from "../../pages/KonsHub/konsubShipmentPage";
-import { loginPage } from "../../pages/loginPage";
-import { siteSearchandSelect } from "../../pages/CLM/siteSearchandSelectPage";
+import { KonshubNavigationPage } from "../../../pages/KonsHub/konsubNavigationPage";
+import { loginPage } from "../../../pages/loginPage";
+import { siteSearchandSelect } from "../../../pages/CLM/siteSearchandSelectPage";
 //import loginData from '../../fixtures/loginData.json';
-import loginData from '../../fixtures/loginDataStage.json';
+import loginData from '../../../fixtures/loginDataStage.json';
 
 const loginObj  = new loginPage();
 const siteSelectionOBJ =  new siteSearchandSelect();
-const konsubshipOBJ = new konsubShipment();
+const konsubshipOBJ = new KonshubNavigationPage();
 
 
 
@@ -34,10 +34,10 @@ describe('Konshub Test Case', () => {
 
     });
 
-    it.skip('Create Konsub Shipment',()=>{
+    it('Navigate to Konsub',()=>{
         konsubshipOBJ.clickNavigationButton();
-        konsubshipOBJ.navigateKonsub();
-        konsubshipOBJ.selectLanguage();
+        konsubshipOBJ.navigateToKonshub();
+        //konsubshipOBJ.selectLanguage();
 
     });
 

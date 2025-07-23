@@ -1,8 +1,8 @@
-import { material } from "../../pages/CLM/materialPage";
-import { loginPage } from "../../pages/loginPage";
-import { siteSearchandSelect } from "../../pages/CLM/siteSearchandSelectPage";
+import { material } from "../../../pages/CLM/materialPage";
+import { loginPage } from "../../../pages/loginPage";
+import { siteSearchandSelect } from "../../../pages/CLM/siteSearchandSelectPage";
 //import loginData from '../../fixtures/loginData.json';
-import loginData from '../../fixtures/loginDataStage.json';
+import loginData from '../../../fixtures/loginDataStage.json';
 
 const loginObj  = new loginPage();
 const siteSelectionOBJ =  new siteSearchandSelect();
@@ -30,7 +30,7 @@ describe('Material Page Test', () => {
 
     });
 
-    it.only('MC 1: Create Material', () =>{
+    it('MC 1: Create Material', () =>{
         materialOBJ.clickNavigationButton();
         materialOBJ.navigateMaterial();
         materialOBJ.clickCreateMaterial();

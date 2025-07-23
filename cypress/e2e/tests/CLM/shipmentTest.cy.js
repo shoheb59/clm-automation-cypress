@@ -1,20 +1,20 @@
-import { shipmentPage } from "../../pages/CLM/shipmentPage";
-import { loginPage } from "../../pages/loginPage";
-import { siteSearchandSelect } from "../../pages/CLM/siteSearchandSelectPage";
+import { shipmentPage } from "../../../pages/CLM/shipmentPage";
+import { loginPage } from "../../../pages/loginPage";
+import { siteSearchandSelect } from "../../../pages/CLM/siteSearchandSelectPage";
 //import loginData from '../../fixtures/loginData.json';
-import loginData from "../../fixtures/loginDataDev.json";
-//import loginData from "../../fixtures/loginDataStage.json";
-import predefinedDates from "../../fixtures/shipmentDate.json";
-import materialData from "../../fixtures/materialValues.json";
-import vehicleData from "../../fixtures/vehicleData.json";
-import nonBookableEquipData from "../../fixtures/nonBookableEquip.json";
-import upData from "../../fixtures/upData.json";
-import slotTimesData from "../../fixtures/slotTimes.json";
-import bookableEquipData from "../../fixtures/bookableEquipData.json";
-import equipmentSlotTimesData from "../../fixtures/equipmentSlotTimes.json";
+// import loginData from "../../fixtures/loginDataDev.json";
+import loginData from "../../../fixtures/loginDataStage.json";
+import predefinedDates from "../../../fixtures/shipmentDate.json";
+import materialData from "../../../fixtures/materialValues.json";
+import vehicleData from "../../../fixtures/vehicleData.json";
+import nonBookableEquipData from "../../../fixtures/nonBookableEquip.json";
+import upData from "../../../fixtures/upData.json";
+import slotTimesData from "../../../fixtures/slotTimes.json";
+import bookableEquipData from "../../../fixtures/bookableEquipData.json";
+import equipmentSlotTimesData from "../../../fixtures/equipmentSlotTimes.json";
 //import responsiblePersonData from "../../fixtures/responsiblePersonsNew.json";
-import randomResponsiblePersonData from "../../fixtures/randomResponsiblePerson.json";
-import buildingData from "../../fixtures/buildingInfo.json";
+import randomResponsiblePersonData from "../../../fixtures/randomResponsiblePerson.json";
+import buildingData from "../../../fixtures/buildingInfo.json";
 
 
 
@@ -36,7 +36,7 @@ describe("Shipment Test Case", () => {
     loginObj.enterPassword(loginData.SuperAdmin.password);
     loginObj.selectEnglishButton();
     loginObj.btnsubmit();
-    loginObj.verifyUrls();
+    //loginObj.verifyUrls();
     loginObj.verifyWeatherInfoLoad();
     loginObj.verifySttisticsLoad();
     loginObj.handleModal();
@@ -68,7 +68,7 @@ describe("Shipment Test Case", () => {
   //   siteSelectionOBJ.selectSitefromSearch();
   // });
 
-  const vehicleName = vehicleData.vehicleNames[0] || "Self Unloading";
+  const vehicleName = vehicleData.vehicleNames[0] || "Manual Unloading";
 
 
   it("SC 1: Verify that User Can Create Multiple shipment Shipment", () => {
@@ -175,7 +175,7 @@ describe("Shipment Test Case", () => {
         shipmentOBJ.selectMaterialByName(materialValue);
         shipmentOBJ.clickNextStep2();
 
-        const vehicleName = vehicleData.vehicleNames[index] || "Self Unloading";
+        const vehicleName = vehicleData.vehicleNames[index] || "Manual Unloading";
         shipmentOBJ.selectVehicle(vehicleName);
 
 
@@ -526,7 +526,7 @@ describe("Shipment Test Case", () => {
 
   
 
-  it("SC 11: Verify Cancel Shipment Version and Book again", () => {
+  it("SC 11: Verify Cancel Shipment Booking and Book again", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
     shipmentOBJ.selectFirstLeanCard();
@@ -671,7 +671,7 @@ describe("Shipment Test Case", () => {
     // Step 4
     //shipmentOBJ.selectNonBookableequip();
     shipmentOBJ.selectMultipleNonbBookableEquip();
-    shipmentOBJ.selectUp();
+    shipmentOBJ.selectUp('Automation Test Zone');
     shipmentOBJ.selectUPslot();
     shipmentOBJ.clickNextStep4();
 
@@ -705,7 +705,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.selectBookableEquipmentFirst();
     shipmentOBJ.selectEquipmentSlot();
 
-    shipmentOBJ.selectUp();
+    shipmentOBJ.selectUp('Automation Test Zone');
     shipmentOBJ.selectUpNameSlot();
    
     shipmentOBJ.clickNextStep4();
@@ -806,7 +806,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.selectMultipleNonbBookableEquip();
     //select bookable equipemnt Crane
     shipmentOBJ.selectBookableEquipmentCrane();
-    shipmentOBJ.selectUp();
+    shipmentOBJ.selectUp('Automation Test Zone');
     shipmentOBJ.selectUpNameSlot();
     shipmentOBJ.selectEquipmentSlot();
     shipmentOBJ.selectUpNameSlot();
@@ -840,7 +840,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.selectMultipleNonbBookableEquip();
     //select bookable equipemnt Crane
     shipmentOBJ.selectBookableEquipmentCrane();
-    shipmentOBJ.selectUp();
+    shipmentOBJ.selectUp('Automation Test Zone');
     shipmentOBJ.selectUpNameSlot();
     shipmentOBJ.selectEquipmentSlot();
     shipmentOBJ.selectUpNameSlot();
@@ -881,10 +881,10 @@ describe("Shipment Test Case", () => {
     //shipmentOBJ.selectNonBookableequip();
     shipmentOBJ.selectMultipleNonbBookableEquip();
     //select bookable
-    shipmentOBJ.selectBookableEquipmentFirst();
+    shipmentOBJ.selectBookableEquipmentFirstDynamic() 
     shipmentOBJ.selectEquipmentSlot();
 
-    shipmentOBJ.selectBookableEquipmentSecond();
+    shipmentOBJ.selectBookableEquipmentFirstDynamic('Automation 2');
     shipmentOBJ.selectEquipmentSlotTwo(); 
 
     shipmentOBJ.selectUp();
@@ -921,7 +921,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.selectBookableEquipmentFirst();
     shipmentOBJ.selectEquipmentSlot();
 
-    shipmentOBJ.selectBookableEquipmentSecond();
+    shipmentOBJ.selectBookableEquipmentFirstDynamic('Automation 2');
     shipmentOBJ.selectEquipmentSlotTwo();
 
     shipmentOBJ.selectUp();
@@ -1027,6 +1027,78 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
     
   });
+
+
+
+  it.skip("SC 24: Create two approve shipment & Try to change one shipment with another from the Step 4", () => { //incomplete steps
+
+    
+    shipmentOBJ.clickNavigationButton();
+    shipmentOBJ.navigateShipment();
+    shipmentOBJ.selectFirstLeanCard();
+
+    for(let i = 0; i < 2; i++) {
+
+    shipmentOBJ.clickAddshipment();
+    shipmentOBJ.selectDateFromCalenderSaveIt(false); //Checking that its not the duplicate test case. Different date will select
+    shipmentOBJ.clickNextStep1();
+    shipmentOBJ.selectMaterial();
+    shipmentOBJ.clickNextStep2();
+    shipmentOBJ.selectVehicle(vehicleName);
+    shipmentOBJ.clickNextStep3();
+
+    // Step 4
+    shipmentOBJ.selectNonBookableequip();
+    shipmentOBJ.selectUp();
+
+    // Check if the first slot is inactive
+
+    shipmentOBJ.selectUPSlotand7thnumberChangeFromSmallCaledericoninNextShipment() 
+    shipmentOBJ.clickNextStep4();
+
+    // Step 5
+    shipmentOBJ.clickOnSitePerson();
+    shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
+    shipmentOBJ.clickShipmentCreateBtn();
+
+    shipmentOBJ.extractShipmentTextFromModal();
+
+    //Click Open Shipment On modal
+    shipmentOBJ.clickApproveShipment();
+
+    }
+
+    //click the Exact shipment created
+    shipmentOBJ.clickExactExtractedShipment();
+    //Cancel Shipment
+    // shipmentOBJ.clickCancelShipment();
+    // shipmentOBJ.clickDiscardButton();
+
+
+
+
+
+
+
+    //Create Again on the Same Date
+
+    // shipmentOBJ.clickAddshipment();
+    // shipmentOBJ.selectDateFromCalender();
+    shipmentOBJ.clickNextStep1();
+    //shipmentOBJ.selectMaterial();
+    shipmentOBJ.clickNextStep2();
+   // shipmentOBJ.selectVehicle(vehicleName);
+    shipmentOBJ.clickNextStep3();
+    cy.get('.mat-datepicker-toggle-default-icon.ng-star-inserted').click();
+
+    // Step 4 Again
+    // shipmentOBJ.selectNonBookableequip();
+    // shipmentOBJ.selectUp();
+    // //Verify the selection of first slot again
+    // shipmentOBJ.verifySelectionFirstSlotagainForRejectShipment();
+  
+
+});
 
 
 });

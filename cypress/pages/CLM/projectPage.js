@@ -46,7 +46,7 @@ export class projectPage {
    selectStartDate()
    {
      cy.get(this.weblocators.startDate).first().click({force: true});
-     cy.get(this.weblocators.todayDate).click({force: true});
+     cy.get(this.weblocators.todayDate).dblclick({force: true});
 
 
    }
@@ -57,7 +57,7 @@ export class projectPage {
     cy.get(this.weblocators.yearOption).click();
     cy.get(this.weblocators.selectYear).click();
     cy.get(this.weblocators.selectMonth).click();
-    cy.get(this.weblocators.selectDay).contains('15').click();
+    cy.get(this.weblocators.selectDay).contains('15').click({force: true});
 
 
 

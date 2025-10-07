@@ -12,30 +12,24 @@ describe('Dashboard Page Test', () => {
 
 
   beforeEach(() => {
-    loginObj.openURL();
-      loginObj.enterEmail(loginData.SuperAdmin.email);
-      loginObj.enterPassword(loginData.SuperAdmin.password);
-      loginObj.selectEnglishButton();
-      loginObj.btnsubmit();
-      loginObj.verifyUrls();
-      loginObj.verifyWeatherInfoLoad();
-      loginObj.verifySttisticsLoad();
-      loginObj.handleModal();
+    
+    cy.LoginWithCurrentUrlAndSelectSite();
+
   });
 
   it('Project Case 1: Project Creation', () => {
     projectOBJ.clickNavButton();
     projectOBJ.clickProjectButton();
     projectOBJ.clickCreateProject();
-    projectOBJ.enterProjectName('Project Automation')
-    projectOBJ.enterClientName('HASNAT');
+    projectOBJ.enterProjectName();
+    projectOBJ.enterClientName('SELISE Test Data');
     // projectOBJ.toggleDatePicker();
     // projectOBJ.selectCurrentStartDate();
     // projectOBJ.selectRandomEndFutureDate();
     projectOBJ.clickhasKonshubCheckbox();
     //projectOBJ.selectStartDate();
-    cy.PlanDateSelection('0'); // Start date
-    cy.PlanDateSelection('1'); //End date
+    cy.PlanDateSelection(0, 1); // Start date
+    cy.PlanDateSelection(1, 24); //End date
     // //projectOBJ.selectEndDate();
     //projectOBJ.clickUploadPhotoButton();
     const filePath = FilePaths.IMAGE_PATH;

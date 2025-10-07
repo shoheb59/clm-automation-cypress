@@ -14,6 +14,8 @@ export class logisticZone {
         map: '.gm-style > div > div:nth-child(2)',
         btn_saveZonePage1: '.mat-raised-button',
         btn_addorRemoveVehicle: '[data-lang-key="APP_ZONES.ADD_OR_REMOVE"]',
+        btn_addorRemoveEquipment:'[data-lang-key="PP_ZONES.ADD_OR_REMOVE"]',
+        btn_switchToBookableEquipment: '[data-lang-key="APP_ZONES.BOOKABLE"]',
         btn_entryPoint: '[data-lang-key="APP_ZONES.ENTRY_POINTS"]',
         btn_WaitingArea: '[data-lang-key="APP_ZONES.WAITING_AREAS"]',
         btn_btnSaveEP: '[data-lang-key="APP_ZONES.SAVE"]' //save button for entry point and UP
@@ -52,7 +54,8 @@ export class logisticZone {
       //add icon button to add hour
       btn_addIconHourList: '[role="img"]', //contains (add_circle)
       //save the Zone 2nd page
-      btn_saveZonePageLast: '[data-lang-key="APP_EQUIPMENTS.SAVE"]'
+      btn_saveZonePageLast: '[data-lang-key="APP_EQUIPMENTS.SAVE"]',
+      btn_SaveVehicle: '[data-lang-key="APP_ZONES.SAVE"]',
 
       
     }
@@ -75,7 +78,7 @@ export class logisticZone {
         cy.get(this.weblocators.txt_id).type(random);
         cy.get(this.weblocators.txt_name).type(`AutoMation ${random}`);
         cy.get(this.weblocators.txt_description).type('Description Added');
-        cy.get(this.weblocators.txt_address).click();
+        //cy.get(this.weblocators.txt_address).click();
       }
 
       selectGoogleMapButton()
@@ -174,6 +177,19 @@ export class logisticZone {
       }
 
       
+      selectAvailablilityMondayTOValueForSpecificRange()
+      {
+              cy.get(this.zoneSchedualeLocators.txt_TO).should('be.visible').then(() => {
+                
+                  cy.get(this.zoneSchedualeLocators.txt_TO).eq(0).click({force: true});
+                  cy.get(this.zoneSchedualeLocators.hourOptionList).eq(74).click({ force: true });
+                   
+                  
+                
+                
+              });
+      }
+
       selectAvailablilityMondayTOValue()
       {
               cy.get(this.zoneSchedualeLocators.txt_TO).should('be.visible').then(() => {
@@ -267,12 +283,37 @@ export class logisticZone {
       
         tryClickSaveButton.call(this);
       }
+
+      clickAddorRemoveEquipment()
+      {
+        cy.get(this.weblocators.btn_addorRemoveEquipment).scrollIntoView();
+        cy.get(this.weblocators.btn_addorRemoveEquipment).should('be.visible').click();
+      }
       
 
       clickAddorRemoveVehicle()
       {
         cy.get(this.weblocators.btn_addorRemoveVehicle).scrollIntoView();
         cy.get(this.weblocators.btn_addorRemoveVehicle).should('be.visible').click();
+      }
+
+      selectAllVehicleOrEquipmentCheckBox()
+      {
+        cy.get('[type="checkbox"]').eq(0).click();
+      }
+
+      saveAllVehicleOrEquipment()
+      {
+        cy.get(this.zoneSchedualeLocators.btn_SaveVehicle).click();
+      }
+
+      selectEquipment()
+      {
+        cy.get(this.weblocators.btn_addorRemoveEquipment).scrollIntoView();
+      }
+      switchToBookableEquipment()
+      {
+        cy.get(this.weblocators.btn_switchToBookableEquipment).eq(1).click();
       }
 
 

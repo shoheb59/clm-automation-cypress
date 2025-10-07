@@ -2,58 +2,23 @@ import { team } from "../../../pages/CLM/teamPage";
 import { loginPage } from "../../../pages/loginPage";
 import { siteSearchandSelect } from "../../../pages/CLM/siteSearchandSelectPage";
 //import loginData from '../../fixtures/loginData.json';
-//import loginData from '../../../fixtures/loginDataDev.json';
-import loginData from '../../../fixtures/loginDataStage.json';
+import loginData from '../../../fixtures/loginDataDev.json';
+//import loginData from '../../../fixtures/loginDataStage.json';
 
 const loginObj  = new loginPage();
-const siteSelectionOBJ =  new siteSearchandSelect();
 const teamOBJ = new team();
 
 describe('Team Test Case', () => {
 
 
-    // beforeEach(() => {
-    //   loginObj.openURL();
-    //   loginObj.enterEmail(loginData.SuperAdmin.email);
-    //   loginObj.enterPassword(loginData.SuperAdmin.password);
-    //   loginObj.selectEnglishButton();
-    //   loginObj.btnsubmit();
-    //   loginObj.verifyUrls();
-    //   loginObj.verifyWeatherInfoLoad();
-    //   loginObj.verifySttisticsLoad();
-    //   loginObj.handleModal(); 
+    beforeEach(() => {
+      cy.session('login', () => {
       
-    //   //site selection
-    // siteSelectionOBJ.clickDropDown();
-    // siteSelectionOBJ.typeSite('Testfeld 2+');
-    // siteSelectionOBJ.selectSitefromSearch();
+        cy.LoginWithCurrentUrlAndSelectSite();
+      })
+   
 
-    // });
-
-
-    beforeEach('Login and preserve session', () => {
-    cy.session('login', () => {
-
-      loginObj.openURL();
-      loginObj.enterEmail(loginData.SuperAdmin.email);
-      loginObj.enterPassword(loginData.SuperAdmin.password);
-      loginObj.selectEnglishButton();
-      loginObj.btnsubmit();
-      loginObj.verifyUrls();
-      loginObj.verifyWeatherInfoLoad();
-      loginObj.verifySttisticsLoad();
-      loginObj.handleModal(); 
-      
-      //site selection
-    siteSelectionOBJ.clickDropDown();
-    siteSelectionOBJ.typeSite('Testfeld 2+');
-    siteSelectionOBJ.selectSitefromSearch();
-    
-    
-    
-    
-    })
-});
+    });
 
     it('TC 1: Verify that User Can Create A TEAM', () =>{
         teamOBJ.clickNavigationButton();

@@ -3,7 +3,7 @@ import { loginPage } from "../../../pages/loginPage";
 import { siteSearchandSelect } from "../../../pages/CLM/siteSearchandSelectPage";
 //import loginData from '../../fixtures/loginData.json';
 // import loginData from "../../fixtures/loginDataDev.json";
-import loginData from "../../../fixtures/loginDataStage.json";
+// import loginData from "../../../fixtures/loginDataStage.json";
 import predefinedDates from "../../../fixtures/shipmentDate.json";
 import materialData from "../../../fixtures/materialValues.json";
 import vehicleData from "../../../fixtures/vehicleData.json";
@@ -15,6 +15,7 @@ import equipmentSlotTimesData from "../../../fixtures/equipmentSlotTimes.json";
 //import responsiblePersonData from "../../fixtures/responsiblePersonsNew.json";
 import randomResponsiblePersonData from "../../../fixtures/randomResponsiblePerson.json";
 import buildingData from "../../../fixtures/buildingInfo.json";
+import { getLoginDataByUrl } from "../../../support/utils/getLoginData";
 
 
 
@@ -30,43 +31,13 @@ const siteSelectionOBJ = new siteSearchandSelect();
 const shipmentOBJ = new shipmentPage();
 
 describe("Shipment Test Case", () => {
+ 
   beforeEach(() => {
-    loginObj.openURL();
-    loginObj.enterEmail(loginData.SuperAdmin.email);
-    loginObj.enterPassword(loginData.SuperAdmin.password);
-    loginObj.selectEnglishButton();
-    loginObj.btnsubmit();
-    //loginObj.verifyUrls();
-    loginObj.verifyWeatherInfoLoad();
-    loginObj.verifySttisticsLoad();
-    loginObj.handleModal();
-    // Continue with site selection only after modal handling is complete
-
-    //site selection
-
-    siteSelectionOBJ.clickDropDown();
-    siteSelectionOBJ.typeSite("Testfeld 2+");
-    siteSelectionOBJ.selectSitefromSearch();
+    
+    cy.LoginWithCurrentUrlAndSelectSite();
+    
   });
 
-  // before(() => {               //Use it when you will login one time, will create multiple Shipment. So it will not login everytime.
-  //   loginObj.openURL();
-  //   loginObj.enterEmail(loginData.SuperAdmin.email);
-  //   loginObj.enterPassword(loginData.SuperAdmin.password);
-  //   loginObj.selectEnglishButton();
-  //   loginObj.btnsubmit();
-  //   loginObj.verifyUrls();
-  //   loginObj.verifyWeatherInfoLoad();
-  //   loginObj.verifySttisticsLoad();
-  //   loginObj.handleModal();
-  //   // Continue with site selection only after modal handling is complete
-
-  //   //site selection
-
-  //   siteSelectionOBJ.clickDropDown();
-  //   siteSelectionOBJ.typeSite("Testfeld 2+");
-  //   siteSelectionOBJ.selectSitefromSearch();
-  // });
 
   const vehicleName = vehicleData.vehicleNames[0] || "Manual Unloading";
 
@@ -74,7 +45,7 @@ describe("Shipment Test Case", () => {
   it("SC 1: Verify that User Can Create Multiple shipment Shipment", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
     for (let i = 1; i < 2; i++) {
       shipmentOBJ.clickAddshipment();
       shipmentOBJ.selectRandomDate();
@@ -105,7 +76,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.selectCustomLeanCard();
 
   
-    shipmentOBJ.selectAndProcessMondays("2025-08-04", 2, (index, done) => {
+    shipmentOBJ.selectAndProcessMondays("2025-08-04", 12, (index, done) => {
       // Your steps after selecting each date:
       shipmentOBJ.clickNextStep1();
 
@@ -223,7 +194,7 @@ describe("Shipment Test Case", () => {
   it("SC 2: Verify that User can Create Single shipment Shipment With OPEN Status", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
@@ -248,7 +219,7 @@ describe("Shipment Test Case", () => {
   it("SC 3:  Verify that User can Create Single shipment Shipment With Approve Status", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
@@ -273,7 +244,7 @@ describe("Shipment Test Case", () => {
   it("SC 4:  Verify that User can Create a Shipment With Open Status and Update it with Approve Status", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
@@ -308,7 +279,7 @@ describe("Shipment Test Case", () => {
   it("SC 5:  Verify that User can Create a Shipment With Approve Status and Complete that Shipment", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
@@ -342,7 +313,7 @@ describe("Shipment Test Case", () => {
   it("SC 6: Verify that User can Create a shipment Shipment With Multiple Material", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
@@ -367,7 +338,7 @@ describe("Shipment Test Case", () => {
   it("SC 7: Verify that User can Create a shipment Shipment With ADD NEW MATERIAL", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
@@ -399,7 +370,7 @@ describe("Shipment Test Case", () => {
   it("SC 8: Verify Duplicate Shipment creation", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectDateFromCalenderSaveIt(true);
@@ -454,7 +425,7 @@ describe("Shipment Test Case", () => {
   it("SC 9: random Calender Date", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
@@ -463,8 +434,7 @@ describe("Shipment Test Case", () => {
   it("SC 10: Verify Reject Shipment and Book again", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
-
+    shipmentOBJ.selectFirstWorkingPackage();
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectDateFromCalenderSaveIt(false);
     shipmentOBJ.clickNextStep1();
@@ -529,7 +499,7 @@ describe("Shipment Test Case", () => {
   it("SC 11: Verify Cancel Shipment Booking and Book again", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectDateFromCalenderSaveIt(false); //Checking that its not the duplicate test case. Different date will select
@@ -587,7 +557,7 @@ describe("Shipment Test Case", () => {
   it("SC 12: Verify User Can Add Annotation", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
@@ -623,7 +593,7 @@ describe("Shipment Test Case", () => {
   it("SC 13: Verify User Can Add Comment", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
@@ -658,7 +628,7 @@ describe("Shipment Test Case", () => {
   it("SC 14: Verify UP shipment Creation wih Logistic Equipment", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
@@ -687,7 +657,7 @@ describe("Shipment Test Case", () => {
   it("SC 15: Verify UP shipment Creation wih Special Equipment", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
@@ -722,7 +692,7 @@ describe("Shipment Test Case", () => {
   it("SC 16: Verify UP shipment Creation wihout Logistic Equipment", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
@@ -753,8 +723,7 @@ describe("Shipment Test Case", () => {
   it("SC 17: Verify UP shipment completion wihout Logistic Equipment", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
-
+    shipmentOBJ.selectFirstWorkingPackage();
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
     shipmentOBJ.clickNextStep1();
@@ -791,7 +760,7 @@ describe("Shipment Test Case", () => {
   it("SC 18: Verify UP shipment Creation wih Special Equipment Crane", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
@@ -825,7 +794,7 @@ describe("Shipment Test Case", () => {
   it("SC 19: Verify UP shipment Completion wih Special Equipment Crane", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
@@ -867,7 +836,8 @@ describe("Shipment Test Case", () => {
   it("SC 20: Verify UP shipment Creation wih two Special Equipment", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
+
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
@@ -904,7 +874,7 @@ describe("Shipment Test Case", () => {
   it ("SC 21: Verify UP shipment Completion wih two Special Equipment", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
@@ -952,7 +922,7 @@ describe("Shipment Test Case", () => {
   it("SC 22: Verify User Update Shipment with Delivery responsible Person", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
@@ -993,7 +963,7 @@ describe("Shipment Test Case", () => {
   it("SC 23: Verify User Update Shipment with Order responsible Person", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
@@ -1035,7 +1005,7 @@ describe("Shipment Test Case", () => {
     
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstLeanCard();
+    shipmentOBJ.selectFirstWorkingPackage();
 
     for(let i = 0; i < 2; i++) {
 
@@ -1099,6 +1069,143 @@ describe("Shipment Test Case", () => {
   
 
 });
+
+
+it("SC 25: Verify User Can add Sustainbility Address in Step 5", () => {
+    shipmentOBJ.clickNavigationButton();
+    shipmentOBJ.navigateShipment();
+    shipmentOBJ.selectFirstWorkingPackage();
+
+    shipmentOBJ.clickAddshipment();
+    shipmentOBJ.selectRandomDate();
+    shipmentOBJ.clickNextStep1();
+    shipmentOBJ.selectMaterial();
+    shipmentOBJ.clickNextStep2();
+    shipmentOBJ.selectVehicle(vehicleName);
+    shipmentOBJ.clickNextStep3();
+
+    // Step 4
+    shipmentOBJ.selectNonBookableequip();
+    shipmentOBJ.selectUp();
+    shipmentOBJ.selectUPslot();
+    shipmentOBJ.clickNextStep4();
+
+    // Step 5
+    shipmentOBJ.clickOnSitePerson();
+    shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
+    shipmentOBJ.addSustainabilityAddresss('230');
+    shipmentOBJ.enterKMDistance('100');
+    shipmentOBJ.clickShipmentCreateBtn();
+
+    //Shipment modal to collect shipment name
+    shipmentOBJ.extractShipmentTextFromModal();
+    //Click Open Shipment On modal
+    shipmentOBJ.clickOpenShipment();
+    //click the Exact shipment created
+    shipmentOBJ.clickExactExtractedShipment();
+
+    //Order Responsible person -  step 5 Shipment
+    shipmentOBJ.navigateStep5();
+    
+  });
+
+
+  it("SC 26: Verify User Can add Favourite Sustainbility Address From Dropdown in Update", () => {
+    shipmentOBJ.clickNavigationButton();
+    shipmentOBJ.navigateShipment();
+    shipmentOBJ.selectFirstWorkingPackage();
+
+    shipmentOBJ.clickAddshipment();
+    shipmentOBJ.selectRandomDate();
+    shipmentOBJ.clickNextStep1();
+    shipmentOBJ.selectMaterial();
+    shipmentOBJ.clickNextStep2();
+    shipmentOBJ.selectVehicle(vehicleName);
+    shipmentOBJ.clickNextStep3();
+
+    // Step 4
+    shipmentOBJ.selectNonBookableequip();
+    shipmentOBJ.selectUp();
+    shipmentOBJ.selectUPslot();
+    shipmentOBJ.clickNextStep4();
+
+    // Step 5
+    shipmentOBJ.clickOnSitePerson();
+    shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
+    shipmentOBJ.addSustainabilityAddresss('230');
+    shipmentOBJ.checkSelectedAddressFavouriteIcon();
+    // shipmentOBJ.clearSustainabilityAddress();
+    // shipmentOBJ.selectAddressFromtheFavoritesList();
+    
+   
+  
+
+    //shipmentOBJ.makeAddressFavorite();
+    shipmentOBJ.enterKMDistance('100');
+    shipmentOBJ.clickShipmentCreateBtn();
+
+    //Shipment modal to collect shipment name
+    shipmentOBJ.extractShipmentTextFromModal();
+    //Click Open Shipment On modal
+    shipmentOBJ.clickOpenShipment();
+    //click the Exact shipment created
+    shipmentOBJ.clickExactExtractedShipment();
+
+    //Order Responsible person -  step 5 Shipment
+    shipmentOBJ.navigateStep5();
+    shipmentOBJ.clearSustainabilityAddress();
+    //shipmentOBJ.clearSustainabilityAddress();
+    shipmentOBJ.selectAddressFromtheFavoritesList();
+
+    // shipmentOBJ.addSustainabilityAddresss('230');
+    // shipmentOBJ.verifyFavoriteAddress();
+    
+  });
+
+
+  
+it("SC 27: Verify User Can add Sustainbility Address without Distance (KM) ", () => {
+    shipmentOBJ.clickNavigationButton();
+    shipmentOBJ.navigateShipment();
+    shipmentOBJ.selectFirstWorkingPackage();
+
+    shipmentOBJ.clickAddshipment();
+    shipmentOBJ.selectRandomDate();
+    shipmentOBJ.clickNextStep1();
+    shipmentOBJ.selectMaterial();
+    shipmentOBJ.clickNextStep2();
+    shipmentOBJ.selectVehicle(vehicleName);
+    shipmentOBJ.clickNextStep3();
+
+    // Step 4
+    shipmentOBJ.selectNonBookableequip();
+    shipmentOBJ.selectUp();
+    shipmentOBJ.selectUPslot();
+    shipmentOBJ.clickNextStep4();
+
+    // Step 5
+    shipmentOBJ.clickOnSitePerson();
+    shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
+    shipmentOBJ.addSustainabilityAddresss('230');
+    shipmentOBJ.clickShipmentCreateBtn();
+
+    //Shipment modal to collect shipment name
+    shipmentOBJ.extractShipmentTextFromModal();
+    //Click Open Shipment On modal
+    shipmentOBJ.clickOpenShipment();
+    //click the Exact shipment created
+    shipmentOBJ.clickExactExtractedShipment();
+
+    //Order Responsible person -  step 5 Shipment
+    shipmentOBJ.navigateStep5();
+    
+  });
+
+
+
+
+
+
 
 
 });

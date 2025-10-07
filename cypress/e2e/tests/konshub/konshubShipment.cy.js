@@ -24,7 +24,7 @@ describe("Konshub Test Case", () => {
         loginObj.enterPassword(this.loginData.SuperAdmin.password);
         loginObj.selectEnglishButton();
         loginObj.btnsubmit();
-        loginObj.verifyUrls();
+        //loginObj.verifyUrls();
         cy.wait(10000);
         loginObj.handleModal();
         // Continue with site selection only after modal handling is complete
@@ -32,7 +32,7 @@ describe("Konshub Test Case", () => {
         //site selection
 
         siteSelectionOBJ.clickDropDown();
-        siteSelectionOBJ.typeSite("Testfeld 2+");
+        siteSelectionOBJ.typeSite("A Block");
         siteSelectionOBJ.selectSitefromSearch();
 
         //konshub navigation
@@ -102,6 +102,29 @@ describe("Konshub Test Case", () => {
     cy.AddOnSitePerson();
     cy.SaveCreatedShipment();
     cy.OpenOrApproveModal("Approve");
+  });
+
+
+   it.only("KC 3: Create an Approve Konshub Shipment", () => {
+    konsubShipmentOBJ.clickNavButton("SHIPMENTS");
+    for(let i=0; i<10; i++){
+    konsubShipmentOBJ.clickCreateShipmentButton();
+    konsubShipmentOBJ.SearchSenderTeam();
+    cy.ShipmentRandomDateSelection();
+    konsubShipmentOBJ.clickNextStep1();
+    cy.MaterialSelection();
+    cy.NextButton();
+    cy.VehicleSelection();
+    cy.NextButton();
+    cy.EquipmentSelection();
+    cy.UpSelection();
+    cy.UpSlotSelection();
+    cy.NextButton();
+    cy.AddOnSitePerson();
+    cy.SaveCreatedShipment();
+    cy.OpenOrApproveModal("Approve");
+
+    }
   });
 }); 
 

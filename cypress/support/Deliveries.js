@@ -22,7 +22,7 @@ Cypress.Commands.add('SearchShipmentOnDeliveries',()=>{
 })
 
 Cypress.Commands.add('ClickFirstShipmentForManage',()=>{
-  cy.get(deliveriestablocator.table_Row).should('be.visible').eq(0).click();
+  cy.get(deliveriestablocator.table_Row).should('be.visible').eq(0).click({force:true});
 
 })
 

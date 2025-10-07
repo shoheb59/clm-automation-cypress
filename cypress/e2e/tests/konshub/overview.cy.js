@@ -23,26 +23,10 @@ const overviewOBj = new OverviewPage();
 
 describe("Konshub Test Case", () => {
   beforeEach(function () {
+        cy.LoginWithCurrentUrlAndSelectSite();
+
     
-    loginObj.openURL();
-    cy.url().then((currentURL) => {
-      return getLoginDataByUrl(currentURL).then((loadedData) => {
-        this.loginData = loadedData;
-
-        loginObj.enterEmail(this.loginData.SuperAdmin.email);
-        loginObj.enterPassword(this.loginData.SuperAdmin.password);
-        loginObj.selectEnglishButton();
-        loginObj.btnsubmit();
-        loginObj.verifyUrls();
-        cy.wait(10000);
-        loginObj.handleModal();
-        // Continue with site selection only after modal handling is complete
-
-        //site selection
-
-        siteSelectionOBJ.clickDropDown();
-        siteSelectionOBJ.typeSite("CS-HEAVEN");
-        siteSelectionOBJ.selectSitefromSearch();
+   
 
         //konshub navigation
         konsubshipOBJ.clickNavigationButton();
@@ -53,8 +37,8 @@ describe("Konshub Test Case", () => {
         konsubShipmentOBJ.clickNavButton("DASHBOARD");
         konsubShipmentOBJ.clickNavButton("OVERVIEW");
       });
-    });
-  });
+    
+  
 
   it("OV 1: Create an 10 min UP with OSM Map", () => {
     const { zoneId, zoneName } = generateRandomZoneData();  
@@ -119,7 +103,7 @@ it("OV 4: Create an 30 min UP with OSM Map", () => {
 
 });
 
-it("OV 5: Create an 60 min UP with OSM Map", () => {
+it.only("OV 5: Create an 60 min UP with OSM Map", () => {
     const { zoneId, zoneName } = generateRandomZoneData();  
     konsubShipmentOBJ.clickNavButton("DASHBOARD");
     konsubShipmentOBJ.clickNavButton("OVERVIEW");

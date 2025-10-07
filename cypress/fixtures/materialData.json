@@ -1,0 +1,10 @@
+[
+  { "name": "Material_EUR", "unit": "EUR Pallet(s)" },
+  { "name": "Material_Mesh", "unit": "Euro-mesh box" },
+  { "name": "Material_Trollly", "unit": "Trolley" },
+  { "name": "Material_Ton", "unit": "t" },
+  { "name": "Material_m3", "unit": "m3" },
+  { "name": "Material_Pipe", "unit": "Bundle of Pipes", "length": "90", "width": "60" },
+  { "name": "Tray", "unit": "Glas tray", "length": "90", "width": "60" },
+  { "name": "Material_Custom", "unit": "Custom", "length": "90", "width": "60" }
+]

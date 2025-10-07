@@ -15,11 +15,13 @@ export class loginPage {
   
     openURL() {
       cy.visit(Cypress.env('URL'),{timeout: 50000});
+      cy.get('.navbar_dropdown-toggle ').click();
       
 
     }
   
     enterEmail(email) {
+      cy.wait(2000);
       cy.get(this.weblocators.email_input).type(email);
     }
   

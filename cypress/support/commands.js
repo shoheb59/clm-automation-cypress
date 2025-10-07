@@ -33,6 +33,7 @@ import '@shelex/cypress-allure-plugin';
 import 'cypress-iframe';
 import './Deliveries';
 import './Overview'
+import './LoginAndSelectSite';
 
 const weblocators = {
   btn_calenderNextMonth: '[aria-label="Next month"]',
@@ -105,11 +106,18 @@ Cypress.Commands.add('ShipmentRandomDateSelection', () => {
 
 
 
-  Cypress.Commands.add('PlanDateSelection', (equal) => {
+  Cypress.Commands.add('PlanDateSelection', (equal, monthCount = 1 ) => {
   
     cy.get(weblocators.btn_calenderOpenSmallicon).eq(equal).click({ force: true });
 
-    cy.get(weblocators.btn_calenderNextMonth).should("be.visible").click({ force: true });
+    for(let i = 0; i < monthCount; i++){
+
+      cy.get(weblocators.btn_calenderNextMonth).should("be.visible").click({ force: true });
+
+
+    }
+
+    
 
     cy.get(weblocators.allAvailable_CalederDate).then(($dates) => {
       const totalDates = $dates.length;
@@ -234,6 +242,7 @@ Cypress.Commands.add('SelectZoneAddressFromMap', ({ mapType = 'osm', x = 300, y 
 
 
 
+
 Cypress.Commands.add('ScheduleCreation', ({ 
   slotDuration, 
   startTime = '09:00', 
@@ -256,7 +265,7 @@ Cypress.Commands.add('ScheduleCreation', ({
 
   // Step 5: Check the remaining checkboxes (2nd onward)
   cy.get(weblocators.cb_days).then(($checkboxes) => {
-    for (let i = 1; i < $checkboxes.length; i++) {
+    for (let i = 1; i < $checkboxes.length - 1; i++) {
       cy.wrap($checkboxes[i]).check();
     }
   });

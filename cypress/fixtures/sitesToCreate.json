@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Test Site",
+    "address": "230 Test Street",
+    "notice": "Notice: This is Test Data Site"
+  },
+  {
+    "name": "Test Site",
+    "address": "231 Test Avenue",
+    "notice": "Notice: This is Test Data Site"
+  },
+  {
+    "name": "Test Site",
+    "address": "232 Test Road",
+    "notice": "Notice: This is Test Data Site"
+  }
+]

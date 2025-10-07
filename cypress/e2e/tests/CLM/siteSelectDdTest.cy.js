@@ -12,15 +12,9 @@ describe('Dashboard Page Test - Site Selection', () => {
 
 
     beforeEach(() => {
-      loginObj.openURL();
-      loginObj.enterEmail(loginData.SuperAdmin.email);
-      loginObj.enterPassword(loginData.SuperAdmin.password);
-      loginObj.selectEnglishButton();
-      loginObj.btnsubmit();
-      loginObj.verifyUrls();
-      loginObj.verifyWeatherInfoLoad();
-      loginObj.verifySttisticsLoad();
-      loginObj.handleModal();
+      
+    cy.LoginWithCurrentUrlAndSelectSite();
+
     });
 
 

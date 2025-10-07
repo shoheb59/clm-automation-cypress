@@ -34,9 +34,13 @@ export class projectPage {
       cy.get(this.weblocators.btn_createPoject).click();
     }
   
-    enterProjectName(ProjectName) {
+    enterProjectName() {
       const randomIndex = Math.floor(Math.random() * 1000); // Generate a random number between 0 and 999
-      cy.get(this.weblocators.txt_projectDetails).scrollIntoView().type(`ProjectName ${randomIndex}`);
+      const finalName = `Test Data Project ${randomIndex}`;
+      cy.get(this.weblocators.txt_projectDetails).scrollIntoView().type(finalName);
+      cy.writeFile('cypress/fixtures/projectName.json', { name: finalName });
+      cy.wrap(finalName).as('savedProjectName');
+
     }
   
     enterClientName(clientName) {

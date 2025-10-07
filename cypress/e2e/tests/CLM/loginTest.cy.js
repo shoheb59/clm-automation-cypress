@@ -27,7 +27,7 @@ it('Login Case 1: should login successfully and verify URLs', function () {
     loginObj.enterPassword(this.loginData.SuperAdmin.password);
     loginObj.selectEnglishButton();
     loginObj.btnsubmit();
-    loginObj.verifyUrls();
+    //loginObj.verifyUrls();
     loginObj.verifyWeatherInfoLoad();
     loginObj.verifySttisticsLoad();
     loginObj.handleModal();

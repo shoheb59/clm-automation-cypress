@@ -9,8 +9,9 @@
     "shipmentTest": "npx cypress run --spec cypress/e2e/tests/shipmentTest.cy.js",
     "logisticTest": "npx cypress run --spec cypress/e2e/tests/logisticTest.cy.js",
     "allure": "allure serve allure-results",
-    "runTest": "npx cypress run --spec 'cypress/e2e/tests/equipmentTest.cy.js,cypress/e2e/tests/teamTest.cy.js,cypress/e2e/tests/shipmentTest.cy.js,cypress/e2e/tests/selfRegistrationTest.cy.js,cypress/e2e/tests/materialTest.cy.js,cypress/e2e/tests/logisticTest.cy.js' --reporter mocha-allure-reporter",
-    "report:allure": "allure generate allure-results --clean -o allure-report && allure open  allure-report"
+    "report:allure": "allure generate allure-results --clean -o allure-report && allure open  allure-report",
+    "runTest": "npx cypress run && npx allure generate allure-results --clean -o allure-report"
+
   },
   "author": "shoheb",
   "license": "ISC",
@@ -18,7 +19,7 @@
     "@shelex/cypress-allure-plugin": "^2.40.2",
     "allure-commandline": "^2.32.0",
     "allure-cypress": "^3.0.5",
-    "cypress": "^13.12.0",
+    "cypress": "^13.17.0",
     "cypress-file-upload": "^5.0.8",
     "cypress-if": "^1.13.1",
     "cypress-iframe": "^1.0.1",

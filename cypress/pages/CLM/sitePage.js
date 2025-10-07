@@ -22,6 +22,7 @@ export class sitePage {
     upload_photo_button: '[type="button"]',
     file_input: 'input[type="file"][class="file"]',
     btn_uploadPhotoSave: '[id="image-coropper-save"]',
+    site_create_edit_save: '[data-lang-key="APP_PROJECTS_SITES.SAVE"]',
     }
   
     clickNavButton()
@@ -34,8 +35,11 @@ export class sitePage {
 
     typeSearchBtn()
     {
-        cy.get(this.weblocators.btn_searchBar).type('Comilla Airport')
-        
+        cy.readFile('cypress/fixtures/projectName.json').then((data) => {
+        const projectName = data.name;
+        cy.log('Reusing Project Name:', projectName);
+        cy.get(this.weblocators.btn_searchBar).type(projectName)
+        })
     }
     selectProject()
     {
@@ -59,12 +63,12 @@ export class sitePage {
         cy.get(this.weblocators.txt_contactName)
         .should('be.visible')
         .scrollIntoView()
-        .type('Hasnat');
+        .type('John Write');
     }
     
     enterContactPersonEmail()
     {
-        cy.get(this.weblocators.txt_contactEmail).type('h@maildrop.cc')
+        cy.get(this.weblocators.txt_contactEmail).type('write@maildrop.cc')
     }
     enterContactPersonPhone(){
         cy.get(this.weblocators.txt_contactPhone).type('+989')
@@ -101,8 +105,8 @@ export class sitePage {
       }
          
     
-    clickProjectCreateEditSave() {
-        cy.get(this.weblocators.project_create_edit_save).click();
+    clickSiteCreateEditSave() {
+        cy.get(this.weblocators.site_create_edit_save).click();
       }
     
   

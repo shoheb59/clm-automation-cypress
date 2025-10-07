@@ -71,7 +71,8 @@ export class team {
     clickNavigationButton()
     {
         //cy.get(this.weblocators.btn_navigation).click();
-        cy.visit('/teams')
+        cy.visit(Cypress.env('URL') + '/teams')
+
 
     }
     navigateTeam()

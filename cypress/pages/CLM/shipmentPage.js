@@ -182,30 +182,67 @@ export class shipmentPage {
   }
 
   //Select Random Available Date From Caleder
-
   selectRandomDate() {
-    cy.get(this.weblocators.btn_calenderOpenSmallicon).click({ force: true });
+  // Open calendar
+  cy.get(this.weblocators.btn_calenderOpenSmallicon).click({ force: true });
+
+  // Pick a random month ahead (0 = current month, up to 11 = 11 months ahead)
+  const randomMonth = Math.floor(Math.random() * 12);
+
+  // Go to that random month
+  for (let i = 0; i < randomMonth; i++) {
     cy.get(this.weblocators.btn_calenderNextMonth)
       .should("be.visible")
       .click({ force: true });
-    const randomIndex = Math.floor(Math.random() * 10) + 3; // gives 2, 3, or 4
-    cy.get(this.weblocators.btn_calenderOpenSmallicon).click({ force: true });
-    cy.get(this.weblocators.allAvailable_CalederDate)
-      .eq(randomIndex)
-      .scrollIntoView()
-      .should("be.visible")
-      .click({ force: true, timeout: 3000 });
-
-    // Retry click if calendar didn’t close
-    cy.get("body").then(($body) => {
-      if ($body.find("#mat-datepicker-3").length > 0) {
-        cy.log("Retrying date click...");
-        cy.get(this.weblocators.allAvailable_CalederDate)
-          .eq(randomIndex)
-          .click({ force: true });
-      }
-    });
   }
+
+  // Pick a random date within that month
+  cy.get(this.weblocators.allAvailable_CalederDate)
+    .its("length")
+    .then((len) => {
+      const randomIndex = Math.floor(Math.random() * len);
+      cy.get(this.weblocators.allAvailable_CalederDate)
+        .eq(randomIndex)
+        .scrollIntoView()
+        .should("be.visible")
+        .click({ force: true, timeout: 3000 });
+    });
+
+  // Retry click if calendar didn’t close (failsafe)
+  cy.get("body").then(($body) => {
+    if ($body.find("#mat-datepicker-3").length > 0) {
+      cy.log("Retrying date click...");
+      cy.get(this.weblocators.allAvailable_CalederDate)
+        .eq(Math.floor(Math.random() * 10))
+        .click({ force: true });
+    }
+  });
+}
+
+
+  // selectRandomDate() {
+  //   cy.get(this.weblocators.btn_calenderOpenSmallicon).click({ force: true });
+  //   cy.get(this.weblocators.btn_calenderNextMonth)
+  //     .should("be.visible")
+  //     .click({ force: true });
+  //   const randomIndex = Math.floor(Math.random() * 10) + 3; // gives 2, 3, or 4
+  //   cy.get(this.weblocators.btn_calenderOpenSmallicon).click({ force: true });
+  //   cy.get(this.weblocators.allAvailable_CalederDate)
+  //     .eq(randomIndex)
+  //     .scrollIntoView()
+  //     .should("be.visible")
+  //     .click({ force: true, timeout: 3000 });
+
+  //   // Retry click if calendar didn’t close
+  //   cy.get("body").then(($body) => {
+  //     if ($body.find("#mat-datepicker-3").length > 0) {
+  //       cy.log("Retrying date click...");
+  //       cy.get(this.weblocators.allAvailable_CalederDate)
+  //         .eq(randomIndex)
+  //         .click({ force: true });
+  //     }
+  //   });
+  // }
 
   selectAndProcessMondays(startDateStr, monthLimit, callbackForEachDate) {
     const startDate = new Date(startDateStr);
@@ -514,23 +551,41 @@ export class shipmentPage {
   }
 
   //Only first slot selection - We will reject/cancel later that y specific slot selection
-  selectFirstSlotFromUP() {
-    cy.get(this.weblocators.data_slot_value)
-      .first()
-      .then(($slot) => {
-        if ($slot.hasClass("inactive")) {
-          cy.log(
-            "Slot is inactive, duplication test pass - skipping shipment creation"
-          );
-          return false;
-        } else {
-          cy.get(this.weblocators.data_slot_value)
-            .first()
-            .click({ force: true });
-          return true;
-        }
-      });
-  }
+  // selectFirstSlotFromUP() {
+  //   cy.get(this.weblocators.data_slot_value)
+  //     .first()
+  //     .then(($slot) => {
+  //       if ($slot.hasClass("inactive")) {
+  //         cy.log(
+  //           "Slot is inactive, duplication test pass - skipping shipment creation"
+  //         );
+  //         return false;
+  //       } else {
+  //         cy.get(this.weblocators.data_slot_value)
+  //           .first()
+  //           .click({ force: true });
+  //         return true;
+  //       }
+  //     });
+  // }
+
+
+  // ✅ Fixed version
+selectFirstSlotFromUP() {
+  return cy.get(this.weblocators.data_slot_value)
+    .first()
+    .then(($slot) => {
+      if ($slot.hasClass("inactive")) {
+        cy.log("Slot is inactive, duplication test pass - skipping shipment creation");
+        return false; // this value will go to the outer .then()
+      } else {
+        cy.wrap($slot).click({ force: true });
+        cy.log("Active slot selected successfully ✅");
+        return true; // this value will also go to outer .then()
+      }
+    });
+}
+
   //select 2nd up slot for rejection
 
   selectSecondSlotFromUPforRejectShipment() {

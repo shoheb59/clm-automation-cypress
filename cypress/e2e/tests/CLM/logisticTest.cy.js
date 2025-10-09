@@ -139,9 +139,9 @@ describe('Logistic Page Test Scenario', () => {
 
     })
 
-    it('LZ 7: Create Multiple Zone with 30 min and later Add vehicle, Equipment with OSM Map', () =>{
+    it.only('LZ 7: Create Multiple Zone with 30 min and later Add vehicle, Equipment with OSM Map', () =>{
       
-      for(let i = 1 ; i<3; i++) {
+      for(let i = 1 ; i < 3; i++) {
       logisticOBJ.clickNavigationButton();  
       logisticOBJ.navigateLogisticZones();
       
@@ -166,7 +166,7 @@ describe('Logistic Page Test Scenario', () => {
 
     })
 
-    it('LZ 8: Create Entry (Gate) with Google Map',()=>{
+    it.only('LZ 8: Create Entry (Gate) with Google Map',()=>{
 
       logisticOBJ.clickNavigationButton();
       logisticOBJ.navigateLogisticZones();
@@ -182,7 +182,7 @@ describe('Logistic Page Test Scenario', () => {
 
     })
 
-    it('LZ 9: Create Entry (Gate) with OSM Map',()=>{
+    it.only('LZ 9: Create Entry (Gate) with OSM Map',()=>{
 
       logisticOBJ.clickNavigationButton();
       logisticOBJ.navigateLogisticZones();

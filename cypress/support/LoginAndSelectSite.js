@@ -44,7 +44,7 @@ Cypress.Commands.add('LoginWithCurrentUrlAndSelectSite', () => {
 
     
         siteSelectionOBJ.clickDropDown();
-        siteSelectionOBJ.typeSite("Testfeld 2+");
+        siteSelectionOBJ.typeSite("CLM Test Data Site");
         siteSelectionOBJ.selectSitefromSearch();
 
           })

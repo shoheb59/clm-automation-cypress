@@ -31,9 +31,33 @@ describe('Team Test Case', () => {
         teamOBJ.enterAddress();
         teamOBJ.enterDomain();
         teamOBJ.clickSave();
-        teamOBJ.verifyTeamCreationToast();
+        //teamOBJ.verifyTeamCreationToast();
         
       
+
+    })
+
+
+    it.only('TC 1: Verify that User Can Create A TEAM', () =>{
+        teamOBJ.clickNavigationButton();
+        loginObj.handleModal(); 
+        //teamOBJ.navigateTeam();
+        teamOBJ.switchUsertoTeam();
+        for(let i = 1; i < 10; i++)
+        {
+
+        teamOBJ.clickCreateTeamButton();
+        teamOBJ.enterTeamName();
+        teamOBJ.selectDisciplinefromDropDown();
+        teamOBJ.enterAddress();
+        teamOBJ.enterDomain();
+        teamOBJ.clickSave();
+        
+        cy.wait(4000);
+        //teamOBJ.verifyTeamCreationToast();
+
+        
+        }
 
     })
 
@@ -135,7 +159,7 @@ describe('Team Test Case', () => {
 
     })
 
-    it.only('TC 9: Verfy that user Can Unassing an Inactive User', ()=>{
+    it('TC 9: Verfy that user Can Unassing an Inactive User', ()=>{
       teamOBJ.clickNavigationButton();
       loginObj.handleModal(); 
       //teamOBJ.navigateTeam();

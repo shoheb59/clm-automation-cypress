@@ -29,6 +29,24 @@ describe("Equipment Page Test", () => {
     eqOBJ.clickSaveButton();
   });
 
+  
+  it.only("Eq 1: Verify that User can Create Multiple non bookable Equipment", () => {
+    eqOBJ.clickNavigationButton();
+    eqOBJ.navigateMaterial();
+    for(let i = 1; i<10; i++)
+    {
+    eqOBJ.clickAddEquipment();
+    eqOBJ.typeEquipmentId();
+    eqOBJ.chooseEquimentIconRandomly();
+    eqOBJ.typeEquipmentName();
+    eqOBJ.selectDropdownType();
+    eqOBJ.enterMaxLoad("500");
+    eqOBJ.enterShortDescription("Equipment Non-Bookable");
+    eqOBJ.enterAdditionalComment("Our Equipment is non boookable");
+    eqOBJ.clickSaveButton();
+    }
+  });
+
   it("Eq 2: Verify that User can Create Bookable Equipment", () => {
     eqOBJ.clickNavigationButton();
     eqOBJ.navigateMaterial();

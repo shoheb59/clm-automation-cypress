@@ -64,8 +64,8 @@ export class equipMent {
     });
   }
   typeEquipmentId() {
-    const randomId = Math.floor(Math.random() * 100);
-    cy.get(this.weblocators.txt_eqID).type("1." + `${randomId}`);
+    const randomId = Math.floor(Math.random() * 1000);
+    cy.get(this.weblocators.txt_eqID).type(`${randomId}`);
   }
   typeEquipmentName() {
     const randomName = Math.floor(Math.random() * 1000);

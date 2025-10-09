@@ -17,32 +17,70 @@ import randomResponsiblePersonData from "../../../fixtures/randomResponsiblePers
 import buildingData from "../../../fixtures/buildingInfo.json";
 import { getLoginDataByUrl } from "../../../support/utils/getLoginData";
 
-
-
-
-
-
-
-
-
-
 const loginObj = new loginPage();
 const siteSelectionOBJ = new siteSearchandSelect();
 const shipmentOBJ = new shipmentPage();
 
 describe("Shipment Test Case", () => {
- 
   beforeEach(() => {
-    
     cy.LoginWithCurrentUrlAndSelectSite();
-    
   });
-
 
   const vehicleName = vehicleData.vehicleNames[0] || "Manual Unloading";
 
+  it("SC 1: Verify that User Can Create Multiple shipment Shipment with New Add Material", () => {
+    shipmentOBJ.clickNavigationButton();
+    shipmentOBJ.navigateShipment();
+    shipmentOBJ.selectFirstWorkingPackage();
+    for (let i = 1; i < 20 ; i++) {
+      shipmentOBJ.clickAddshipment();
+      shipmentOBJ.selectRandomDate();
+      shipmentOBJ.clickNextStep1();
 
-  it("SC 1: Verify that User Can Create Multiple shipment Shipment", () => {
+      shipmentOBJ.clickAddNewMaterial();
+      shipmentOBJ.enterMaterialName("Automation-Mat");
+      shipmentOBJ.selectUnit();
+      shipmentOBJ.clickAddBtnSubmitMaterial();
+      shipmentOBJ.selectMaterial();
+
+      shipmentOBJ.clickNextStep2();
+      shipmentOBJ.selectVehicle(vehicleName);
+      shipmentOBJ.clickNextStep3();
+      //Step 4
+      shipmentOBJ.selectNonBookableequip();
+      shipmentOBJ.selectUp();
+      shipmentOBJ.selectUPslot();
+      shipmentOBJ.clickNextStep4();
+
+      //step 5
+      shipmentOBJ.clickOnSitePerson();
+      //shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
+
+      shipmentOBJ.clickAddnewResponsiablebtn();
+      const personInfo = randomResponsiblePersonData.responsiblePersons[i];
+      shipmentOBJ.enterInformationResponsiblePerson(
+        personInfo.name,
+        personInfo.email,
+        personInfo.phone
+      );
+      shipmentOBJ.clickShipmentCreateBtn();
+      // shipmentOBJ.clickOpenShipment();
+      // shipmentOBJ.clickApproveShipment();
+
+      // 🔹 Randomly choose between "Open" or "Approve"
+      const randomAction = Math.random() < 0.5 ? "approve" : "open";
+
+      if (randomAction === "open") {
+        cy.log(`Shipment ${i}: Opening shipment`);
+        shipmentOBJ.clickOpenShipment();
+      } else {
+        cy.log(`Shipment ${i}: Approving shipment`);
+        shipmentOBJ.clickApproveShipment();
+      }
+    }
+  });
+
+  it("SC 2: Verify that User Can Create Multiple shipment Shipment with New existing Material", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
     shipmentOBJ.selectFirstWorkingPackage();
@@ -65,17 +103,14 @@ describe("Shipment Test Case", () => {
       shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
       shipmentOBJ.clickShipmentCreateBtn();
       shipmentOBJ.clickOpenShipment();
-     
     }
   });
-
 
   it.skip("SC Client: Verify that the user can create shipments scheduled for Mondays in the upcoming month", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
     shipmentOBJ.selectCustomLeanCard();
 
-  
     shipmentOBJ.selectAndProcessMondays("2025-08-04", 12, (index, done) => {
       // Your steps after selecting each date:
       shipmentOBJ.clickNextStep1();
@@ -87,109 +122,116 @@ describe("Shipment Test Case", () => {
       const vehicleName = vehicleData.vehicleNames[index] || "Trailer pull";
       shipmentOBJ.selectVehicle(vehicleName);
 
-
       shipmentOBJ.clickNextStep3();
 
-      
-      const nonBookableEquipName = nonBookableEquipData.nonBookableEquipment[index] || "Forklift 01";
+      const nonBookableEquipName =
+        nonBookableEquipData.nonBookableEquipment[index] || "Forklift 01";
       shipmentOBJ.selectNonBookableEquipByName(nonBookableEquipName);
 
-
       shipmentOBJ.selectUp();
-      shipmentOBJ.selectUPSlotSpecificTimeAndSlot(["10:00 - 10:10","11:20 - 11:30"]);
+      shipmentOBJ.selectUPSlotSpecificTimeAndSlot([
+        "10:00 - 10:10",
+        "11:20 - 11:30",
+      ]);
 
       shipmentOBJ.selectBookableEquipmentFirst();
-      shipmentOBJ.select1stand2ndEquipmentSlotSpecificTimeAndSlot(0,["10:00 - 10:10","11:20 - 11:30"]);
+      shipmentOBJ.select1stand2ndEquipmentSlotSpecificTimeAndSlot(0, [
+        "10:00 - 10:10",
+        "11:20 - 11:30",
+      ]);
 
       shipmentOBJ.selectBookableEquipmentSecond();
-      shipmentOBJ.select1stand2ndEquipmentSlotSpecificTimeAndSlot(1,["10:00 - 10:10","11:20 - 11:30"]);
+      shipmentOBJ.select1stand2ndEquipmentSlotSpecificTimeAndSlot(1, [
+        "10:00 - 10:10",
+        "11:20 - 11:30",
+      ]);
 
       shipmentOBJ.clickNextStep4();
       shipmentOBJ.clickOnSitePerson();
       shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
       shipmentOBJ.clickOpenShipmentWithCreateBtn();
-  
-    
+
       cy.wait(1000).then(() => {
         done(); // Go to the next Monday
       });
     });
-    
-    
-
   });
 
+  //Pre difine date
 
+  it.skip("SC Client: Create shipments on predefined Dates Lean Card A1", () => {
+    shipmentOBJ.clickNavigationButton();
+    shipmentOBJ.navigateShipment();
+    shipmentOBJ.selectCustomLeanCard();
 
-
-    //Pre difine date 
-
-    it.skip("SC Client: Create shipments on predefined Dates Lean Card A1", () => {
-      shipmentOBJ.clickNavigationButton();
-      shipmentOBJ.navigateShipment();
-      shipmentOBJ.selectCustomLeanCard();
-    
-      
-    
-      shipmentOBJ.selectAndProcessDates(predefinedDates.predefinedays, (index, done) => {
+    shipmentOBJ.selectAndProcessDates(
+      predefinedDates.predefinedays,
+      (index, done) => {
         shipmentOBJ.clickNextStep1();
-    
-        //shipmentOBJ.selectRecipient();   
 
-      const buildingInfo = buildingData.buildingData[index] 
-       shipmentOBJ.enterBuidingInfo(buildingInfo.buildingName, buildingInfo.floorName, buildingInfo.laydownArea);
+        //shipmentOBJ.selectRecipient();
 
-        
-        
-        
+        const buildingInfo = buildingData.buildingData[index];
+        shipmentOBJ.enterBuidingInfo(
+          buildingInfo.buildingName,
+          buildingInfo.floorName,
+          buildingInfo.laydownArea
+        );
+
         const materialValue = materialData.materialValues[index] || 1;
         shipmentOBJ.selectMaterialByName(materialValue);
         shipmentOBJ.clickNextStep2();
 
-        const vehicleName = vehicleData.vehicleNames[index] || "Manual Unloading";
+        const vehicleName =
+          vehicleData.vehicleNames[index] || "Manual Unloading";
         shipmentOBJ.selectVehicle(vehicleName);
-
 
         shipmentOBJ.clickNextStep3();
 
-      
-       const nonBookableEquipName = nonBookableEquipData.nonBookableEquipment[index] || "Selbstentladung";
-       shipmentOBJ.selectNonBookableEquipByName(nonBookableEquipName);
+        const nonBookableEquipName =
+          nonBookableEquipData.nonBookableEquipment[index] || "Selbstentladung";
+        shipmentOBJ.selectNonBookableEquipByName(nonBookableEquipName);
 
-    
-       const upName = upData.upNames[index] || "UP_A";
-       shipmentOBJ.selectUp(upName);
+        const upName = upData.upNames[index] || "UP_A";
+        shipmentOBJ.selectUp(upName);
 
+        const timeSlotsForShipment = slotTimesData.upSlotTimes[index];
+        shipmentOBJ.selectUPSlotSpecificTimeAndSlot(timeSlotsForShipment);
 
-       const timeSlotsForShipment = slotTimesData.upSlotTimes[index];
-       shipmentOBJ.selectUPSlotSpecificTimeAndSlot(timeSlotsForShipment);
-    
-       const firstEquip = bookableEquipData.bookableEquipments[index] || "Lift Haus A1";
-       shipmentOBJ.selectBookableEquipmentFirstDynamic(firstEquip);
+        const firstEquip =
+          bookableEquipData.bookableEquipments[index] || "Lift Haus A1";
+        shipmentOBJ.selectBookableEquipmentFirstDynamic(firstEquip);
 
-       const timeSlotsForFirst = equipmentSlotTimesData.equipmentSlotTimes[index];
-       shipmentOBJ.select1stand2ndEquipmentSlotSpecificTimeAndSlot(0, timeSlotsForFirst);
+        const timeSlotsForFirst =
+          equipmentSlotTimesData.equipmentSlotTimes[index];
+        shipmentOBJ.select1stand2ndEquipmentSlotSpecificTimeAndSlot(
+          0,
+          timeSlotsForFirst
+        );
 
-    
         // shipmentOBJ.selectBookableEquipmentSecond();
         // shipmentOBJ.select1stand2ndEquipmentSlotSpecificTimeAndSlot(1,["12:00 - 12:10","12:20 - 12:30"]);
-    
+
         shipmentOBJ.clickNextStep4();
         shipmentOBJ.clickOnSitePerson();
         //shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
         shipmentOBJ.clickAddnewResponsiablebtn();
-        const personInfo = randomResponsiblePersonData.responsiblePersons[index];
-        shipmentOBJ.enterInformationResponsiblePerson(personInfo.name, personInfo.email, personInfo.phone);
-        
+        const personInfo =
+          randomResponsiblePersonData.responsiblePersons[index];
+        shipmentOBJ.enterInformationResponsiblePerson(
+          personInfo.name,
+          personInfo.email,
+          personInfo.phone
+        );
+
         shipmentOBJ.clickOpenShipmentWithCreateBtn();
-    
+
         cy.wait(1000).then(() => {
           done();
         });
-      });
-    });
-
-
+      }
+    );
+  });
 
   it("SC 2: Verify that User can Create Single shipment Shipment With OPEN Status", () => {
     shipmentOBJ.clickNavigationButton();
@@ -274,7 +316,6 @@ describe("Shipment Test Case", () => {
     //reject Shipment
     shipmentOBJ.clickApproveShipmentbutton();
   });
-
 
   it("SC 5:  Verify that User can Create a Shipment With Approve Status and Complete that Shipment", () => {
     shipmentOBJ.clickNavigationButton();
@@ -389,35 +430,32 @@ describe("Shipment Test Case", () => {
       if (!slotIsActive) {
         return; // Exit early, skip Step 4, Step 5, and restart
       }
-    
-    //shipmentOBJ.selectFirstSlotFromUP();
-    shipmentOBJ.clickNextStep4();
-   
 
-    // Step 5
-    shipmentOBJ.clickOnSitePerson();
-    shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
-    shipmentOBJ.clickShipmentCreateBtn();
-    shipmentOBJ.clickOpenShipment();
-    
-    //Start again
+      //shipmentOBJ.selectFirstSlotFromUP();
+      shipmentOBJ.clickNextStep4();
 
-    shipmentOBJ.clickAddshipment();
-    shipmentOBJ.selectDateFromCalender();
-    shipmentOBJ.clickNextStep1();
-    shipmentOBJ.selectMaterial();
-    shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle(vehicleName);
-    shipmentOBJ.clickNextStep3();
+      // Step 5
+      shipmentOBJ.clickOnSitePerson();
+      shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
+      shipmentOBJ.clickShipmentCreateBtn();
+      shipmentOBJ.clickOpenShipment();
 
-    // Step 4 Again
-    shipmentOBJ.selectNonBookableequip();
-    shipmentOBJ.selectUp();
-    //Slot Inactive Verification
-    shipmentOBJ.verifySlotInactive();
+      //Start again
 
-  });
-     
+      shipmentOBJ.clickAddshipment();
+      shipmentOBJ.selectDateFromCalender();
+      shipmentOBJ.clickNextStep1();
+      shipmentOBJ.selectMaterial();
+      shipmentOBJ.clickNextStep2();
+      shipmentOBJ.selectVehicle(vehicleName);
+      shipmentOBJ.clickNextStep3();
+
+      // Step 4 Again
+      shipmentOBJ.selectNonBookableequip();
+      shipmentOBJ.selectUp();
+      //Slot Inactive Verification
+      shipmentOBJ.verifySlotInactive();
+    });
   });
 
   //random Caldendar date Selection
@@ -444,57 +482,59 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep3();
 
     // Step 4
-    
+
     shipmentOBJ.selectNonBookableequip();
     shipmentOBJ.selectUp();
 
-    cy.wrap(shipmentOBJ.selectFirstSlotFromUP()).then((slotIsActive) => {
+    // cy.wrap(shipmentOBJ.selectFirstSlotFromUP()).then((slotIsActive) => {
+    //   if (!slotIsActive) {
+    //     return; // Exit early, skip Step 4, Step 5, and restart
+    //   }cy.then(() => {
+
+    shipmentOBJ.selectFirstSlotFromUP().then((slotIsActive) => {
       if (!slotIsActive) {
-        return; // Exit early, skip Step 4, Step 5, and restart
+        cy.log("Slot inactive — skipping next steps");
+        return;
       }
 
-    // Check if the first slot is inactive
-    //shipmentOBJ.selectFirstSlotFromUP();
-    shipmentOBJ.clickNextStep4();
+      // Check if the first slot is inactive
+      //shipmentOBJ.selectFirstSlotFromUP();
+      shipmentOBJ.clickNextStep4();
 
-    // Step 5
-    shipmentOBJ.clickOnSitePerson();
-    shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
-    shipmentOBJ.clickShipmentCreateBtn();
+      // Step 5
+      shipmentOBJ.clickOnSitePerson();
+      shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
+      shipmentOBJ.clickShipmentCreateBtn();
 
-    //Collect the Shipment text for the next search
+      //Collect the Shipment text for the next search
 
-    // Extract shipment text from modal
-    shipmentOBJ.extractShipmentTextFromModal();
-   
+      // Extract shipment text from modal
+      shipmentOBJ.extractShipmentTextFromModal();
 
-    //Click Open Shipment On modal
-    shipmentOBJ.clickOpenShipment();
-    //click the Exact shipment created
-    shipmentOBJ.clickExactExtractedShipment();
-    //reject Shipment
-    shipmentOBJ.rejectShipment();
+      //Click Open Shipment On modal
+      shipmentOBJ.clickOpenShipment();
+      //click the Exact shipment created
+      shipmentOBJ.clickExactExtractedShipment();
+      //reject Shipment
+      shipmentOBJ.rejectShipment();
 
-    //Create Again on the Same Date
+      //Create Again on the Same Date
 
-    shipmentOBJ.clickAddshipment();
-    shipmentOBJ.selectDateFromCalender();
-    shipmentOBJ.clickNextStep1();
-    shipmentOBJ.selectMaterial();
-    shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle(vehicleName);
-    shipmentOBJ.clickNextStep3();
+      shipmentOBJ.clickAddshipment();
+      shipmentOBJ.selectDateFromCalender();
+      shipmentOBJ.clickNextStep1();
+      shipmentOBJ.selectMaterial();
+      shipmentOBJ.clickNextStep2();
+      shipmentOBJ.selectVehicle(vehicleName);
+      shipmentOBJ.clickNextStep3();
 
-    // Step 4 Again
-    shipmentOBJ.selectNonBookableequip();
-    shipmentOBJ.selectUp();
-    //Verify the selection of first slot again
-    shipmentOBJ.verifySelectionFirstSlotagainForRejectShipment();
+      // Step 4 Again
+      shipmentOBJ.selectNonBookableequip();
+      shipmentOBJ.selectUp();
+      //Verify the selection of first slot again
+      shipmentOBJ.verifySelectionFirstSlotagainForRejectShipment();
+    });
   });
-
-  });
-
-  
 
   it("SC 11: Verify Cancel Shipment Booking and Book again", () => {
     shipmentOBJ.clickNavigationButton();
@@ -515,7 +555,7 @@ describe("Shipment Test Case", () => {
 
     // Check if the first slot is inactive
 
-    shipmentOBJ.selectSecondSlotFromUPforRejectShipment() 
+    shipmentOBJ.selectSecondSlotFromUPforRejectShipment();
     shipmentOBJ.clickNextStep4();
 
     // Step 5
@@ -549,10 +589,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.selectUp();
     //Verify the selection of first slot again
     shipmentOBJ.verifySelectionFirstSlotagainForRejectShipment();
-  
-
-});
-
+  });
 
   it("SC 12: Verify User Can Add Annotation", () => {
     shipmentOBJ.clickNavigationButton();
@@ -641,7 +678,7 @@ describe("Shipment Test Case", () => {
     // Step 4
     //shipmentOBJ.selectNonBookableequip();
     shipmentOBJ.selectMultipleNonbBookableEquip();
-    shipmentOBJ.selectUp('Automation Test Zone');
+    shipmentOBJ.selectUp("Automation Test Zone");
     shipmentOBJ.selectUPslot();
     shipmentOBJ.clickNextStep4();
 
@@ -652,6 +689,53 @@ describe("Shipment Test Case", () => {
 
     //Click Open Shipment On modal
     shipmentOBJ.clickOpenShipment();
+  });
+
+   it.only("SC 15: Verify UP shipment Creation wih Logistic Equipment", () => {
+    shipmentOBJ.clickNavigationButton();
+    shipmentOBJ.navigateShipment();
+    shipmentOBJ.selectFirstWorkingPackage();
+
+    for(let i =1; i<10; i++){
+
+    shipmentOBJ.clickAddshipment();
+    shipmentOBJ.selectRandomDate();
+    shipmentOBJ.clickNextStep1();
+    shipmentOBJ.selectMaterial();
+    shipmentOBJ.clickNextStep2();
+    shipmentOBJ.selectVehicle(vehicleName);
+    shipmentOBJ.clickNextStep3();
+
+    // Step 4
+    //shipmentOBJ.selectNonBookableequip();
+    shipmentOBJ.selectMultipleNonbBookableEquip();
+    shipmentOBJ.selectUp("Automation Test Zone");
+    shipmentOBJ.selectUPslot();
+    shipmentOBJ.clickNextStep4();
+
+    //Step 5
+    shipmentOBJ.clickOnSitePerson();
+     shipmentOBJ.clickAddnewResponsiablebtn();
+    //shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
+    const personInfo = randomResponsiblePersonData.responsiblePersons[i];
+      shipmentOBJ.enterInformationResponsiblePerson(
+        personInfo.name,
+        personInfo.email,
+        personInfo.phone
+      );
+    shipmentOBJ.clickShipmentCreateBtn();
+
+    //Click Open Shipment On modal
+     const randomAction = Math.random() < 0.5 ? "approve" : "open";
+
+      if (randomAction === "open") {
+        cy.log(`Shipment ${i}: Opening shipment`);
+        shipmentOBJ.clickOpenShipment();
+      } else {
+        cy.log(`Shipment ${i}: Approving shipment`);
+        shipmentOBJ.clickApproveShipment();
+      }
+   }
   });
 
   it("SC 15: Verify UP shipment Creation wih Special Equipment", () => {
@@ -667,7 +751,6 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
 
-
     // Step 4
     //shipmentOBJ.selectNonBookableequip();
     shipmentOBJ.selectMultipleNonbBookableEquip();
@@ -675,9 +758,9 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.selectBookableEquipmentFirst();
     shipmentOBJ.selectEquipmentSlot();
 
-    shipmentOBJ.selectUp('Automation Test Zone');
+    shipmentOBJ.selectUp("Automation Test Zone");
     shipmentOBJ.selectUpNameSlot();
-   
+
     shipmentOBJ.clickNextStep4();
 
     //Step 5
@@ -746,7 +829,6 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
     shipmentOBJ.clickShipmentCreateBtn();
 
-    
     //Shipment modal to collect shipment name
     shipmentOBJ.extractShipmentTextFromModal();
     //Click approve Shipment On modal
@@ -771,11 +853,11 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep3();
 
     // Step 4
-   
+
     shipmentOBJ.selectMultipleNonbBookableEquip();
     //select bookable equipemnt Crane
     shipmentOBJ.selectBookableEquipmentCrane();
-    shipmentOBJ.selectUp('Automation Test Zone');
+    shipmentOBJ.selectUp("Automation Test Zone");
     shipmentOBJ.selectUpNameSlot();
     shipmentOBJ.selectEquipmentSlot();
     shipmentOBJ.selectUpNameSlot();
@@ -789,7 +871,6 @@ describe("Shipment Test Case", () => {
     //Click Open Shipment On modal
     shipmentOBJ.clickOpenShipment();
   });
-
 
   it("SC 19: Verify UP shipment Completion wih Special Equipment Crane", () => {
     shipmentOBJ.clickNavigationButton();
@@ -805,11 +886,11 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep3();
 
     // Step 4
-   
+
     shipmentOBJ.selectMultipleNonbBookableEquip();
     //select bookable equipemnt Crane
     shipmentOBJ.selectBookableEquipmentCrane();
-    shipmentOBJ.selectUp('Automation Test Zone');
+    shipmentOBJ.selectUp("Automation Test Zone");
     shipmentOBJ.selectUpNameSlot();
     shipmentOBJ.selectEquipmentSlot();
     shipmentOBJ.selectUpNameSlot();
@@ -820,8 +901,6 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
     shipmentOBJ.clickShipmentCreateBtn();
 
-    
-    
     //Shipment modal to collect shipment name
     shipmentOBJ.extractShipmentTextFromModal();
     //Click approve Shipment On modal
@@ -830,14 +909,12 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickExactExtractedShipment();
     //Complete the Shipment
     shipmentOBJ.clickCompleteShipmentCraneButton();
-
-});
+  });
 
   it("SC 20: Verify UP shipment Creation wih two Special Equipment", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
     shipmentOBJ.selectFirstWorkingPackage();
-
 
     shipmentOBJ.clickAddshipment();
     shipmentOBJ.selectRandomDate();
@@ -851,15 +928,15 @@ describe("Shipment Test Case", () => {
     //shipmentOBJ.selectNonBookableequip();
     shipmentOBJ.selectMultipleNonbBookableEquip();
     //select bookable
-    shipmentOBJ.selectBookableEquipmentFirstDynamic() 
+    shipmentOBJ.selectBookableEquipmentFirstDynamic();
     shipmentOBJ.selectEquipmentSlot();
 
-    shipmentOBJ.selectBookableEquipmentFirstDynamic('Automation 2');
-    shipmentOBJ.selectEquipmentSlotTwo(); 
+    shipmentOBJ.selectBookableEquipmentFirstDynamic("Automation 2");
+    shipmentOBJ.selectEquipmentSlotTwo();
 
     shipmentOBJ.selectUp();
     shipmentOBJ.selectUpNameSlot();
-    
+
     shipmentOBJ.clickNextStep4();
 
     //Step 5
@@ -871,7 +948,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickOpenShipment();
   });
 
-  it ("SC 21: Verify UP shipment Completion wih two Special Equipment", () => {
+  it("SC 21: Verify UP shipment Completion wih two Special Equipment", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
     shipmentOBJ.selectFirstWorkingPackage();
@@ -891,13 +968,12 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.selectBookableEquipmentFirst();
     shipmentOBJ.selectEquipmentSlot();
 
-    shipmentOBJ.selectBookableEquipmentFirstDynamic('Automation 2');
+    shipmentOBJ.selectBookableEquipmentFirstDynamic("Automation 2");
     shipmentOBJ.selectEquipmentSlotTwo();
 
     shipmentOBJ.selectUp();
     shipmentOBJ.selectUpNameSlot();
-    
-   
+
     shipmentOBJ.selectUpNameSlot();
 
     shipmentOBJ.clickNextStep4();
@@ -907,17 +983,14 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
     shipmentOBJ.clickShipmentCreateBtn();
 
-
-     //Shipment modal to collect shipment name
-     shipmentOBJ.extractShipmentTextFromModal();
-     //Click approve Shipment On modal
-     shipmentOBJ.clickApproveShipment();
-     //click the Exact shipment created
-     shipmentOBJ.clickExactExtractedShipment();
-     //Complete the Shipment
-     shipmentOBJ.clickCompleteShipmentCraneButton();
-
-  
+    //Shipment modal to collect shipment name
+    shipmentOBJ.extractShipmentTextFromModal();
+    //Click approve Shipment On modal
+    shipmentOBJ.clickApproveShipment();
+    //click the Exact shipment created
+    shipmentOBJ.clickExactExtractedShipment();
+    //Complete the Shipment
+    shipmentOBJ.clickCompleteShipmentCraneButton();
   });
   it("SC 22: Verify User Update Shipment with Delivery responsible Person", () => {
     shipmentOBJ.clickNavigationButton();
@@ -954,11 +1027,7 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.navigateStep5();
     shipmentOBJ.clickAddDeliveryResponsiablebtn();
     shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
-    
   });
-
-
-
 
   it("SC 23: Verify User Update Shipment with Order responsible Person", () => {
     shipmentOBJ.clickNavigationButton();
@@ -995,47 +1064,42 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.navigateStep5();
     shipmentOBJ.clickAddOrderResponsiablebtn();
     shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
-    
   });
 
+  it.skip("SC 24: Create two approve shipment & Try to change one shipment with another from the Step 4", () => {
+    //incomplete steps
 
-
-  it.skip("SC 24: Create two approve shipment & Try to change one shipment with another from the Step 4", () => { //incomplete steps
-
-    
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
     shipmentOBJ.selectFirstWorkingPackage();
 
-    for(let i = 0; i < 2; i++) {
+    for (let i = 0; i < 2; i++) {
+      shipmentOBJ.clickAddshipment();
+      shipmentOBJ.selectDateFromCalenderSaveIt(false); //Checking that its not the duplicate test case. Different date will select
+      shipmentOBJ.clickNextStep1();
+      shipmentOBJ.selectMaterial();
+      shipmentOBJ.clickNextStep2();
+      shipmentOBJ.selectVehicle(vehicleName);
+      shipmentOBJ.clickNextStep3();
 
-    shipmentOBJ.clickAddshipment();
-    shipmentOBJ.selectDateFromCalenderSaveIt(false); //Checking that its not the duplicate test case. Different date will select
-    shipmentOBJ.clickNextStep1();
-    shipmentOBJ.selectMaterial();
-    shipmentOBJ.clickNextStep2();
-    shipmentOBJ.selectVehicle(vehicleName);
-    shipmentOBJ.clickNextStep3();
+      // Step 4
+      shipmentOBJ.selectNonBookableequip();
+      shipmentOBJ.selectUp();
 
-    // Step 4
-    shipmentOBJ.selectNonBookableequip();
-    shipmentOBJ.selectUp();
+      // Check if the first slot is inactive
 
-    // Check if the first slot is inactive
+      shipmentOBJ.selectUPSlotand7thnumberChangeFromSmallCaledericoninNextShipment();
+      shipmentOBJ.clickNextStep4();
 
-    shipmentOBJ.selectUPSlotand7thnumberChangeFromSmallCaledericoninNextShipment() 
-    shipmentOBJ.clickNextStep4();
+      // Step 5
+      shipmentOBJ.clickOnSitePerson();
+      shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
+      shipmentOBJ.clickShipmentCreateBtn();
 
-    // Step 5
-    shipmentOBJ.clickOnSitePerson();
-    shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
-    shipmentOBJ.clickShipmentCreateBtn();
+      shipmentOBJ.extractShipmentTextFromModal();
 
-    shipmentOBJ.extractShipmentTextFromModal();
-
-    //Click Open Shipment On modal
-    shipmentOBJ.clickApproveShipment();
-
+      //Click Open Shipment On modal
+      shipmentOBJ.clickApproveShipment();
     }
 
     //click the Exact shipment created
@@ -1044,12 +1108,6 @@ describe("Shipment Test Case", () => {
     // shipmentOBJ.clickCancelShipment();
     // shipmentOBJ.clickDiscardButton();
 
-
-
-
-
-
-
     //Create Again on the Same Date
 
     // shipmentOBJ.clickAddshipment();
@@ -1057,21 +1115,18 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickNextStep1();
     //shipmentOBJ.selectMaterial();
     shipmentOBJ.clickNextStep2();
-   // shipmentOBJ.selectVehicle(vehicleName);
+    // shipmentOBJ.selectVehicle(vehicleName);
     shipmentOBJ.clickNextStep3();
-    cy.get('.mat-datepicker-toggle-default-icon.ng-star-inserted').click();
+    cy.get(".mat-datepicker-toggle-default-icon.ng-star-inserted").click();
 
     // Step 4 Again
     // shipmentOBJ.selectNonBookableequip();
     // shipmentOBJ.selectUp();
     // //Verify the selection of first slot again
     // shipmentOBJ.verifySelectionFirstSlotagainForRejectShipment();
-  
+  });
 
-});
-
-
-it("SC 25: Verify User Can add Sustainbility Address in Step 5", () => {
+  it("SC 25: Verify User Can add Sustainbility Address in Step 5", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
     shipmentOBJ.selectFirstWorkingPackage();
@@ -1093,8 +1148,8 @@ it("SC 25: Verify User Can add Sustainbility Address in Step 5", () => {
     // Step 5
     shipmentOBJ.clickOnSitePerson();
     shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
-    shipmentOBJ.addSustainabilityAddresss('230');
-    shipmentOBJ.enterKMDistance('100');
+    shipmentOBJ.addSustainabilityAddresss("230");
+    shipmentOBJ.enterKMDistance("100");
     shipmentOBJ.clickShipmentCreateBtn();
 
     //Shipment modal to collect shipment name
@@ -1106,9 +1161,7 @@ it("SC 25: Verify User Can add Sustainbility Address in Step 5", () => {
 
     //Order Responsible person -  step 5 Shipment
     shipmentOBJ.navigateStep5();
-    
   });
-
 
   it("SC 26: Verify User Can add Favourite Sustainbility Address From Dropdown in Update", () => {
     shipmentOBJ.clickNavigationButton();
@@ -1132,16 +1185,13 @@ it("SC 25: Verify User Can add Sustainbility Address in Step 5", () => {
     // Step 5
     shipmentOBJ.clickOnSitePerson();
     shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
-    shipmentOBJ.addSustainabilityAddresss('230');
+    shipmentOBJ.addSustainabilityAddresss("230");
     shipmentOBJ.checkSelectedAddressFavouriteIcon();
     // shipmentOBJ.clearSustainabilityAddress();
     // shipmentOBJ.selectAddressFromtheFavoritesList();
-    
-   
-  
 
     //shipmentOBJ.makeAddressFavorite();
-    shipmentOBJ.enterKMDistance('100');
+    shipmentOBJ.enterKMDistance("100");
     shipmentOBJ.clickShipmentCreateBtn();
 
     //Shipment modal to collect shipment name
@@ -1159,12 +1209,9 @@ it("SC 25: Verify User Can add Sustainbility Address in Step 5", () => {
 
     // shipmentOBJ.addSustainabilityAddresss('230');
     // shipmentOBJ.verifyFavoriteAddress();
-    
   });
 
-
-  
-it("SC 27: Verify User Can add Sustainbility Address without Distance (KM) ", () => {
+  it("SC 27: Verify User Can add Sustainbility Address without Distance (KM) ", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
     shipmentOBJ.selectFirstWorkingPackage();
@@ -1186,7 +1233,7 @@ it("SC 27: Verify User Can add Sustainbility Address without Distance (KM) ", ()
     // Step 5
     shipmentOBJ.clickOnSitePerson();
     shipmentOBJ.selectRadioButtonWithExistingResponsiableperson();
-    shipmentOBJ.addSustainabilityAddresss('230');
+    shipmentOBJ.addSustainabilityAddresss("230");
     shipmentOBJ.clickShipmentCreateBtn();
 
     //Shipment modal to collect shipment name
@@ -1198,14 +1245,5 @@ it("SC 27: Verify User Can add Sustainbility Address without Distance (KM) ", ()
 
     //Order Responsible person -  step 5 Shipment
     shipmentOBJ.navigateStep5();
-    
   });
-
-
-
-
-
-
-
-
 });

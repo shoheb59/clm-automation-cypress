@@ -118,14 +118,14 @@ export class shipmentPage {
   }
   //Select First Lean Card with Name - Use Contains
 
-  selectCustomLeanCard() {
+  selectCustomWorkingPackage(packageName) {
     cy.get(this.weblocators.txt_searchWorkingPackage)
       .should("be.visible")
       .first()
-      .type("TGS_TIVOLI_MOVE_HAUS_A1{enter}");
+      .type(packageName);
     cy.wait(1000);
     cy.get(this.weblocators.first_row)
-      .contains("TGS_TIVOLI_MOVE_HAUS_A1")
+      .contains(packageName)
       .scrollIntoView()
       .click({ force: true });
   }
@@ -512,9 +512,10 @@ export class shipmentPage {
       .click({ force: true });
   }
 
-  selectBookableEquipmentFirstDynamic(equipmentName = "Automation 1") {
+  selectBookableEquipmentFirstDynamic(equipmentName = "Equipment",index) {
     cy.get(this.weblocators.btn_selectBookableEquipment)
-      .contains(equipmentName)
+      //.contains(equipmentName).eq(index) // Change 'Automation' to the text you want to match
+      .filter(`:contains("${equipmentName}")`).eq(index)
       .click({ force: true });
   }
 

@@ -182,14 +182,19 @@ export class shipmentPage {
   }
 
   //Select Random Available Date From Caleder
-  selectRandomDate() {
+selectRandomDate(retryCount = 0) {
+  // Safety stop after 3 retries
+  if (retryCount > 3) {
+    throw new Error("Failed to select a valid date after multiple attempts");
+  }
+
+  cy.log(`Attempt ${retryCount + 1}: Selecting a random date`);
+
   // Open calendar
   cy.get(this.weblocators.btn_calenderOpenSmallicon).click({ force: true });
 
-  // Pick a random month ahead (0 = current month, up to 11 = 11 months ahead)
+  // Pick a random month ahead (0 = current month, up to 11 months ahead)
   const randomMonth = Math.floor(Math.random() * 12);
-
-  // Go to that random month
   for (let i = 0; i < randomMonth; i++) {
     cy.get(this.weblocators.btn_calenderNextMonth)
       .should("be.visible")
@@ -205,19 +210,60 @@ export class shipmentPage {
         .eq(randomIndex)
         .scrollIntoView()
         .should("be.visible")
-        .click({ force: true, timeout: 3000 });
+        .click({ force: true });
     });
 
-  // Retry click if calendar didn’t close (failsafe)
+  // Wait for potential calendar close and step activation
+  cy.wait(4000);
+
+  // Check if valid date selected (i.e., `.active-box` exists)
   cy.get("body").then(($body) => {
-    if ($body.find("#mat-datepicker-3").length > 0) {
-      cy.log("Retrying date click...");
-      cy.get(this.weblocators.allAvailable_CalederDate)
-        .eq(Math.floor(Math.random() * 10))
-        .click({ force: true });
+    if ($body.find(".active-box").length === 0) {
+      cy.log("Invalid date (possibly Sunday). Retrying...");
+      // Retry with incremented retry count
+      this.selectRandomDate(retryCount + 1);
+    } else {
+      cy.log("✅ Valid date selected");
     }
   });
 }
+
+//   selectRandomDate() {
+//   // Open calendar
+//   cy.get(this.weblocators.btn_calenderOpenSmallicon).click({ force: true });
+
+//   // Pick a random month ahead (0 = current month, up to 11 = 11 months ahead)
+//   const randomMonth = Math.floor(Math.random() * 12);
+
+//   // Go to that random month
+//   for (let i = 0; i < randomMonth; i++) {
+//     cy.get(this.weblocators.btn_calenderNextMonth)
+//       .should("be.visible")
+//       .click({ force: true });
+//   }
+
+//   // Pick a random date within that month
+//   cy.get(this.weblocators.allAvailable_CalederDate)
+//     .its("length")
+//     .then((len) => {
+//       const randomIndex = Math.floor(Math.random() * len);
+//       cy.get(this.weblocators.allAvailable_CalederDate)
+//         .eq(randomIndex)
+//         .scrollIntoView()
+//         .should("be.visible")
+//         .click({ force: true, timeout: 3000 });
+//     });
+
+//   // Retry click if calendar didn’t close (failsafe)
+//   cy.get("body").then(($body) => {
+//     if ($body.find("#mat-datepicker-3").length > 0) {
+//       cy.log("Retrying date click...");
+//       cy.get(this.weblocators.allAvailable_CalederDate)
+//         .eq(Math.floor(Math.random() * 10))
+//         .click({ force: true });
+//     }
+//   });
+// }
 
 
   // selectRandomDate() {

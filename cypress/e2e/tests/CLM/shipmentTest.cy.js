@@ -691,10 +691,10 @@ describe("Shipment Test Case", () => {
     shipmentOBJ.clickOpenShipment();
   });
 
-   it("SC 16: Verify UP shipment Creation wih Logistic Equipment", () => {
+   it.only("SC 16: Verify UP shipment Creation wih Logistic Equipment", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
-    shipmentOBJ.selectFirstWorkingPackage();
+    shipmentOBJ.selectCustomWorkingPackage("Working Package C");
 
     for(let i =1; i<10; i++){
 

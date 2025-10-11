@@ -3,7 +3,7 @@ name: Daily Shipment Test
 on:
   schedule:
     # Runs every day at 2:00 AM UTC (you can change time)
-    - cron: '53 12 * * *'
+    - cron: '00 13 * * *'
  
 
   workflow_dispatch:  # allows manual trigger too

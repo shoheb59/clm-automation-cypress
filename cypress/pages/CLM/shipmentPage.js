@@ -13,7 +13,7 @@ export class shipmentPage {
     dateInfo_load: ".date-text",
     btn_next: '[data-lang-key="WORKFLOW.NEXT"]', //need to use first()
     btn_discard: '[data-lang-key="APP_SHIPMENTS.DISCARD"]',
-    txt_searchWorkingPackage: '[data-lang-key="APP_SHIPMENTS.SEARCH"]',
+    txt_searchWorkingPackage: '.form-field',    //[data-lang-key="APP_SHIPMENTS.SEARCH"]', '
 
     //step 2
     btn_materialOptionSelct: ".mtrl-section-title", //need to use contain

@@ -139,12 +139,8 @@ export class shipmentPage {
     const randomIndex = Math.floor(Math.random() * 30) + 1;
 
     cy.get(this.weblocators.btn_calenderOpenSmallicon).click({ force: true });
-    cy.get(this.weblocators.btn_calenderNextMonth)
-      .should("be.visible")
-      .click({ force: true });
-    cy.get(this.weblocators.btn_calenderNextMonth)
-      .should("be.visible")
-      .click({ force: true });
+    cy.get(this.weblocators.btn_calenderNextMonth).should("be.visible").click({ force: true });
+    cy.get(this.weblocators.btn_calenderNextMonth).should("be.visible").click({ force: true });
 
     if (!isDuplicateTest) {
       cy.get(this.weblocators.allAvailable_CalederDate)
@@ -202,8 +198,7 @@ selectRandomDate(retryCount = 0) {
   }
 
   // Pick a random date within that month
-  cy.get(this.weblocators.allAvailable_CalederDate)
-    .its("length")
+  cy.get(this.weblocators.allAvailable_CalederDate).its("length")
     .then((len) => {
       const randomIndex = Math.floor(Math.random() * len);
       cy.get(this.weblocators.allAvailable_CalederDate)
@@ -422,13 +417,13 @@ selectRandomDate(retryCount = 0) {
   clickAddNewMaterial() {
     cy.get(this.weblocators.btn_AddNewMat)
       .should("be.visible")
-      .click({ force: true });
+      .click();
   }
 
   enterMaterialName(materialname) {
     const randomFourDigitInteger =
       Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
-    cy.get(this.weblocators.txt_materialName).type(
+    cy.get(this.weblocators.txt_materialName).first().type(
       `${materialname} ${randomFourDigitInteger}`
     );
   }
@@ -618,20 +613,23 @@ selectRandomDate(retryCount = 0) {
 
 
   // ✅ Fixed version
-selectFirstSlotFromUP() {
+
+  selectFirstSlotFromUP() {
   return cy.get(this.weblocators.data_slot_value)
     .first()
     .then(($slot) => {
       if ($slot.hasClass("inactive")) {
         cy.log("Slot is inactive, duplication test pass - skipping shipment creation");
-        return false; // this value will go to the outer .then()
+        // Wrap the result into a Cypress chainable
+        return cy.wrap(false);
       } else {
         cy.wrap($slot).click({ force: true });
         cy.log("Active slot selected successfully ✅");
-        return true; // this value will also go to outer .then()
+        return cy.wrap(true);
       }
     });
 }
+
 
   //select 2nd up slot for rejection
 
@@ -1088,7 +1086,7 @@ selectFirstSlotFromUP() {
 
   verifySelectionFirstSlotagainForRejectShipment() {
     cy.get(this.weblocators.data_slot_value)
-      .eq(5)
+      .eq(0)
       .click({ force: true })
       .then(() => {
         cy.log("Test Passed: Slot is active on second attempt");

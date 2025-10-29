@@ -31,6 +31,7 @@ import 'cypress-iframe';
 import "allure-cypress";
 import '@shelex/cypress-allure-plugin';
 import 'cypress-iframe';
+import 'cypress-grep'  
 import './Deliveries';
 import './Overview'
 import './LoginAndSelectSite';

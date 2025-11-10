@@ -22,7 +22,7 @@ jobs:
         run: npm ci
 
       - name: Run Cypress shipment test
-        run: npx cypress run --spec "cypress/e2e/tests/CLM/shipmentTest.cy.js"
+        run: npx cypress run --spec "cypress/e2e/tests/CLM/createMultipleShipment.cy.js"
 
       # Optional: Upload test videos/screenshots
       - name: Upload Cypress artifacts

@@ -24,6 +24,7 @@ module.exports = {
       "cypress/e2e/tests/CLM/equipmentTest.cy.js",
       "cypress/e2e/tests/CLM/logisticTest.cy.js",
       "cypress/e2e/tests/CLM/shipmentTest.cy.js",
+      "cypress/e2e/tests/CLM/createMultipleShipment.cy.js",
     ],
   },
 };

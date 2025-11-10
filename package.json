@@ -20,7 +20,6 @@
     "allure-cypress": "^3.0.5",
     "cypress": "^13.17.0",
     "cypress-file-upload": "^5.0.8",
-    "cypress-grep": "^3.0.4",
     "cypress-if": "^1.13.1",
     "cypress-iframe": "^1.0.1",
     "cypress-mochawesome-reporter": "^3.8.2",

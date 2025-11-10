@@ -82,7 +82,7 @@ describe("Shipment Test Case", () => {
     }
   });
 
-   it("SC 2: Verify that User Can Create Multiple shipment Shipment with New existing Material", {tags: '@client'}, () => {
+   it("SC 2: Verify that User Can Create Multiple shipment Shipment with New existing Material", () => {
       shipmentOBJ.clickNavigationButton();
       shipmentOBJ.navigateShipment();
       shipmentOBJ.selectFirstWorkingPackage();
@@ -108,7 +108,7 @@ describe("Shipment Test Case", () => {
       }
     });
 
-    it("SC 7: Verify that User can Create a shipment Shipment With Multiple Material", {tags: '@client'}, () => {
+    it("SC 7: Verify that User can Create a shipment Shipment With Multiple Material", () => {
         shipmentOBJ.clickNavigationButton();
         shipmentOBJ.navigateShipment();
         shipmentOBJ.selectFirstWorkingPackage();
@@ -138,7 +138,7 @@ describe("Shipment Test Case", () => {
 
   
 
-  it("SC 23: Verify multiple UP shipment Creation wih two Special Equipment",{tags: '@client'}, () => {
+  it("SC 23: Verify multiple UP shipment Creation wih two Special Equipment", () => {
     shipmentOBJ.clickNavigationButton();
     shipmentOBJ.navigateShipment();
     //shipmentOBJ.selectFirstWorkingPackage();

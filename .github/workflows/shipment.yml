@@ -3,7 +3,7 @@ name: Daily Shipment Test
 on:
   schedule:
     # Runs every day at 2:00 AM UTC (you can change time)
-    - cron: '0 8 * * *'
+    - cron: '40 8 * * *'
  
 jobs:
   run-shipment-test:

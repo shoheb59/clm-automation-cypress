@@ -1,3 +1,134 @@
+# CLM Automation (Cypress) — Handover Guide
+
+This repository contains end-to-end tests for the CLM application written with Cypress. This document is a concise handover aimed at a junior engineer: how to install, run, extend, and troubleshoot the test suite, plus notes about CI and reporting.
+
+## Quick facts
+- Framework: Cypress (v10+ style project structure)
+- Test files: `cypress/e2e/tests/`
+- Page objects: `cypress/pages/`
+- Fixtures: `cypress/fixtures/`
+- Custom commands & helpers: `cypress/support/` and `cypress/support/helper/`
+- CI: GitHub Actions workflow at `.github/workflows/build.yml`
+- Allure reporting: `allure-results/` -> generated `allure-report/`
+
+## Prerequisites
+- Node.js (LTS) installed. Recommended: Node 18+.
+- npm (comes with Node.js)
+- Optional: Allure CLI if you want to generate reports locally (or use the npm script below).
+
+## Install dependencies
+Open PowerShell in the repository root and run:
+
+```powershell
+npm ci
+```
+
+This installs pinned dependencies based on `package-lock.json`.
+
+## Run tests
+
+Interactive runner (recommended for development):
+
+```powershell
+npx cypress open
+```
+
+Run the full suite headlessly (CI-style):
+
+```powershell
+npx cypress run
+```
+
+Run a single spec file (example):
+
+```powershell
+npx cypress run --spec "cypress/e2e/tests/CLM/loginTest.cy.js"
+```
+
+Run a single test inside a spec interactively: open the spec and append `.only` to `it` or `describe` in the test file.
+
+## Test structure & conventions
+- Tests: `cypress/e2e/tests/` organized by feature area (e.g., `CLM`, `KONSHUB`).
+- Page objects: inside `cypress/pages/` keep high-level interaction methods. Name pages like `loginPage.js`, `shipmentPage.js` etc.
+- Fixtures: static JSON data for tests is under `cypress/fixtures/` (e.g., `loginData.json`, `materialData.json`). Prefer fixtures for stable test data.
+- Support: `cypress/support/` contains `commands.js` and helper modules used by tests.
+- Reports/screenshots: Cypress will put screenshots and videos in `cypress/screenshots/` and `cypress/videos/` unless configured otherwise.
+
+Conventions used in this repo:
+- Test files are `.cy.js` and grouped in `cypress/e2e/tests` folders.
+- Page object methods should be small and single-purpose (e.g., `login(username, password)`).
+- Use fixtures for test data; reference them via `cy.fixture('file')` or import JSON where appropriate.
+
+## Generating Allure report (locally)
+This repo uses Allure to convert raw results into an HTML report. After a test run that produces `allure-results/` you can generate the HTML report:
+
+```powershell
+# generate an HTML report into `allure-report`
+npx allure generate allure-results --clean -o allure-report
+# then open the generated `allure-report/index.html` in a browser
+```
+
+CI already runs these steps (see `.github/workflows/build.yml`) and uploads the `allure-report` as an artifact.
+
+## Running only a specific test or retry
+- To run a single test inside a spec use `.only` on the `it` or `describe` block.
+- To add retries temporarily, modify `cypress.config.js` or use tags/conditional logic in the test.
+
+## Debugging tips
+- Use `cy.log()` and `console.log()` in tests and page objects.
+- Rerun failing spec with `npx cypress open` and click the failing test to watch commands replay.
+- Inspect screenshots in `cypress/screenshots/` after failures.
+- Add `cy.screenshot()` at the point you want to capture state.
+
+## Adding a new test — checklist
+1. Add a new spec under `cypress/e2e/tests/<area>/yourTest.cy.js`.
+2. Create or reuse a page object in `cypress/pages/` for interactions.
+3. Add any static test data to `cypress/fixtures/` and reference it in the test.
+4. Use or add helper functions in `cypress/support/helper/` if logic is shared.
+5. Run the spec locally with `npx cypress run --spec "path/to/spec"`.
+6. Commit, push to a feature branch, open a PR and request review.
+
+## Branching & CI
+- Pushes to `main` trigger the GitHub Actions workflow `.github/workflows/build.yml` which: checks out code, installs deps, runs tests, generates the Allure report, and uploads it as an artifact.
+
+## Useful examples
+
+Run a single test file with headless mode and generate allure-results (CI-like):
+
+```powershell
+npx cypress run --spec "cypress/e2e/tests/CLM/loginTest.cy.js" --reporter mocha-junit-reporter
+# ensure your reporter writes into `allure-results/` or other configured directory
+```
+
+Open interactive Cypress and run a spec that watches test video/screenshots:
+
+```powershell
+npx cypress open
+```
+
+## Code style & linting
+There is no enforced linter configured in this repository. When adding scripts or new JS modules, follow existing style: keep functions small, use clear names, and export/import with CommonJS style used in other files.
+
+## Where to look for things
+- Tests: `cypress/e2e/tests/`
+- Page objects: `cypress/pages/`
+- Fixtures: `cypress/fixtures/`
+- Support & commands: `cypress/support/`
+- CI workflow: `.github/workflows/build.yml`
+- Generated reports: `allure-report/` (committed in repo) and `allure-results/` (test outputs)
+
+## Troubleshooting common issues
+- Node version mismatch: use Node LTS. Check with `node -v`.
+- Missing deps: run `npm ci` to install cleanly.
+- Failing tests locally but passing CI: check environment variables or data in fixtures; CI runs headless and may have different timing.
+- Allure report empty: ensure tests produce `allure-results/`. Check reporter config in `package.json` (if present) or test runner args.
+
+## Contacts / Handover notes
+- Primary owner: (replace with real name/email)
+- When creating new features, include a short description in the test file header comment with purpose and a link to any associated ticket.
+
+---
+This README is intended to get you started quickly and keep the repository maintainable for incoming engineers. If you'd like, I can add a short `docs/quick-start.md` with screenshots and a small video walkthrough next.
 # clm-automation-cypress
 
 ## Description

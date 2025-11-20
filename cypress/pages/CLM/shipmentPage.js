@@ -1,6 +1,7 @@
 export class shipmentPage {
   weblocators = {
     btn_navigation: '[fusenavbarvertical= "toggleBar"]',
+    btn_listWorkingPackage: '[value="list"] [type="button"]',
     btn_shipment: ".nav-link-title.ng-star-inserted",
     first_row: 'tbody[role="rowgroup"] tr',
     btn_addShipment: '[data-lang-key="APP_SHIPMENTS.CREATE_SHIPMENT"]',
@@ -109,25 +110,20 @@ export class shipmentPage {
     cy.get(this.weblocators.btn_navigation).click({ force: true });
   }
   navigateShipment() {
-    cy.get(this.weblocators.btn_shipment)
-      .contains("Shipments")
-      .click({ force: true });
+    cy.get(this.weblocators.btn_shipment).contains("Shipments").click({ force: true });
+
   }
   selectFirstWorkingPackage() {
+    cy.get(this.weblocators.btn_listWorkingPackage).click({ force: true });
     cy.get(this.weblocators.first_row).first().click({ force: true });
   }
   //Select First Lean Card with Name - Use Contains
 
   selectCustomWorkingPackage(packageName) {
-    cy.get(this.weblocators.txt_searchWorkingPackage)
-      .should("be.visible")
-      .first()
-      .type(packageName);
+    cy.get(this.weblocators.btn_listWorkingPackage).should('be.visible').click({ force: true });
+    cy.get(this.weblocators.txt_searchWorkingPackage).should("be.visible").first().type(packageName);
     cy.wait(1000);
-    cy.get(this.weblocators.first_row)
-      .contains(packageName)
-      .scrollIntoView()
-      .click({ force: true });
+    cy.get(this.weblocators.first_row).contains(packageName).scrollIntoView().click({ force: true });
   }
   clickAddshipment() {
     cy.get(this.weblocators.btn_addShipment).click({ force: true });

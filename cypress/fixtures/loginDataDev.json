@@ -3,14 +3,14 @@
     {
       "name": "Using Super Admin data",
       "email": "aardo@yopmail.com",
-      "password": "CLMSuperAdmin2024"
+      "password": ""
     },
   
     "PM":
     {
       "name": "Project manager",
       "emailPM": "pm-stage@yopmail.com",
-      "passPM": "Selise@2023"
+      "passPM": ""
   
     }
   

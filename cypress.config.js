@@ -7,8 +7,8 @@ module.exports = {
     defaultCommandTimeout: 60000,
     pageLoadTimeout: 50000,
     env: {
-      URL: 'https://clm.selisestage.com',
-      //URL: "http://clm.seliselocal.com",
+      URL: 'https://clm.selisestagee.com',
+      //URL: "http://clm.seliselocale.com",
     },
     setupNodeEvents(on, config) {
       // Set up Allure plugin
